@@ -1,0 +1,19 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Location for Weatherbit Data",
+                "data": {
+                    "name": "Name",
+                    "api_key": "Weatherbit API Key",
+                    "latitude": "Latitude",
+                    "longitude": "Longitude"
+                }
+            }
+        },
+        "error": {
+            "name_exists": "Name already exists",
+            "wrong_location": "Location not possible"
+        }
+    }
+}
