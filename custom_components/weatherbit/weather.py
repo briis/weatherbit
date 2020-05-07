@@ -53,7 +53,7 @@ CONDITION_CLASSES = {
 # 5 minutes between retrying connect to API again
 RETRY_TIMEOUT = 5 * 60
 
-MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=10)
+MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
 
 
 async def async_setup_entry(
