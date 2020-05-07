@@ -44,4 +44,4 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 &nbsp;&nbsp;Name to use in the frontend.
 
 &nbsp;&nbsp;*Default value:*  
-Home
+&nbsp;&nbsp;Home
