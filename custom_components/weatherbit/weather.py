@@ -28,13 +28,18 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import aiohttp_client
 from homeassistant.util import Throttle, slugify
 
-from .const import ATTR_WEATHERBIT_CLOUDINESS, ENTITY_ID_SENSOR_FORMAT
+from .const import (
+    ATTR_WEATHERBIT_CLOUDINESS,
+    ATTR_WEATHERBIT_WIND_GUST,
+    ENTITY_ID_SENSOR_FORMAT,
+    DEFAULT_ATTRIBUTION,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
 # Used to map condition from API results
 CONDITION_CLASSES = {
-    "cloudy": [804, 803],
+    "cloudy": [803, 804],
     "fog": [741],
     "hail": [623],
     "lightning": [230, 231],
@@ -53,7 +58,7 @@ CONDITION_CLASSES = {
 # 5 minutes between retrying connect to API again
 RETRY_TIMEOUT = 5 * 60
 
-MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
+MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
 
 
 async def async_setup_entry(
@@ -96,6 +101,7 @@ class WeatherbitWeather(WeatherEntity):
         self._latitude = latitude
         self._longitude = longitude
         self._forecasts = None
+        self._current = None
         self._fail_count = 0
         self._api = Weatherbit(
             self._api_key, self._latitude, self._longitude, "en", "M", session=session
@@ -112,6 +118,7 @@ class WeatherbitWeather(WeatherEntity):
         try:
             with async_timeout.timeout(10):
                 self._forecasts = await self.get_weather_forecast()
+                self._current = await self.get_weather_current()
                 self._fail_count = 0
                 _LOGGER.debug("Weatherbit Forecast Updated")
 
@@ -128,8 +135,12 @@ class WeatherbitWeather(WeatherEntity):
         await self.async_update()
 
     async def get_weather_forecast(self) -> []:
-        """Return the current forecasts from SMHI API."""
+        """Return the current forecasts from Weatherbit API."""
         return await self._api.async_get_forecast_daily()
+
+    async def get_weather_current(self) -> []:
+        """Return the current weather from Weatherbit API."""
+        return await self._api.async_get_current_data()
 
     @property
     def name(self) -> str:
@@ -139,8 +150,8 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def temperature(self) -> int:
         """Return the temperature."""
-        if self._forecasts is not None:
-            return self._forecasts[0].temp
+        if self._current is not None:
+            return self._current[0].temp
         return None
 
     @property
@@ -151,23 +162,31 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def humidity(self) -> int:
         """Return the humidity."""
-        if self._forecasts is not None:
-            return self._forecasts[0].humidity
+        if self._current is not None:
+            return self._current[0].humidity
         return None
 
     @property
     def wind_speed(self) -> float:
         """Return the wind speed."""
+        if self._current is not None:
+            # Convert from m/s to km/h
+            return round(self._current[0].wind_spd * 18 / 5)
+        return None
+
+    @property
+    def wind_gust(self) -> float:
+        """Return the wind Gust."""
         if self._forecasts is not None:
             # Convert from m/s to km/h
-            return round(self._forecasts[0].wind_spd * 18 / 5)
+            return round(self._forecasts[0].wind_gust_spd * 18 / 5)
         return None
 
     @property
     def wind_bearing(self) -> int:
         """Return the wind bearing."""
-        if self._forecasts is not None:
-            return self._forecasts[0].wind_dir
+        if self._current is not None:
+            return self._current[0].wind_dir
         return None
 
     @property
@@ -180,34 +199,34 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def visibility(self) -> float:
         """Return the visibility."""
-        if self._forecasts is not None:
-            return self._forecasts[0].vis
+        if self._current is not None:
+            return self._current[0].vis
         return None
 
     @property
     def pressure(self) -> int:
         """Return the pressure."""
-        if self._forecasts is not None:
-            return self._forecasts[0].pres
+        if self._current is not None:
+            return self._current[0].pres
         return None
 
     @property
     def cloudiness(self) -> int:
         """Return the cloudiness."""
-        if self._forecasts is not None:
-            return self._forecasts[0].clouds
+        if self._current is not None:
+            return self._current[0].clouds
         return None
 
     @property
     def condition(self) -> str:
         """Return the weather condition."""
-        if self._forecasts is None:
+        if self._current is None:
             return None
         return next(
             (
                 k
                 for k, v in CONDITION_CLASSES.items()
-                if self._forecasts[0].weather_code in v
+                if int(self._current[0].weather_code) in v
             ),
             None,
         )
@@ -215,7 +234,7 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def attribution(self) -> str:
         """Return the attribution."""
-        return "Weatherbit"
+        return DEFAULT_ATTRIBUTION
 
     @property
     def forecast(self) -> List:
@@ -227,7 +246,11 @@ class WeatherbitWeather(WeatherEntity):
 
         for forecast in self._forecasts[1:]:
             condition = next(
-                (k for k, v in CONDITION_CLASSES.items() if forecast.weather_code in v),
+                (
+                    k
+                    for k, v in CONDITION_CLASSES.items()
+                    if int(forecast.weather_code) in v
+                ),
                 None,
             )
 
@@ -245,6 +268,6 @@ class WeatherbitWeather(WeatherEntity):
 
     @property
     def device_state_attributes(self) -> Dict:
-        """Return SMHI specific attributes."""
+        """Return Weatherbit specific attributes."""
         if self.cloudiness:
             return {ATTR_WEATHERBIT_CLOUDINESS: self.cloudiness}
