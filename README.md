@@ -17,29 +17,31 @@ If the location is configured in Home Assistant, it will be selected as the defa
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
 This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day), you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
 
-## CONFIGURATION VARIABLES
-**latitude**
+### CONFIGURATION VARIABLES
+**API Key**  
+&nbsp;&nbsp;*(string)(Required)*  
+&nbsp;&nbsp;Specify your Weatherbit API Key.
 
-&nbsp;&nbsp;*(float)(Required)*
+&nbsp;&nbsp;*Default value:*  
+&nbsp;&nbsp;None
 
+**latitude**  
+&nbsp;&nbsp;*(float)(Required)*  
 &nbsp;&nbsp;Manually specify latitude.
 
-&nbsp;&nbsp;*Default value:*
-
+&nbsp;&nbsp;*Default value:*  
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**longitude**
-&nbsp;&nbsp;*(float)(Required)*
+**longitude**  
+&nbsp;&nbsp;*(float)(Required)*. 
 &nbsp;&nbsp;Manually specify longitude.
 
-&nbsp;&nbsp;*Default value:*
+&nbsp;&nbsp;*Default value:*  
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-name
-(string)(Optional)
+**name**  
+&nbsp;&nbsp;*(string)(Optional)*  
+&nbsp;&nbsp;Name to use in the frontend.
 
-Name to use in the frontend.
-
-Default value:
-
+&nbsp;&nbsp;*Default value:*  
 Home
