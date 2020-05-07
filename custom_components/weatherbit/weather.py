@@ -6,7 +6,7 @@ from typing import Dict, List
 
 import aiohttp
 import async_timeout
-from weatherbitpypi import Api, WeatherbitError
+from weatherbitpypi import Weatherbit, WeatherbitError
 
 from homeassistant.components.weather import (
     ATTR_FORECAST_CONDITION,
@@ -97,7 +97,7 @@ class WeatherbitWeather(WeatherEntity):
         self._longitude = longitude
         self._forecasts = None
         self._fail_count = 0
-        self._api = Api(
+        self._api = Weatherbit(
             self._api_key, self._latitude, self._longitude, "en", "M", session=session
         )
 
@@ -168,6 +168,13 @@ class WeatherbitWeather(WeatherEntity):
         """Return the wind bearing."""
         if self._forecasts is not None:
             return self._forecasts[0].wind_dir
+        return None
+
+    @property
+    def ozone(self) -> float:
+        """Return the ozone."""
+        if self._forecasts is not None:
+            return self._forecasts[0].ozone
         return None
 
     @property

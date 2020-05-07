@@ -1,5 +1,5 @@
 """Config flow to configure Weatherbit component."""
-from weatherbitpypi import Api, WeatherbitError
+from weatherbitpypi import Weatherbit, WeatherbitError
 
 import voluptuous as vol
 
@@ -103,7 +103,7 @@ class WeatherbitFlowHandler(config_entries.ConfigFlow):
 
         try:
             # session = aiohttp_client.async_get_clientsession(self.hass)
-            wbit_api = Api(api_key, longitude, latitude)
+            wbit_api = Weatherbit(api_key, longitude, latitude)
 
             await wbit_api.async_get_current_data()
 
