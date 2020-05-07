@@ -2,8 +2,7 @@
 from weatherbit.client import Api
 from weatherbit.errors import WeatherbitError
 
-# from smhi.smhi_lib import Smhi, SmhiForecastException
-# import voluptuous as vol
+import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME, CONF_API_KEY
@@ -71,12 +70,9 @@ class WeatherbitFlowHandler(config_entries.ConfigFlow):
     async def _homeassistant_location_exists(self) -> bool:
         """Return true if default location is set and is valid."""
         if self.hass.config.latitude != 0.0 and self.hass.config.longitude != 0.0:
-            # Return true if valid location
-            if await self._check_location(
-                self.hass.config.longitude, self.hass.config.latitude
-            ):
-                return True
-        return False
+            return True
+        else:
+            return False
 
     def _name_in_configuration_exists(self, name: str) -> bool:
         """Return True if name exists in configuration."""
