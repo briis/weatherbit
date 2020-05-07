@@ -4,6 +4,8 @@ The weatherbit integration adds support for the *weatherbit.io* web service as a
 There is currently support for the following device types within Home Assistant:
 * Weather
 
+There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
+
 ## Configuration
 The Weatherbit weather service is free under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode). Weather data will be pulled once every 30 minutes.
 
