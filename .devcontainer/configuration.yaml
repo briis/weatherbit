@@ -1,0 +1,7 @@
+default_config:
+cloud:
+
+logger:
+  default: error
+  # logs:
+  #   custom_components.mbweather: debug

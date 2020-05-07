@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 weatherbit.code-workspace
+.DS_Store
+.devcontainer/secrets.yaml
