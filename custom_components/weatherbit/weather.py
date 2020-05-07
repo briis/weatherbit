@@ -226,7 +226,7 @@ class WeatherbitWeather(WeatherEntity):
             (
                 k
                 for k, v in CONDITION_CLASSES.items()
-                if self._current[0].weather_code in v
+                if int(self._current[0].weather_code) in v
             ),
             None,
         )
