@@ -8,6 +8,9 @@ There is currently support for the following device types within Home Assistant:
 
 There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
 
+## Installation
+Currently this is not in the default HACS repository, but you can add this as a Custom Integration Repository under settings in HACS. If you don't have HACS installed, please do this first. Instructions are [here](https://hacs.xyz/)
+
 ## Configuration
 The Weatherbit weather service is free under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode). Weather data will be pulled once every 30 minutes.
 
