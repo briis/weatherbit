@@ -1,6 +1,5 @@
 """Config flow to configure Weatherbit component."""
-from weatherbit.client import Api
-from weatherbit.errors import WeatherbitError
+from weatherbitpypi import Api, WeatherbitError
 
 import voluptuous as vol
 
