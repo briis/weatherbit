@@ -1,0 +1,10 @@
+{
+    "name": "Weatherbit Weather Forecast for Home Assistant",
+    "content_in_root": false,
+    "render_readme": true,
+    "domains": [
+        "weather"
+    ],
+    "iot_class": "Cloud Polling",
+    "homeassistant": "0.106.0"
+}
