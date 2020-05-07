@@ -1,8 +1,12 @@
   {
-      "domain": "weatherbit",
-      "name": "Weatherbit",
-      "config_flow": true,
-      "documentation": "https://github.com/briis/weatherbit",
-      "requirements": ["py-weatherbit==0.2"],
-      "codeowners": ["@briis"]
+    "domain": "weatherbit",
+    "name": "Weatherbit",
+    "config_flow": true,
+    "documentation": "https://github.com/briis/weatherbit",
+    "requirements": [
+      "py-weatherbit==0.3"
+    ],
+    "codeowners": [
+      "@briis"
+    ]
   }
