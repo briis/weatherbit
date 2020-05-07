@@ -19,20 +19,21 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 ## CONFIGURATION VARIABLES
 **latitude**
+
 &nbsp;&nbsp;*(float)(Required)*
+
 &nbsp;&nbsp;Manually specify latitude.
 
 &nbsp;&nbsp;*Default value:*
+
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-longitude
-(float)(Optional)
+**longitude**
+&nbsp;&nbsp;*(float)(Required)*
+&nbsp;&nbsp;Manually specify longitude.
 
-Manually specify longitude.
-
-Default value:
-
-Provided by Home Assistant configuration
+&nbsp;&nbsp;*Default value:*
+&nbsp;&nbsp;Provided by Home Assistant configuration
 
 name
 (string)(Optional)
