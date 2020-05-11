@@ -25,6 +25,7 @@ from homeassistant.const import (
     LENGTH_FEET,
     LENGTH_METERS,
     LENGTH_MILES,
+    LENGTH_KILOMETERS,
     PRESSURE_HPA,
     PRESSURE_INHG,
     TEMP_CELSIUS,
@@ -33,7 +34,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import aiohttp_client
 from homeassistant.util import Throttle, slugify
 from homeassistant.util.distance import convert as convert_distance
-import homeassistant.util.dt as dt_util
 from homeassistant.util.pressure import convert as convert_pressure
 
 from .const import (
@@ -216,9 +216,12 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def visibility(self) -> float:
         """Return the visibility."""
-        if self._current is not None:
-            return self._current[0].vis
-        return None
+        visibility_km = self._current[0].vis
+        if self._is_metric or visibility_km is None:
+            return visibility_km
+
+        visibility_mi = convert_distance(visibility_km, LENGTH_KILOMETERS, LENGTH_MILES)
+        return int(round(visibility_mi))
 
     @property
     def pressure(self) -> int:
