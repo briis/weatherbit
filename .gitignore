@@ -130,3 +130,9 @@ dmypy.json
 weatherbit.code-workspace
 .DS_Store
 .devcontainer/secrets.yaml
+icons/icon-master.png
+icons/icon.png
+icons/icon@2x.png
+icons/logo-master.png
+icons/logo.png
+icons/logo@2x.png
