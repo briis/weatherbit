@@ -22,6 +22,7 @@ from homeassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
     CONF_API_KEY,
+    EVENT_CORE_CONFIG_UPDATE,
     LENGTH_FEET,
     LENGTH_METERS,
     LENGTH_MILES,
@@ -113,10 +114,24 @@ class WeatherbitWeather(WeatherEntity):
         self._is_metric = is_metric
         self._forecasts = None
         self._current = None
+        self._unsub_track_units = None
         self._fail_count = 0
         self._api = Weatherbit(
             self._api_key, self._latitude, self._longitude, "en", "M", session=session
         )
+
+    async def async_added_to_hass(self):
+        """Ensure Right Unit System."""
+        self._unsub_track_units = self.hass.bus.async_listen(
+            EVENT_CORE_CONFIG_UPDATE, self._core_config_updated
+        )
+
+    async def _core_config_updated(self, _event):
+        """Handle core config updated."""
+        if self._unsub_track_units:
+            self._unsub_track_units()
+            self._unsub_track_units = None
+        await self.async_update()
 
     @property
     def unique_id(self) -> str:
