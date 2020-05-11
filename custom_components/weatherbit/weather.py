@@ -22,11 +22,19 @@ from homeassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
     CONF_API_KEY,
+    LENGTH_FEET,
+    LENGTH_METERS,
+    LENGTH_MILES,
+    PRESSURE_HPA,
+    PRESSURE_INHG,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import aiohttp_client
 from homeassistant.util import Throttle, slugify
+from homeassistant.util.distance import convert as convert_distance
+import homeassistant.util.dt as dt_util
+from homeassistant.util.pressure import convert as convert_pressure
 
 from .const import (
     ATTR_WEATHERBIT_CLOUDINESS,
@@ -75,6 +83,7 @@ async def async_setup_entry(
         location[CONF_API_KEY],
         location[CONF_LATITUDE],
         location[CONF_LONGITUDE],
+        hass.config.units.is_metric,
         session,
     )
     entity.entity_id = ENTITY_ID_SENSOR_FORMAT.format(name)
@@ -92,6 +101,7 @@ class WeatherbitWeather(WeatherEntity):
         api_key: str,
         latitude: str,
         longitude: str,
+        is_metric: bool,
         session: aiohttp.ClientSession = None,
     ) -> None:
         """Initialize the Weatherbit weather entity."""
@@ -100,6 +110,7 @@ class WeatherbitWeather(WeatherEntity):
         self._api_key = api_key
         self._latitude = latitude
         self._longitude = longitude
+        self._is_metric = is_metric
         self._forecasts = None
         self._current = None
         self._fail_count = 0
@@ -169,18 +180,24 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def wind_speed(self) -> float:
         """Return the wind speed."""
-        if self._current is not None:
-            # Convert from m/s to km/h
-            return round(self._current[0].wind_spd * 18 / 5)
-        return None
+        speed_m_s = self._current[0].wind_spd
+        if self._is_metric or speed_m_s is None:
+            return speed_m_s
+
+        speed_mi_s = convert_distance(speed_m_s, LENGTH_METERS, LENGTH_MILES)
+        speed_mi_h = speed_mi_s / 3600.0
+        return int(round(speed_mi_h))
 
     @property
     def wind_gust(self) -> float:
         """Return the wind Gust."""
-        if self._forecasts is not None:
-            # Convert from m/s to km/h
-            return round(self._forecasts[0].wind_gust_spd * 18 / 5)
-        return None
+        speed_m_s = self._forecasts[0].wind_gust_spd
+        if self._is_metric or speed_m_s is None:
+            return speed_m_s
+
+        speed_mi_s = convert_distance(speed_m_s, LENGTH_METERS, LENGTH_MILES)
+        speed_mi_h = speed_mi_s / 3600.0
+        return int(round(speed_mi_h))
 
     @property
     def wind_bearing(self) -> int:
@@ -206,9 +223,11 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def pressure(self) -> int:
         """Return the pressure."""
-        if self._current is not None:
-            return self._current[0].pres
-        return None
+        pressure_hpa = self._current[0].pres
+        if self._is_metric or pressure_hpa is None:
+            return pressure_hpa
+
+        return round(convert_pressure(pressure_hpa, PRESSURE_HPA, PRESSURE_INHG), 2)
 
     @property
     def cloudiness(self) -> int:
