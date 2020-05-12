@@ -140,7 +140,7 @@ class WeatherbitWeather(WeatherEntity):
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     async def async_update(self) -> None:
-        """Refresh the forecast data from SMHI weather API."""
+        """Refresh the forecast data from Weatherbit weather API."""
         try:
             with async_timeout.timeout(10):
                 self._forecasts = await self.get_weather_forecast()
