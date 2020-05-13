@@ -136,3 +136,4 @@ icons/icon@2x.png
 icons/logo-master.png
 icons/logo.png
 icons/logo@2x.png
+custom_components/weatherbit/config_flow_org.py
