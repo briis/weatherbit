@@ -103,7 +103,7 @@ class WeatherbitFlowHandler(config_entries.ConfigFlow):
 
         try:
             # session = aiohttp_client.async_get_clientsession(self.hass)
-            wbit_api = Weatherbit(api_key, longitude, latitude)
+            wbit_api = Weatherbit(api_key, latitude, longitude)
 
             await wbit_api.async_get_current_data()
 
