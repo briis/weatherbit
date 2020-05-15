@@ -20,10 +20,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
-    CONF_NAME,
+    CONF_ID,
     CONF_API_KEY,
     EVENT_CORE_CONFIG_UPDATE,
-    LENGTH_FEET,
     LENGTH_METERS,
     LENGTH_MILES,
     LENGTH_KILOMETERS,
@@ -31,7 +30,7 @@ from homeassistant.const import (
     PRESSURE_INHG,
     TEMP_CELSIUS,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.helpers import aiohttp_client
 from homeassistant.util import Throttle, slugify
 from homeassistant.util.distance import convert as convert_distance
@@ -71,25 +70,26 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, config_entry: ConfigEntry, config_entries
-) -> bool:
+    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+) -> None:
     """Add a weather entity from map location."""
-    location = config_entry.data
-    name = slugify(location[CONF_NAME])
 
     session = aiohttp_client.async_get_clientsession(hass)
 
     entity = WeatherbitWeather(
-        location[CONF_NAME],
-        location[CONF_API_KEY],
-        location[CONF_LATITUDE],
-        location[CONF_LONGITUDE],
+        entry.data[CONF_ID],
+        entry.data[CONF_API_KEY],
+        entry.data[CONF_LATITUDE],
+        entry.data[CONF_LONGITUDE],
         hass.config.units.is_metric,
         session,
     )
-    entity.entity_id = ENTITY_ID_SENSOR_FORMAT.format(name)
+    entity.entity_id = ENTITY_ID_SENSOR_FORMAT.format(
+        slugify(entry.data[CONF_ID]).replace(" ", "_")
+    )
 
-    config_entries([entity], True)
+    async_add_entities([entity], True)
+
     return True
 
 
@@ -107,7 +107,7 @@ class WeatherbitWeather(WeatherEntity):
     ) -> None:
         """Initialize the Weatherbit weather entity."""
 
-        self._name = name
+        self._name = name.capitalize()
         self._api_key = api_key
         self._latitude = latitude
         self._longitude = longitude

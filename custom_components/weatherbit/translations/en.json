@@ -1,8 +1,8 @@
 {
     "config": {
         "error": {
-            "name_exists": "Name already exists",
-            "wrong_location": "Location not possible"
+            "name_exists": "Location already setup. Choose other coordinates.",
+            "connection_error": "Could not connect to Weatherbit. Check API Key."
         },
         "step": {
             "user": {

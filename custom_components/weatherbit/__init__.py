@@ -1,29 +1,28 @@
 """Support for the Weatherbit weather service."""
+import logging
+
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import Config, HomeAssistant
+from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from .const import DOMAIN
 
-# Have to import for config_flow to work even if they are not used here
-from .config_flow import weatherbit_locations  # noqa: F401
-from .const import DOMAIN  # noqa: F401
-
-DEFAULT_NAME = "weatherbit"
+_LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: HomeAssistant, config: Config) -> bool:
+async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     """Set up configured Weatherbit."""
     # We allow setup only through config flow type of config
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Set up Weatherbit forecast as config entry."""
     hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config_entry, "weather")
+        hass.config_entries.async_forward_entry_setup(entry, "weather")
     )
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
-    await hass.config_entries.async_forward_entry_unload(config_entry, "weather")
+    await hass.config_entries.async_forward_entry_unload(entry, "weather")
     return True
