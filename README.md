@@ -45,10 +45,3 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 &nbsp;&nbsp;*Default value:*  
 &nbsp;&nbsp;Provided by Home Assistant configuration
-
-**name**  
-&nbsp;&nbsp;*(string)(Optional)*  
-&nbsp;&nbsp;Name to use in the frontend.
-
-&nbsp;&nbsp;*Default value:*  
-&nbsp;&nbsp;Home
