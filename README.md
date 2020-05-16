@@ -17,7 +17,7 @@ This Integration is part of the default HACS store, so search for *Weatherbit* i
 
 To add Weatherbit to your installation, create this folder structure in your /config directory:
 
-`custom_components/meteobridge`.
+`custom_components/weatherbit`.
 Then, drop the following files into that folder:
 
 ```yaml
