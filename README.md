@@ -1,5 +1,5 @@
 # // weatherbit
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/briis/weatherbit?include_prereleases&style=flat-square) [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square)](https://github.com/custom-components/hacs)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/briis/weatherbit?include_prereleases&style=flat-square) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square)](https://github.com/custom-components/hacs)
 
 The weatherbit integration adds support for the *weatherbit.io* web service as a source for meteorological data for your location.
 
@@ -9,8 +9,26 @@ There is currently support for the following device types within Home Assistant:
 There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
 
 ## Installation
-Currently this is not in the default HACS repository, but you can add this as a Custom Integration Repository under settings in HACS. If you don't have HACS installed, please do this first. Instructions are [here](https://hacs.xyz/)
 
+### HACS Installation
+This Integration is part of the default HACS store, so search for *Weatherbit* in HACS.
+
+### Manual Installation
+
+To add Weatherbit to your installation, create this folder structure in your /config directory:
+
+`custom_components/weatherbit`.
+Then, drop the following files into that folder:
+
+```yaml
+__init__.py
+manifest.json
+weather.py
+config_flow.py
+const.py
+string.json
+translation (Directory with all files)
+```
 ## Configuration
 The Weatherbit weather service is free under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode). Weather data will be pulled once every 30 minutes.
 
@@ -45,10 +63,3 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 &nbsp;&nbsp;*Default value:*  
 &nbsp;&nbsp;Provided by Home Assistant configuration
-
-**name**  
-&nbsp;&nbsp;*(string)(Optional)*  
-&nbsp;&nbsp;Name to use in the frontend.
-
-&nbsp;&nbsp;*Default value:*  
-&nbsp;&nbsp;Home
