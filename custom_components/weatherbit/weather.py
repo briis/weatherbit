@@ -37,8 +37,10 @@ from homeassistant.util.distance import convert as convert_distance
 from homeassistant.util.pressure import convert as convert_pressure
 
 from .const import (
+    ATTR_WEATHERBIT_AQI,
     ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_WIND_GUST,
+    ATTR_WEATHERBIT_UVI,
     ENTITY_ID_SENSOR_FORMAT,
     DEFAULT_ATTRIBUTION,
 )
@@ -255,6 +257,20 @@ class WeatherbitWeather(WeatherEntity):
         return None
 
     @property
+    def uv(self) -> int:
+        """Return the UV Index."""
+        if self._current is not None:
+            return self._current[0].uv
+        return None
+
+    @property
+    def aqi(self) -> int:
+        """Return the Air Quality Index."""
+        if self._current is not None:
+            return self._current[0].aqi
+        return None
+
+    @property
     def condition(self) -> str:
         """Return the weather condition."""
         if self._current is None:
@@ -302,5 +318,15 @@ class WeatherbitWeather(WeatherEntity):
     @property
     def device_state_attributes(self) -> Dict:
         """Return Weatherbit specific attributes."""
+        attrs = {}
+
+        if self.aqi:
+            attrs[ATTR_WEATHERBIT_AQI] = self.aqi
         if self.cloudiness:
-            return {ATTR_WEATHERBIT_CLOUDINESS: self.cloudiness}
+            attrs[ATTR_WEATHERBIT_CLOUDINESS] = self.cloudiness
+        if self.wind_gust:
+            attrs[ATTR_WEATHERBIT_WIND_GUST] = self.wind_gust
+        if self.uv:
+            attrs[ATTR_WEATHERBIT_UVI] = self.uv
+
+        return attrs
