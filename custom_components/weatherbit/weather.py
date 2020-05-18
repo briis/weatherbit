@@ -14,6 +14,8 @@ from homeassistant.components.weather import (
     ATTR_FORECAST_TEMP,
     ATTR_FORECAST_TEMP_LOW,
     ATTR_FORECAST_TIME,
+    ATTR_FORECAST_WIND_BEARING,
+    ATTR_FORECAST_WIND_SPEED,
     WeatherEntity,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -201,22 +203,18 @@ class WeatherbitWeather(WeatherEntity):
         """Return the wind speed."""
         speed_m_s = self._current[0].wind_spd
         if self._is_metric or speed_m_s is None:
-            return speed_m_s
+            return round(float(speed_m_s) * 3.6, 1)
 
-        speed_mi_s = convert_distance(speed_m_s, LENGTH_METERS, LENGTH_MILES)
-        speed_mi_h = speed_mi_s / 3600.0
-        return int(round(speed_mi_h))
+        return round(float(speed_m_s * 2.23693629), 2)
 
     @property
     def wind_gust(self) -> float:
         """Return the wind Gust."""
         speed_m_s = self._forecasts[0].wind_gust_spd
         if self._is_metric or speed_m_s is None:
-            return speed_m_s
+            return round(speed_m_s, 1)
 
-        speed_mi_s = convert_distance(speed_m_s, LENGTH_METERS, LENGTH_MILES)
-        speed_mi_h = speed_mi_s / 3600.0
-        return int(round(speed_mi_h))
+        return round(float(speed_m_s * 2.23693629), 2)
 
     @property
     def wind_bearing(self) -> int:
@@ -262,7 +260,7 @@ class WeatherbitWeather(WeatherEntity):
     def uv(self) -> int:
         """Return the UV Index."""
         if self._current is not None:
-            return self._current[0].uv
+            return round(self._current[0].uv, 1)
         return None
 
     @property
@@ -325,13 +323,27 @@ class WeatherbitWeather(WeatherEntity):
                 None,
             )
 
+            # Convert Wind Speed
+            if self._is_metric or forecast.wind_spd is None:
+                wspeed = round(float(forecast.wind_spd) * 3.6, 1)
+            else:
+                wspeed = round(float(forecast.wind_spd * 2.23693629), 1)
+
+            # Convert Precipitation
+            if self._is_metric or forecast.precip is None:
+                precip = round(forecast.precip, 1)
+            else:
+                precip = round(float(forecast.precip) / 25.4, 2)
+
             data.append(
                 {
                     ATTR_FORECAST_TIME: forecast.valid_date,
                     ATTR_FORECAST_TEMP: forecast.max_temp,
                     ATTR_FORECAST_TEMP_LOW: forecast.min_temp,
-                    ATTR_FORECAST_PRECIPITATION: round(forecast.precip, 1),
+                    ATTR_FORECAST_PRECIPITATION: precip,
                     ATTR_FORECAST_CONDITION: condition,
+                    ATTR_FORECAST_WIND_SPEED: wspeed,
+                    ATTR_FORECAST_WIND_BEARING: forecast.wind_dir,
                 }
             )
 
