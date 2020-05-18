@@ -43,6 +43,7 @@ from .const import (
     ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_IS_NIGHT,
     ATTR_WEATHERBIT_WIND_GUST,
+    ATTR_WEATHERBIT_PRECIPITATION,
     ATTR_WEATHERBIT_UVI,
     ENTITY_ID_SENSOR_FORMAT,
     DEFAULT_ATTRIBUTION,
@@ -224,6 +225,14 @@ class WeatherbitWeather(WeatherEntity):
         return None
 
     @property
+    def precipitation(self) -> float:
+        """Return the precipitation."""
+        if self._is_metric or self._current[0].precip is None:
+            return round(float(self._current[0].precip), 1)
+
+        return round(float(self._current[0].precip) / 25.4, 2)
+
+    @property
     def ozone(self) -> float:
         """Return the ozone."""
         if self._forecasts is not None:
@@ -304,6 +313,7 @@ class WeatherbitWeather(WeatherEntity):
         attrs[ATTR_WEATHERBIT_AQI] = self.aqi
         attrs[ATTR_WEATHERBIT_CLOUDINESS] = self.cloudiness
         attrs[ATTR_WEATHERBIT_IS_NIGHT] = self.is_night
+        attrs[ATTR_WEATHERBIT_PRECIPITATION] = self.precipitation
         attrs[ATTR_WEATHERBIT_WIND_GUST] = self.wind_gust
         attrs[ATTR_WEATHERBIT_UVI] = self.uv
 
