@@ -39,6 +39,7 @@ from homeassistant.util.pressure import convert as convert_pressure
 from .const import (
     ATTR_WEATHERBIT_AQI,
     ATTR_WEATHERBIT_CLOUDINESS,
+    ATTR_WEATHERBIT_IS_NIGHT,
     ATTR_WEATHERBIT_WIND_GUST,
     ATTR_WEATHERBIT_UVI,
     ENTITY_ID_SENSOR_FORMAT,
@@ -49,7 +50,9 @@ _LOGGER = logging.getLogger(__name__)
 
 # Used to map condition from API results
 CONDITION_CLASSES = {
+    "clear-night": [8000],
     "cloudy": [803, 804],
+    "exceptional": [],
     "fog": [741],
     "hail": [623],
     "lightning": [230, 231],
@@ -59,10 +62,9 @@ CONDITION_CLASSES = {
     "rainy": [300, 301, 302, 500, 501, 511, 520, 521],
     "snowy": [600, 601, 602, 621, 622, 623],
     "snowy-rainy": [610, 611, 612],
-    "sunny": [800, 801, 802],
+    "sunny": [800],
     "windy": [],
     "windy-variant": [],
-    "exceptional": [],
 }
 
 # 5 minutes between retrying connect to API again
@@ -148,7 +150,7 @@ class WeatherbitWeather(WeatherEntity):
                 self._forecasts = await self.get_weather_forecast()
                 self._current = await self.get_weather_current()
                 self._fail_count = 0
-                _LOGGER.debug("Weatherbit Forecast Updated")
+                _LOGGER.debug("WEATHERBIT: FORECAST UPDATED")
 
         except (asyncio.TimeoutError, WeatherbitError):
             _LOGGER.error("Failed to connect to Weatherbit API, retry in 5 minutes")
@@ -271,23 +273,43 @@ class WeatherbitWeather(WeatherEntity):
         return None
 
     @property
+    def is_night(self) -> bool:
+        """Return True if after Sunset at Location."""
+        if self._current is not None:
+            return self._current[0].is_night
+        return None
+
+    @property
     def condition(self) -> str:
         """Return the weather condition."""
         if self._current is None:
             return None
-        return next(
-            (
-                k
-                for k, v in CONDITION_CLASSES.items()
-                if int(self._current[0].weather_code) in v
-            ),
-            None,
-        )
+
+        wcode = int(self._current[0].weather_code)
+
+        # If Night convert to Clear Night
+        if wcode == 800 and self.is_night:
+            wcode = wcode * 10
+
+        return next((k for k, v in CONDITION_CLASSES.items() if wcode in v), None,)
 
     @property
     def attribution(self) -> str:
         """Return the attribution."""
         return DEFAULT_ATTRIBUTION
+
+    @property
+    def device_state_attributes(self) -> Dict:
+        """Return Weatherbit specific attributes."""
+        attrs = {}
+
+        attrs[ATTR_WEATHERBIT_AQI] = self.aqi
+        attrs[ATTR_WEATHERBIT_CLOUDINESS] = self.cloudiness
+        attrs[ATTR_WEATHERBIT_IS_NIGHT] = self.is_night
+        attrs[ATTR_WEATHERBIT_WIND_GUST] = self.wind_gust
+        attrs[ATTR_WEATHERBIT_UVI] = self.uv
+
+        return attrs
 
     @property
     def forecast(self) -> List:
@@ -314,19 +336,3 @@ class WeatherbitWeather(WeatherEntity):
             )
 
         return data
-
-    @property
-    def device_state_attributes(self) -> Dict:
-        """Return Weatherbit specific attributes."""
-        attrs = {}
-
-        if self.aqi:
-            attrs[ATTR_WEATHERBIT_AQI] = self.aqi
-        if self.cloudiness:
-            attrs[ATTR_WEATHERBIT_CLOUDINESS] = self.cloudiness
-        if self.wind_gust:
-            attrs[ATTR_WEATHERBIT_WIND_GUST] = self.wind_gust
-        if self.uv:
-            attrs[ATTR_WEATHERBIT_UVI] = self.uv
-
-        return attrs
