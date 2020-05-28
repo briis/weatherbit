@@ -13,8 +13,6 @@ from homeassistant.components.weather import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    CONF_LATITUDE,
-    CONF_LONGITUDE,
     CONF_ID,
     LENGTH_METERS,
     LENGTH_MILES,
@@ -92,13 +90,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
         super().__init__(fcst_coordinator, cur_coordinator, entries)
         self._name = entries[CONF_ID].capitalize()
         self._is_metric = is_metric
-        self._latitude = entries[CONF_LATITUDE]
-        self._longitude = entries[CONF_LONGITUDE]
 
     @property
     def unique_id(self) -> str:
         """Return a unique id."""
-        return f"{self._latitude}, {self._longitude}"
+        return self._device_key
 
     @property
     def name(self) -> str:
