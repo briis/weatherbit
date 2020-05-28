@@ -12,8 +12,14 @@ ATTR_WEATHERBIT_UVI = "uv_index"
 
 DOMAIN = "weatherbit"
 
+WEATHERBIT_PLATFORMS = [
+    "weather",
+    # "sensor",
+]
+
 ENTITY_ID_SENSOR_FORMAT = WEATHER_DOMAIN + "." + DOMAIN + "_{}"
 
 DEFAULT_ATTRIBUTION = "Data provided by Weatherbit.io"
+DEFAULT_BRAND = "Weatherbit.io"
 
 LOGGER = logging.getLogger(__package__)
