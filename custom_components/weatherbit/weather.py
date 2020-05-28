@@ -37,29 +37,11 @@ from .const import (
     ATTR_WEATHERBIT_UPDATED,
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_WEATHER,
+    CONDITION_CLASSES,
 )
 from .entity import WeatherbitEntity
 
 _LOGGER = logging.getLogger(__name__)
-
-# Used to map condition from API results
-CONDITION_CLASSES = {
-    "clear-night": [8000],
-    "cloudy": [803, 804],
-    "exceptional": [],
-    "fog": [741],
-    "hail": [623],
-    "lightning": [230, 231],
-    "lightning-rainy": [200, 201, 202],
-    "partlycloudy": [801, 802],
-    "pouring": [502, 522],
-    "rainy": [300, 301, 302, 500, 501, 511, 520, 521],
-    "snowy": [600, 601, 602, 621, 622, 623],
-    "snowy-rainy": [610, 611, 612],
-    "sunny": [800],
-    "windy": [],
-    "windy-variant": [],
-}
 
 
 async def async_setup_entry(
