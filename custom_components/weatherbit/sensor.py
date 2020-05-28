@@ -88,7 +88,7 @@ async def async_setup_entry(
             )
         )
     cnt = 1
-    for forecast in fcst_coordinator.data[1:6]:
+    for forecast in fcst_coordinator.data[1:8]:
         sensors.append(
             WeatherbitSensor(
                 fcst_coordinator,
@@ -134,6 +134,19 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             self._name = f"{DOMAIN.capitalize()} Forecast Day {self._index}"
             self._unique_id = f"{self._device_key}_forecast_day{self._index}"
             self._device_class = ""
+            self._condition = next(
+                (
+                    k
+                    for k, v in CONDITION_CLASSES.items()
+                    if getattr(self.fcst_coordinator.data[self._index], "weather_code")
+                    in v
+                ),
+                None,
+            )
+            if self._condition == "partlycloudy":
+                self._weather_icon = "partly-cloudy"
+            else:
+                self._weather_icon = self._condition
 
     @property
     def name(self):
@@ -174,22 +187,15 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             else:
                 return value
         else:
-            condition = next(
-                (
-                    k
-                    for k, v in CONDITION_CLASSES.items()
-                    if getattr(self.fcst_coordinator.data[self._index], "weather_code")
-                    in v
-                ),
-                None,
-            )
-            return condition
+            return self._condition
 
     @property
     def icon(self):
         """Return icon for sensor."""
         if self._sensor_type == TYPE_SENSOR:
             return f"mdi:{SENSORS[self._sensor][2]}"
+        else:
+            return f"mdi:weather-{self._weather_icon}"
 
     @property
     def unit_of_measurement(self):
