@@ -5,6 +5,7 @@ The weatherbit integration adds support for the *weatherbit.io* web service as a
 
 There is currently support for the following device types within Home Assistant:
 * Weather
+* sensor
 
 There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
 
@@ -24,6 +25,8 @@ Then, drop the following files into that folder:
 __init__.py
 manifest.json
 weather.py
+sensor.py
+entity.py
 config_flow.py
 const.py
 string.json
@@ -43,23 +46,23 @@ This integration requires an API Key that can be retrieved for free from the Wea
 This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day), you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
 
 ### CONFIGURATION VARIABLES
-**API Key**  
-&nbsp;&nbsp;*(string)(Required)*  
+**API Key**
+&nbsp;&nbsp;*(string)(Required)*
 &nbsp;&nbsp;Specify your Weatherbit API Key.
 
-&nbsp;&nbsp;*Default value:*  
+&nbsp;&nbsp;*Default value:*
 &nbsp;&nbsp;None
 
-**latitude**  
-&nbsp;&nbsp;*(float)(Required)*  
+**latitude**
+&nbsp;&nbsp;*(float)(Required)*
 &nbsp;&nbsp;Manually specify latitude.
 
-&nbsp;&nbsp;*Default value:*  
+&nbsp;&nbsp;*Default value:*
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**longitude**  
-&nbsp;&nbsp;*(float)(Required)*. 
+**longitude**
+&nbsp;&nbsp;*(float)(Required)*.
 &nbsp;&nbsp;Manually specify longitude.
 
-&nbsp;&nbsp;*Default value:*  
+&nbsp;&nbsp;*Default value:*
 &nbsp;&nbsp;Provided by Home Assistant configuration

@@ -34,7 +34,9 @@ from .const import (
     ATTR_WEATHERBIT_WIND_GUST,
     ATTR_WEATHERBIT_PRECIPITATION,
     ATTR_WEATHERBIT_UVI,
+    ATTR_WEATHERBIT_UPDATED,
     DEFAULT_ATTRIBUTION,
+    DEVICE_TYPE_WEATHER,
 )
 from .entity import WeatherbitEntity
 
@@ -74,7 +76,7 @@ async def async_setup_entry(
         return
 
     weather_entity = WeatherbitWeather(
-        fcst_coordinator, cur_coordinator, entry.data, hass.config.units.is_metric
+        fcst_coordinator, cur_coordinator, entry.data, hass.config.units.is_metric,
     )
 
     async_add_entities([weather_entity], True)
@@ -87,14 +89,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
 
     def __init__(self, fcst_coordinator, cur_coordinator, entries, is_metric) -> None:
         """Initialize the Weatherbit weather entity."""
-        super().__init__(fcst_coordinator, cur_coordinator, entries)
+        super().__init__(
+            fcst_coordinator, cur_coordinator, entries, DEVICE_TYPE_WEATHER
+        )
         self._name = entries[CONF_ID].capitalize()
         self._is_metric = is_metric
-
-    @property
-    def unique_id(self) -> str:
-        """Return a unique id."""
-        return self._device_key
 
     @property
     def name(self) -> str:
@@ -236,6 +235,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             ATTR_WEATHERBIT_PRECIPITATION: self.precipitation,
             ATTR_WEATHERBIT_WIND_GUST: self.wind_gust,
             ATTR_WEATHERBIT_UVI: self.uv,
+            ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
         }
 
     @property
