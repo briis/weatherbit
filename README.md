@@ -5,7 +5,7 @@ The weatherbit integration adds support for the *weatherbit.io* web service as a
 
 There is currently support for the following device types within Home Assistant:
 * Weather
-* sensor
+* Sensor
 
 There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
 
