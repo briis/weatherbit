@@ -225,6 +225,18 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
             }
         else:
+            _temp = getattr(self.fcst_coordinator.data[self._index], "max_temp")
+            if self._is_metric:
+                temp = _temp
+            else:
+                temp = round(float((_temp * 1.8) + 32), 1)
+
+            _tempmin = getattr(self.fcst_coordinator.data[self._index], "min_temp")
+            if self._is_metric:
+                tempmin = _tempmin
+            else:
+                tempmin = round(float((_tempmin * 1.8) + 32), 1)
+
             _wspeed = getattr(self.fcst_coordinator.data[self._index], "wind_spd")
             if self._is_metric:
                 wspeed = round(float(_wspeed) * 3.6, 1)
@@ -242,12 +254,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_TIME: getattr(
                     self.fcst_coordinator.data[self._index], "valid_date"
                 ),
-                ATTR_FORECAST_TEMP: getattr(
-                    self.fcst_coordinator.data[self._index], "max_temp"
-                ),
-                ATTR_FORECAST_TEMP_LOW: getattr(
-                    self.fcst_coordinator.data[self._index], "min_temp"
-                ),
+                ATTR_FORECAST_TEMP: temp,
+                ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
                 ATTR_FORECAST_WIND_SPEED: wspeed,
                 ATTR_FORECAST_WIND_BEARING: getattr(
