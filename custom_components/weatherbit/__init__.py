@@ -62,12 +62,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_interval=SCAN_INTERVAL,
     )
 
-    await fcst_coordinator.async_refresh()
-    hass.data[DOMAIN][entry.entry_id] = {
-        "coordinator": fcst_coordinator,
-        "weatherbit": weatherbit,
-    }
-
     cur_coordinator = DataUpdateCoordinator(
         hass,
         _LOGGER,
@@ -76,9 +70,12 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_interval=SCAN_INTERVAL,
     )
 
+    await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
+
     hass.data[DOMAIN][entry.entry_id] = {
-        "coordinator": cur_coordinator,
+        "fcst_coordinator": fcst_coordinator,
+        "cur_coordinator": cur_coordinator,
         "weatherbit": weatherbit,
     }
 
@@ -103,8 +100,7 @@ async def _async_get_or_create_weatherbit_device_in_registry(
         identifiers={(DOMAIN, device_key)},
         manufacturer=DEFAULT_BRAND,
         name=entry.data[CONF_ID],
-        # model=svr["platform_hw"],
-        # sw_version=svr["swversion"],
+        model="Current and Forecast Weather Data",
     )
 
 
