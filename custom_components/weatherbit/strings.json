@@ -8,7 +8,8 @@
                     "api_key": "Weatherbit API Key",
                     "latitude": "Latitude",
                     "longitude": "Longitude",
-                    "scan_interval": "Update Interval for Current Data (Minutes)",
+                    "fcs_update_interval": "Forecast Data Update Interval (Minutes)",
+                    "cur_update_interval": "Current Data Update Interval (Minutes)",
                     "add_sensors": "Install individual sensors"
                 }
             }

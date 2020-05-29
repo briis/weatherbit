@@ -8,7 +8,8 @@
             "user": {
                 "data": {
                     "add_sensors": "Installer individuelle sensorer",
-                    "scan_interval": "Opdaterings interval for aktuelle data (Minutter)",
+                    "cur_update_interval": "Aktuelle Data opdaterings interval (Minutter)",
+                    "fcs_update_interval": "Forecast Data opdaterings interval (Minutter)",
                     "latitude": "Latitude",
                     "longitude": "Longitude",
                     "api_key": "Weatherbit API nøgle",

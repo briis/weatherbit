@@ -12,6 +12,8 @@ ATTR_WEATHERBIT_UVI = "uv_index"
 ATTR_WEATHERBIT_UPDATED = "updated"
 
 CONF_ADD_SENSORS = "add_sensors"
+CONF_CUR_UPDATE_INTERVAL = "cur_update_interval"
+CONF_FCS_UPDATE_INTERVAL = "fcs_update_interval"
 
 DOMAIN = "weatherbit"
 

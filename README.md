@@ -71,9 +71,16 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**scan_interval**<br>
+**cur_update_interval**<br>
 &nbsp;&nbsp;*(int)(Optional)*.<br>
-&nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Minimum should not be lower thatn 4 minutes if you only add one location. If you add more, this has to be increased.
+&nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Value between 4 and 60 minutes. If you set it in the low end, be carefull not to run over your daily limit of 500 calls.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;30 minutes
+
+**fcs_update_interval**<br>
+&nbsp;&nbsp;*(int)(Optional)*.<br>
+&nbsp;&nbsp;Specify the time in minutes for the Forecast Data being updated. Value between 30 and 120 minutes.
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;30 minutes

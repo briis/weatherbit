@@ -11,7 +11,6 @@ from homeassistant.const import (
     CONF_ID,
     CONF_LATITUDE,
     CONF_LONGITUDE,
-    CONF_SCAN_INTERVAL,
 )
 from homeassistant.config_entries import ConfigFlow
 import homeassistant.helpers.config_validation as cv
@@ -20,6 +19,8 @@ from .const import (
     DOMAIN,
     DEFAULT_SCAN_INTERVAL,
     CONF_ADD_SENSORS,
+    CONF_CUR_UPDATE_INTERVAL,
+    CONF_FCS_UPDATE_INTERVAL,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -46,7 +47,10 @@ class WeatherbitFlowHandler(ConfigFlow):
                         CONF_LONGITUDE, default=self.hass.config.longitude
                     ): cv.longitude,
                     vol.Optional(
-                        CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL
+                        CONF_FCS_UPDATE_INTERVAL, default=DEFAULT_SCAN_INTERVAL
+                    ): vol.All(vol.Coerce(int), vol.Range(min=30, max=120)),
+                    vol.Optional(
+                        CONF_CUR_UPDATE_INTERVAL, default=DEFAULT_SCAN_INTERVAL
                     ): vol.All(vol.Coerce(int), vol.Range(min=4, max=60)),
                     vol.Optional(CONF_ADD_SENSORS, default=True): bool,
                 }
@@ -85,7 +89,8 @@ class WeatherbitFlowHandler(ConfigFlow):
                 CONF_API_KEY: user_input[CONF_API_KEY],
                 CONF_LATITUDE: user_input[CONF_LATITUDE],
                 CONF_LONGITUDE: user_input.get(CONF_LONGITUDE),
-                CONF_SCAN_INTERVAL: user_input.get(CONF_SCAN_INTERVAL),
+                CONF_FCS_UPDATE_INTERVAL: user_input.get(CONF_FCS_UPDATE_INTERVAL),
+                CONF_CUR_UPDATE_INTERVAL: user_input.get(CONF_CUR_UPDATE_INTERVAL),
                 CONF_ADD_SENSORS: user_input.get(CONF_ADD_SENSORS),
             },
         )

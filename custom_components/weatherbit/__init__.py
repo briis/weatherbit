@@ -20,11 +20,12 @@ from homeassistant.const import (
     CONF_API_KEY,
     CONF_LATITUDE,
     CONF_LONGITUDE,
-    CONF_SCAN_INTERVAL,
 )
 
 from .const import (
     DOMAIN,
+    CONF_CUR_UPDATE_INTERVAL,
+    CONF_FCS_UPDATE_INTERVAL,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
     WEATHERBIT_PLATFORMS,
@@ -56,16 +57,21 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = weatherbit
     _LOGGER.debug("Connected to Weatherbit")
 
+    if entry.data.get(CONF_FCS_UPDATE_INTERVAL):
+        fcst_scan_interval = timedelta(minutes=entry.data[CONF_FCS_UPDATE_INTERVAL])
+    else:
+        fcst_scan_interval = SCAN_INTERVAL
+
     fcst_coordinator = DataUpdateCoordinator(
         hass,
         _LOGGER,
         name=DOMAIN,
         update_method=weatherbit.async_get_forecast_daily,
-        update_interval=SCAN_INTERVAL,
+        update_interval=fcst_scan_interval,
     )
 
-    if entry.data.get(CONF_SCAN_INTERVAL):
-        current_scan_interval = timedelta(minutes=entry.data[CONF_SCAN_INTERVAL])
+    if entry.data.get(CONF_CUR_UPDATE_INTERVAL):
+        current_scan_interval = timedelta(minutes=entry.data[CONF_CUR_UPDATE_INTERVAL])
     else:
         current_scan_interval = SCAN_INTERVAL
 
