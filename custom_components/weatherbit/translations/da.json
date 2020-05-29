@@ -1,0 +1,20 @@
+{
+    "config": {
+        "error": {
+            "name_exists": "Placering allerede brugt. Vælg andre koordinator.",
+            "connection_error": "Kunne ikke forbinde til Weatherbit. Kontroller API nøglen."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "add_sensors": "Installer individuelle sensorer",
+                    "latitude": "Latitude",
+                    "longitude": "Longitude",
+                    "api_key": "Weatherbit API nøgle",
+                    "name": "Navn"
+                },
+                "title": "Placering for Weatherbit Data"
+            }
+        }
+    }
+}
