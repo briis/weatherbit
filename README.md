@@ -47,7 +47,7 @@ The units used are defined by the Unit System set in the *General* section of th
 
 ## API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
-This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day), you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
+This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
 
 ### CONFIGURATION VARIABLES
 **API Key**<br>
@@ -70,6 +70,13 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
+
+**scan_interval**<br>
+&nbsp;&nbsp;*(int)(Optional)*.<br>
+&nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Minimum should not be lower thatn 4 minutes if you only add one location. If you add more, this has to be increased.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;30 minutes
 
 **Add Sensors**<br>
 &nbsp;&nbsp;*(bool)Optional)*.<br>

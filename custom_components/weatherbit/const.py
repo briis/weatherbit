@@ -50,6 +50,7 @@ CONDITION_CLASSES = {
 }
 
 DEFAULT_ATTRIBUTION = "Data provided by Weatherbit.io"
+DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_BRAND = "Weatherbit.io"
 
 LOGGER = logging.getLogger(__package__)

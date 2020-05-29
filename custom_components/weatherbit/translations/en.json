@@ -8,6 +8,7 @@
             "user": {
                 "data": {
                     "add_sensors": "Install individual sensors",
+                    "scan_interval": "Update Interval for Current Data (Minutes)",
                     "latitude": "Latitude",
                     "longitude": "Longitude",
                     "api_key": "Weatherbit API Key",
