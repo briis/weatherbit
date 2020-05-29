@@ -38,6 +38,7 @@ from .const import (
     TYPE_SENSOR,
     TYPE_FORECAST,
     CONDITION_CLASSES,
+    CONF_ADD_SENSORS,
 )
 from .entity import WeatherbitEntity
 
@@ -65,6 +66,10 @@ async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Setup the Weatherbit sensor platform."""
+
+    # Exit if user did deselect sensors on config
+    if not entry.data[CONF_ADD_SENSORS]:
+        return
 
     fcst_coordinator = hass.data[DOMAIN][entry.entry_id]["fcst_coordinator"]
     if not fcst_coordinator.data:
