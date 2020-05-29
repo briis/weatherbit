@@ -11,6 +11,8 @@ ATTR_WEATHERBIT_PRECIPITATION = "precipitation"
 ATTR_WEATHERBIT_UVI = "uv_index"
 ATTR_WEATHERBIT_UPDATED = "updated"
 
+CONF_ADD_SENSORS = "add_sensors"
+
 DOMAIN = "weatherbit"
 
 DEVICE_TYPE_TEMPERATURE = "temperature"

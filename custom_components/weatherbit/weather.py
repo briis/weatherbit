@@ -138,7 +138,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     def ozone(self) -> float:
         """Return the ozone."""
         if self._forecast is not None:
-            return self._forecast.ozone
+            return round(float(self._forecast.ozone), 1)
         return None
 
     @property

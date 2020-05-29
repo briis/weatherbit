@@ -39,6 +39,8 @@ To add Weatherbit weather forecast to your installation, go to the Integrations 
 
 If the location is configured in Home Assistant, it will be selected as the default location. After that, you can add additional locations.
 
+During setup you will have the option of installing Individual sensors for each of the *Current Day* values plus the next seven days of Forecast. This will be setup by default, but you can opt not to install them by deselecting the checkbox. If you deselect, and later want the sensors installed, you will have to remove the Integration and then set it up again.
+
 **You can only add locations through the integrations page, not in configuration files.**
 
 ## API Key for Weatherbit
@@ -46,23 +48,30 @@ This integration requires an API Key that can be retrieved for free from the Wea
 This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day), you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
 
 ### CONFIGURATION VARIABLES
-**API Key**
-&nbsp;&nbsp;*(string)(Required)*
+**API Key**<br>
+&nbsp;&nbsp;*(string)(Required)*<br>
 &nbsp;&nbsp;Specify your Weatherbit API Key.
 
-&nbsp;&nbsp;*Default value:*
+&nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;None
 
-**latitude**
-&nbsp;&nbsp;*(float)(Required)*
+**latitude**<br>
+&nbsp;&nbsp;*(float)(Required)*<br>
 &nbsp;&nbsp;Manually specify latitude.
 
-&nbsp;&nbsp;*Default value:*
+&nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**longitude**
-&nbsp;&nbsp;*(float)(Required)*.
+**longitude**<br>
+&nbsp;&nbsp;*(float)(Required)*.<br>
 &nbsp;&nbsp;Manually specify longitude.
 
-&nbsp;&nbsp;*Default value:*
+&nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
+
+**Add Sensors**<br>
+&nbsp;&nbsp;*(bool)Optional)*.<br>
+&nbsp;&nbsp;Deselect this checkbox of you don't want the sensors added to Home Assistant.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;True
