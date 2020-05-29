@@ -47,7 +47,7 @@ class WeatherbitFlowHandler(ConfigFlow):
                     ): cv.longitude,
                     vol.Optional(
                         CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL
-                    ): int,
+                    ): vol.All(vol.Coerce(int), vol.Range(min=4, max=60)),
                     vol.Optional(CONF_ADD_SENSORS, default=True): bool,
                 }
             ),
