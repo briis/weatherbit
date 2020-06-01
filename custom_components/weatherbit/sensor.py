@@ -209,7 +209,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             if self._device_class == DEVICE_TYPE_TEMPERATURE:
                 return TEMP_CELSIUS
             elif self._device_class == DEVICE_TYPE_WIND:
-                return "m/s" if self._is_metric else "mi/h"
+                return "m/s" if self._is_metric else "mph"
             elif self._device_class == DEVICE_TYPE_PRESSURE:
                 return "hPa" if self._is_metric else "inHg"
             elif self._device_class == DEVICE_TYPE_HUMIDITY:
