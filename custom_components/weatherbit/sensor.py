@@ -92,8 +92,8 @@ async def async_setup_entry(
                 0,
             )
         )
-    cnt = 1
-    for forecast in fcst_coordinator.data[1:8]:
+    cnt = 0
+    for forecast in fcst_coordinator.data[0:7]:
         sensors.append(
             WeatherbitSensor(
                 fcst_coordinator,
@@ -136,8 +136,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             self._unique_id = f"{self._device_key}_{self._sensor}"
             self._device_class = SENSORS[self._sensor][1]
         else:
-            self._name = f"{DOMAIN.capitalize()} Forecast Day {self._index}"
-            self._unique_id = f"{self._device_key}_forecast_day{self._index}"
+            self._name = f"{DOMAIN.capitalize()} Forecast Day {self._index + 1}"
+            self._unique_id = f"{self._device_key}_forecast_day{self._index + 1}"
             self._device_class = ""
             self._condition = next(
                 (
@@ -179,7 +179,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 if self._is_metric:
                     return round(float(value), 1)
                 else:
-                    round(float(value) / 25.4, 2)
+                    return round(float(value) / 25.4, 2)
             elif self._device_class == DEVICE_TYPE_DISTANCE:
                 if self._is_metric:
                     return value

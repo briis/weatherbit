@@ -228,7 +228,8 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
 
         data = []
 
-        for forecast in self.fcst_coordinator.data[1:]:
+        # for forecast in self.fcst_coordinator.data[1:]:
+        for forecast in self.fcst_coordinator.data:
             condition = next(
                 (k for k, v in CONDITION_CLASSES.items() if forecast.weather_code in v),
                 None,
