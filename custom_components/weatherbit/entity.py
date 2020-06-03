@@ -41,11 +41,18 @@ class WeatherbitEntity(Entity):
 
     @property
     def _forecast(self):
+        """Return Forecast Data Array."""
         return self.fcst_coordinator.data[0]
 
     @property
     def _current(self):
+        """Return Current Data."""
         return self.cur_coordinator.data[0]
+
+    @property
+    def _latitude(self):
+        """Return Latitude."""
+        return self.entries[CONF_LATITUDE]
 
     @property
     def device_info(self):

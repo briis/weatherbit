@@ -93,7 +93,7 @@ async def async_setup_entry(
             )
         )
     cnt = 0
-    for forecast in fcst_coordinator.data[0:7]:
+    for forecast in fcst_coordinator.data[:7]:
         sensors.append(
             WeatherbitSensor(
                 fcst_coordinator,
@@ -131,6 +131,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         self._sensor_type = sensor_type
         self._is_metric = is_metric
         self._index = index
+
         if self._sensor_type == TYPE_SENSOR:
             self._name = f"{DOMAIN.capitalize()} {SENSORS[self._sensor][0]}"
             self._unique_id = f"{self._device_key}_{self._sensor}"
@@ -257,8 +258,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
                 ATTR_FORECAST_TIME: getattr(
-                    self.fcst_coordinator.data[self._index], "valid_date"
-                ),
+                    self.fcst_coordinator.data[self._index], "timestamp"
+                ).isoformat(),
                 ATTR_FORECAST_TEMP: temp,
                 ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
@@ -266,5 +267,4 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_WIND_BEARING: getattr(
                     self.fcst_coordinator.data[self._index], "wind_dir"
                 ),
-                ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
             }

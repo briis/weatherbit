@@ -24,6 +24,7 @@ from homeassistant.const import (
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.util.distance import convert as convert_distance
 from homeassistant.util.pressure import convert as convert_pressure
+from homeassistant.util.dt import utc_from_timestamp
 import homeassistant.helpers.device_registry as dr
 
 from .const import (
@@ -228,7 +229,6 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
 
         data = []
 
-        # for forecast in self.fcst_coordinator.data[1:]:
         for forecast in self.fcst_coordinator.data:
             condition = next(
                 (k for k, v in CONDITION_CLASSES.items() if forecast.weather_code in v),
@@ -249,7 +249,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
 
             data.append(
                 {
-                    ATTR_FORECAST_TIME: forecast.valid_date,
+                    ATTR_FORECAST_TIME: utc_from_timestamp(forecast.ts).isoformat(),
                     ATTR_FORECAST_TEMP: forecast.max_temp,
                     ATTR_FORECAST_TEMP_LOW: forecast.min_temp,
                     ATTR_FORECAST_PRECIPITATION: precip,

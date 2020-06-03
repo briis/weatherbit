@@ -51,7 +51,7 @@ CONDITION_CLASSES = {
     "windy-variant": [],
 }
 
-DEFAULT_ATTRIBUTION = "Data provided by Weatherbit.io"
+DEFAULT_ATTRIBUTION = "Powered by Weatherbit.io"
 DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_BRAND = "Weatherbit.io"
 
