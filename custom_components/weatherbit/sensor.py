@@ -57,6 +57,7 @@ SENSORS = {
     "precip": ["Rain Today", DEVICE_TYPE_RAIN, "weather-rainy"],
     "uv": ["UV Index", "UVI", "weather-sunny-alert"],
     "aqi": ["Air Quality", "AQI", "hvac"],
+    "weather_text": ["Description", "", "text-short"],
 }
 
 _LOGGER = logging.getLogger(__name__)
