@@ -1,6 +1,6 @@
 ### Release 0.13
 
-* Added Weather Description Sensor
+* Added Weather Description Sensor. There will be a new sensor created, called `sensor.weatherbit_description`
 
 ### Release 0.12
 
