@@ -1,6 +1,6 @@
 ### Release 0.13
 
-* Added Weather Description Sensor. There will be a new sensor created, called `sensor.weatherbit_description`
+* Added Weather Description Sensor. There will be a new sensor created, called `sensor.weatherbit_description` that displays a short text string with the current Weather. It can vary a little from the Current Condition as there are more variances in the Weatherbit API than we have in the Conditions in Home Assistant
 
 ### Release 0.12
 
