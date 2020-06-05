@@ -57,9 +57,9 @@ If you activate the *Weather Alerts* that will add another 2 calls per hour with
 
 If you set Forecast Update Interval to every 60 min, and Current Data Update Interval to every 10 min, and activate the Weather Alerts, the calculation would look like the following:<br>
 
-* *Forecast* 1 * 60min * 24hrs = 24 calls per day
-* *Current Data* 1 * 10min * 24hrs = 144 calls per day
-* *Weather Alerts* 1 * 60min * 24hrs = 24 calls per day
+* *Forecast* 1 * 60/60min * 24hrs = 24 calls per day
+* *Current Data* 1 * 60/10min * 24hrs = 144 calls per day
+* *Weather Alerts* 1 * 60/60min * 24hrs = 24 calls per day
 * **Total**: 192 calls per day. So with this setup, you can have 2 locations in total configured.
 
 ### CONFIGURATION VARIABLES
@@ -105,7 +105,7 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;True
 
-**Activate Alertss**<br>
+**Activate Alerts**<br>
 &nbsp;&nbsp;*(bool)Optional)*.<br>
 &nbsp;&nbsp;Select this checkbox of you want the Weather Alerts sensor added to Home Assistant.
 
