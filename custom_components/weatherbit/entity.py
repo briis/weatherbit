@@ -19,11 +19,14 @@ from .const import (
 class WeatherbitEntity(Entity):
     """Base class for Weatherbit Entities."""
 
-    def __init__(self, fcst_coordinator, cur_coordinator, entries, entity):
+    def __init__(
+        self, fcst_coordinator, cur_coordinator, alert_coordinator, entries, entity
+    ):
         """Initialize the Weatherbit Entity."""
         super().__init__()
         self.fcst_coordinator = fcst_coordinator
         self.cur_coordinator = cur_coordinator
+        self.alert_coordinator = alert_coordinator
         self.entries = entries
         self._entity = entity
         self._device_key = (
@@ -48,6 +51,12 @@ class WeatherbitEntity(Entity):
     def _current(self):
         """Return Current Data."""
         return self.cur_coordinator.data[0]
+
+    @property
+    def _alerts(self):
+        """Return Current Data."""
+        if self.alert_coordinator is not None:
+            return self.alert_coordinator.data[0]
 
     @property
     def _latitude(self):

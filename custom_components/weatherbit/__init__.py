@@ -26,6 +26,7 @@ from .const import (
     DOMAIN,
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
+    CONF_ADD_ALERTS,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
     WEATHERBIT_PLATFORMS,
@@ -97,7 +98,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
     if entry.data.get(CONF_ADD_ALERTS):
-        await alert_coordinator..async_refresh()
+        await alert_coordinator.async_refresh()
 
     hass.data[DOMAIN][entry.entry_id] = {
         "fcst_coordinator": fcst_coordinator,
