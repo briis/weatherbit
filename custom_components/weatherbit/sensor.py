@@ -28,6 +28,9 @@ from homeassistant.components.weather import (
 from .const import (
     DOMAIN,
     ATTR_WEATHERBIT_UPDATED,
+    ATTR_WEATHERBIT_FCST_POP,
+    ATTR_WEATHERBIT_WEATHER_TEXT,
+    ATTR_WEATHERBIT_WEATHER_ICON,
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_TEMPERATURE,
     DEVICE_TYPE_WIND,
@@ -58,6 +61,7 @@ SENSORS = {
     "uv": ["UV Index", "UVI", "weather-sunny-alert"],
     "aqi": ["Air Quality", "AQI", "hvac"],
     "weather_text": ["Description", "", "text-short"],
+    "weather_icon": ["Icon Code", "", "simple-icons"],
 }
 
 _LOGGER = logging.getLogger(__name__)
@@ -264,8 +268,17 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_TEMP: temp,
                 ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
+                ATTR_WEATHERBIT_FCST_POP: getattr(
+                    self.fcst_coordinator.data[self._index], "pop"
+                ),
                 ATTR_FORECAST_WIND_SPEED: wspeed,
                 ATTR_FORECAST_WIND_BEARING: getattr(
                     self.fcst_coordinator.data[self._index], "wind_dir"
+                ),
+                ATTR_WEATHERBIT_WEATHER_TEXT: getattr(
+                    self.fcst_coordinator.data[self._index], "weather_text"
+                ),
+                ATTR_WEATHERBIT_WEATHER_ICON: getattr(
+                    self.fcst_coordinator.data[self._index], "weather_icon"
                 ),
             }
