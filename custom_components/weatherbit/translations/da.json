@@ -7,6 +7,7 @@
         "step": {
             "user": {
                 "data": {
+                    "add_alerts": "Aktivér Vejr Varsler",
                     "add_sensors": "Installer individuelle sensorer",
                     "cur_update_interval": "Aktuelle Data opdaterings interval (Minutter)",
                     "fcs_update_interval": "Forecast Data opdaterings interval (Minutter)",

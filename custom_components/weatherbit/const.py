@@ -15,6 +15,7 @@ ATTR_WEATHERBIT_WEATHER_TEXT = "weather_text"
 ATTR_WEATHERBIT_WEATHER_ICON = "weather_icon"
 
 CONF_ADD_SENSORS = "add_sensors"
+CONF_ADD_ALERTS = "add_alerts"
 CONF_CUR_UPDATE_INTERVAL = "cur_update_interval"
 CONF_FCS_UPDATE_INTERVAL = "fcs_update_interval"
 
