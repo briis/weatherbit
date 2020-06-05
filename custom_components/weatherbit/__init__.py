@@ -128,7 +128,7 @@ async def _async_get_or_create_weatherbit_device_in_registry(
         identifiers={(DOMAIN, device_key)},
         manufacturer=DEFAULT_BRAND,
         name=entry.data[CONF_ID],
-        model="Current and Forecast Weather Data",
+        model="Weatherbit.io API",
     )
 
 
