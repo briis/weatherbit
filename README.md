@@ -47,7 +47,20 @@ The units used are defined by the Unit System set in the *General* section of th
 
 ## API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
-This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
+This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, and with that, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
+If you activate the *Weather Alerts* that will add another 2 calls per hour with the default settings.
+
+**API KEY ESTIMATOR**<br>
+* **Forecast** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+* **Current Data** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+* **Weather Alerts** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+
+If you set Forecast Update Interval to every 60 min, and Current Data Update Interval to every 10 min, and activate the Weather Alerts, the calculation would look like the following:<br>
+
+* *Forecast* 1 * 60min * 24hrs = 24 calls per day
+* *Current Data* 1 * 10min * 24hrs = 144 calls per day
+* *Weather Alerts* 1 * 60min * 24hrs = 24 calls per day
+* **Total**: 192 calls per day. So with this setup, you can have 2 locations in total configured.
 
 ### CONFIGURATION VARIABLES
 **API Key**<br>
@@ -91,3 +104,10 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;True
+
+**Activate Alertss**<br>
+&nbsp;&nbsp;*(bool)Optional)*.<br>
+&nbsp;&nbsp;Select this checkbox of you want the Weather Alerts sensor added to Home Assistant.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;False
