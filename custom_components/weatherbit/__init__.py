@@ -26,6 +26,7 @@ from .const import (
     DOMAIN,
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
+    CONF_ADD_ALERTS,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
     WEATHERBIT_PLATFORMS,
@@ -70,6 +71,17 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_interval=fcst_scan_interval,
     )
 
+    if entry.data.get(CONF_ADD_ALERTS):
+        alert_coordinator = DataUpdateCoordinator(
+            hass,
+            _LOGGER,
+            name=DOMAIN,
+            update_method=weatherbit.async_get_weather_alerts,
+            update_interval=fcst_scan_interval,
+        )
+    else:
+        alert_coordinator = None
+
     if entry.data.get(CONF_CUR_UPDATE_INTERVAL):
         current_scan_interval = timedelta(minutes=entry.data[CONF_CUR_UPDATE_INTERVAL])
     else:
@@ -85,10 +97,13 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
+    if entry.data.get(CONF_ADD_ALERTS):
+        await alert_coordinator.async_refresh()
 
     hass.data[DOMAIN][entry.entry_id] = {
         "fcst_coordinator": fcst_coordinator,
         "cur_coordinator": cur_coordinator,
+        "alert_coordinator": alert_coordinator,
         "weatherbit": weatherbit,
     }
 
@@ -113,7 +128,7 @@ async def _async_get_or_create_weatherbit_device_in_registry(
         identifiers={(DOMAIN, device_key)},
         manufacturer=DEFAULT_BRAND,
         name=entry.data[CONF_ID],
-        model="Current and Forecast Weather Data",
+        model="Weatherbit.io API",
     )
 
 

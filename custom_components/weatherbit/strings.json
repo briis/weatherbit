@@ -10,7 +10,8 @@
                     "longitude": "Longitude",
                     "fcs_update_interval": "Forecast Data Update Interval (Minutes)",
                     "cur_update_interval": "Current Data Update Interval (Minutes)",
-                    "add_sensors": "Install individual sensors"
+                    "add_sensors": "Install individual sensors",
+                    "add_alerts": "Activate Severe Weather Alerts"
                 }
             }
         },

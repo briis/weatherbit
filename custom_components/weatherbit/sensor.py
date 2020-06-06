@@ -1,6 +1,7 @@
 """Weatherbit Sensors for Home Assistant."""
 
 import logging
+from typing import Dict, List
 
 from homeassistant.helpers.entity import Entity
 from homeassistant.config_entries import ConfigEntry
@@ -27,6 +28,7 @@ from homeassistant.components.weather import (
 )
 from .const import (
     DOMAIN,
+    ATTR_WEATHERBIT_ALERTS,
     ATTR_WEATHERBIT_UPDATED,
     ATTR_WEATHERBIT_FCST_POP,
     ATTR_WEATHERBIT_WEATHER_TEXT,
@@ -40,6 +42,7 @@ from .const import (
     DEVICE_TYPE_DISTANCE,
     TYPE_SENSOR,
     TYPE_FORECAST,
+    TYPE_ALERT,
     CONDITION_CLASSES,
     CONF_ADD_SENSORS,
 )
@@ -64,6 +67,10 @@ SENSORS = {
     "weather_icon": ["Icon Code", "", "simple-icons"],
 }
 
+ALERTS = {
+    "weather_alerts": ["Weather Alerts", "", "alert"],
+}
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -72,10 +79,14 @@ async def async_setup_entry(
 ) -> None:
     """Setup the Weatherbit sensor platform."""
 
-    # Exit if user did deselect sensors on config
-    if not entry.data[CONF_ADD_SENSORS]:
+    # Exit if user did deselect sensors and alerts on config
+    if (
+        not entry.data[CONF_ADD_SENSORS]
+        and hass.data[DOMAIN][entry.entry_id]["alert_coordinator"] is None
+    ):
         return
 
+    # Get the Data Coordinators used
     fcst_coordinator = hass.data[DOMAIN][entry.entry_id]["fcst_coordinator"]
     if not fcst_coordinator.data:
         return
@@ -84,35 +95,61 @@ async def async_setup_entry(
     if not cur_coordinator.data:
         return
 
-    sensors = []
-    for sensor in SENSORS:
-        sensors.append(
-            WeatherbitSensor(
-                fcst_coordinator,
-                cur_coordinator,
-                entry.data,
-                sensor,
-                hass.config.units.is_metric,
-                TYPE_SENSOR,
-                0,
-            )
-        )
-    cnt = 0
-    for forecast in fcst_coordinator.data[:7]:
-        sensors.append(
-            WeatherbitSensor(
-                fcst_coordinator,
-                cur_coordinator,
-                entry.data,
-                forecast,
-                hass.config.units.is_metric,
-                TYPE_FORECAST,
-                cnt,
-            )
-        )
-        cnt += 1
+    alert_coordinator = hass.data[DOMAIN][entry.entry_id]["alert_coordinator"]
 
-    async_add_entities(sensors, True)
+    sensors = []
+
+    # Add Sensors if selected in Config
+    if entry.data[CONF_ADD_SENSORS]:
+        for sensor in SENSORS:
+            sensors.append(
+                WeatherbitSensor(
+                    fcst_coordinator,
+                    cur_coordinator,
+                    alert_coordinator,
+                    entry.data,
+                    sensor,
+                    hass.config.units.is_metric,
+                    TYPE_SENSOR,
+                    0,
+                )
+            )
+        cnt = 0
+
+        for forecast in fcst_coordinator.data[:7]:
+            sensors.append(
+                WeatherbitSensor(
+                    fcst_coordinator,
+                    cur_coordinator,
+                    alert_coordinator,
+                    entry.data,
+                    forecast,
+                    hass.config.units.is_metric,
+                    TYPE_FORECAST,
+                    cnt,
+                )
+            )
+            cnt += 1
+
+    # Add alerts if selected in Config
+    if alert_coordinator is not None:
+        for sensor in ALERTS:
+            sensors.append(
+                WeatherbitSensor(
+                    fcst_coordinator,
+                    cur_coordinator,
+                    alert_coordinator,
+                    entry.data,
+                    sensor,
+                    hass.config.units.is_metric,
+                    TYPE_ALERT,
+                    0,
+                )
+            )
+    if sensors != []:
+        async_add_entities(sensors, True)
+    else:
+        return
 
     return True
 
@@ -124,6 +161,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         self,
         fcst_coordinator,
         cur_coordinator,
+        alert_coordinator,
         entries,
         sensor,
         is_metric,
@@ -131,7 +169,9 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         index,
     ):
         """Initialize Weatherbit sensor."""
-        super().__init__(fcst_coordinator, cur_coordinator, entries, sensor)
+        super().__init__(
+            fcst_coordinator, cur_coordinator, alert_coordinator, entries, sensor
+        )
         self._sensor = sensor
         self._sensor_type = sensor_type
         self._is_metric = is_metric
@@ -141,6 +181,10 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             self._name = f"{DOMAIN.capitalize()} {SENSORS[self._sensor][0]}"
             self._unique_id = f"{self._device_key}_{self._sensor}"
             self._device_class = SENSORS[self._sensor][1]
+        elif self._sensor_type == TYPE_ALERT:
+            self._name = f"{DOMAIN.capitalize()} {ALERTS[self._sensor][0]}"
+            self._unique_id = f"{self._device_key}_{self._sensor}"
+            self._device_class = ALERTS[self._sensor][1]
         else:
             self._name = f"{DOMAIN.capitalize()} Forecast Day {self._index + 1}"
             self._unique_id = f"{self._device_key}_forecast_day{self._index + 1}"
@@ -197,6 +241,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 return round(float(value), 1)
             else:
                 return value
+        elif self._sensor_type == TYPE_ALERT:
+            return getattr(self._alerts, "alert_count")
         else:
             return self._condition
 
@@ -205,6 +251,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         """Return icon for sensor."""
         if self._sensor_type == TYPE_SENSOR:
             return f"mdi:{SENSORS[self._sensor][2]}"
+        elif self._sensor_type == TYPE_ALERT:
+            return f"mdi:{ALERTS[self._sensor][2]}"
         else:
             return f"mdi:weather-{self._weather_icon}"
 
@@ -228,12 +276,41 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 return self._device_class
 
     @property
+    def alerts(self) -> List:
+        if self._sensor_type != TYPE_ALERT:
+            return
+
+        if self.alert_coordinator.data is None:
+            return None
+
+        alert_data = []
+        for alert in self.alert_coordinator.data:
+            alert_data.append(
+                {
+                    "city_name": alert.city_name,
+                    "title": alert.title,
+                    "description": alert.description,
+                    "severity": alert.severity,
+                    "effective_local": alert.effective_local,
+                    "expires_local": alert.expires_local,
+                    "uri": alert.uri,
+                    "regions": alert.regions,
+                }
+            )
+        return alert_data
+
+    @property
     def device_state_attributes(self):
         """Return Weatherbit specific attributes."""
         if self._sensor_type == TYPE_SENSOR:
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
                 ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
+            }
+        elif self._sensor_type == TYPE_ALERT:
+            return {
+                ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
+                ATTR_WEATHERBIT_ALERTS: self.alerts,
             }
         else:
             _temp = getattr(self.fcst_coordinator.data[self._index], "max_temp")

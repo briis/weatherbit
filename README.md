@@ -41,13 +41,28 @@ If the location is configured in Home Assistant, it will be selected as the defa
 
 During setup you will have the option of installing Individual sensors for each of the *Current Day* values plus the next seven days of Forecast. This will be setup by default, but you can opt not to install them by deselecting the checkbox. If you deselect, and later want the sensors installed, you will have to remove the Integration and then set it up again.
 
+You will also have the option of adding *Weather Alerts* for your location. It is de-selected by default, but if you mark the box, an additional sensor will be created for Weather Alerts, showing the number of Alerts in the State, and the details for these alerts in the attributes. If you want to add or remove this sensor, delete the Integrations and re-add it to the system. For a very basic example of using the alerts in Lovelace, I modified some code from @eggman and you can find the [example here](https://github.com/briis/weatherbit/blob/master/weather_alert_markdown.yaml)
+
 The units used are defined by the Unit System set in the *General* section of the *Configuration* page. If you change the unit system here, you will have to restart Home Assistent for this Integration to reflect the changes.
 
 **You can only add locations through the integrations page, not in configuration files.**
 
 ## API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
-This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
+This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, and with that, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
+If you activate the *Weather Alerts* that will add another 2 calls per hour with the default settings.
+
+**API KEY ESTIMATOR**<br>
+* **Forecast** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+* **Current Data** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+* **Weather Alerts** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+
+If you set Forecast Update Interval to every 60 min, and Current Data Update Interval to every 10 min, and activate the Weather Alerts, the calculation would look like the following:<br>
+
+* *Forecast* 1 * 60/60min * 24hrs = 24 calls per day
+* *Current Data* 1 * 60/10min * 24hrs = 144 calls per day
+* *Weather Alerts* 1 * 60/60min * 24hrs = 24 calls per day
+* **Total**: 192 calls per day. So with this setup, you can have 2 locations in total configured.
 
 ### CONFIGURATION VARIABLES
 **API Key**<br>
@@ -91,3 +106,10 @@ This key allows you to make 500 calls pr. day, and as this Integration uses 4 ca
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;True
+
+**Activate Alerts**<br>
+&nbsp;&nbsp;*(bool)Optional)*.<br>
+&nbsp;&nbsp;Select this checkbox of you want the Weather Alerts sensor added to Home Assistant.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;False

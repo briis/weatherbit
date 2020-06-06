@@ -19,6 +19,7 @@ from .const import (
     DOMAIN,
     DEFAULT_SCAN_INTERVAL,
     CONF_ADD_SENSORS,
+    CONF_ADD_ALERTS,
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
 )
@@ -53,6 +54,7 @@ class WeatherbitFlowHandler(ConfigFlow):
                         CONF_CUR_UPDATE_INTERVAL, default=DEFAULT_SCAN_INTERVAL
                     ): vol.All(vol.Coerce(int), vol.Range(min=4, max=60)),
                     vol.Optional(CONF_ADD_SENSORS, default=True): bool,
+                    vol.Optional(CONF_ADD_ALERTS, default=False): bool,
                 }
             ),
             errors=errors or {},
@@ -92,5 +94,6 @@ class WeatherbitFlowHandler(ConfigFlow):
                 CONF_FCS_UPDATE_INTERVAL: user_input.get(CONF_FCS_UPDATE_INTERVAL),
                 CONF_CUR_UPDATE_INTERVAL: user_input.get(CONF_CUR_UPDATE_INTERVAL),
                 CONF_ADD_SENSORS: user_input.get(CONF_ADD_SENSORS),
+                CONF_ADD_ALERTS: user_input.get(CONF_ADD_ALERTS),
             },
         )

@@ -4,17 +4,19 @@ import logging
 from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 ATTR_WEATHERBIT_AQI = "aqi"
+ATTR_WEATHERBIT_ALERTS = "alerts"
 ATTR_WEATHERBIT_CLOUDINESS = "cloudiness"
 ATTR_WEATHERBIT_IS_NIGHT = "is_night"
 ATTR_WEATHERBIT_WIND_GUST = "wind_gust"
 ATTR_WEATHERBIT_PRECIPITATION = "precipitation"
 ATTR_WEATHERBIT_UVI = "uv_index"
 ATTR_WEATHERBIT_UPDATED = "updated"
-ATTR_WEATHERBIT_FCST_POP = "precip_prop"
+ATTR_WEATHERBIT_FCST_POP = "precip_prob"
 ATTR_WEATHERBIT_WEATHER_TEXT = "weather_text"
 ATTR_WEATHERBIT_WEATHER_ICON = "weather_icon"
 
 CONF_ADD_SENSORS = "add_sensors"
+CONF_ADD_ALERTS = "add_alerts"
 CONF_CUR_UPDATE_INTERVAL = "cur_update_interval"
 CONF_FCS_UPDATE_INTERVAL = "fcs_update_interval"
 
@@ -30,6 +32,7 @@ DEVICE_TYPE_DISTANCE = "distance"
 
 TYPE_SENSOR = "sensor"
 TYPE_FORECAST = "forecast"
+TYPE_ALERT = "alert"
 
 WEATHERBIT_PLATFORMS = [
     "weather",

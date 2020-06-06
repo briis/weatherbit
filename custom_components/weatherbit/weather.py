@@ -74,7 +74,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     def __init__(self, fcst_coordinator, cur_coordinator, entries, is_metric) -> None:
         """Initialize the Weatherbit weather entity."""
         super().__init__(
-            fcst_coordinator, cur_coordinator, entries, DEVICE_TYPE_WEATHER
+            fcst_coordinator, cur_coordinator, None, entries, DEVICE_TYPE_WEATHER
         )
         self._name = f"{DOMAIN.capitalize()} {entries[CONF_ID].capitalize()}"
         self._is_metric = is_metric

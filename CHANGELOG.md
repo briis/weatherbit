@@ -1,3 +1,10 @@
+### Release 0.16
+
+* Added **Weather Alerts**. If selected during config, there will now be a new sensor added, called `weather_alerts`. The state of the sensor shows the number of alerts for the selected location, and the Attributes hold the details for the alert. See the README.md file for an example on how to use this.<br>
+Update frequency for the Weather Alerts follows what you set for the Forecast - Default 30 min.<br>
+**NOTE**: You must remove the Integration and Re-Add it before given the option of adding the Weather Alerts sensor.
+
+
 ### Release 0.14
 
 * Added new sensor `weather_icon` holding the icon code for the current condition. Static icons, that works with this icon code, can be downloaded from [this site](https://www.weatherbit.io/api/meta).
