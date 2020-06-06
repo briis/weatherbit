@@ -68,7 +68,7 @@ class WeatherbitEntity(Entity):
         return {
             "connections": {(dr.CONNECTION_NETWORK_MAC, self._device_key)},
             "manufacturer": DEFAULT_BRAND,
-            "model": "Current and Forecast Weather Data",
+            "model": "Weatherbit.io API",
             "via_device": (DOMAIN, self._device_key),
         }
 

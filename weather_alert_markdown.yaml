@@ -1,0 +1,29 @@
+
+- type: markdown
+  style: 'ha-card { --iron-icon-width: 50px; --iron-icon-height: 50px; }'
+  content: >-
+    {% if states.sensor.weatherbit_weather_alerts.state | int > 0 %}
+      {% for item in state_attr('sensor.weatherbit_weather_alerts','alerts') %}
+        {% for type, icon in [('Advisory', 'shield-alert'), ('Watch', 'alert-circle'),
+                              ('Warning', 'alert')] if type == item['severity']|trim("[]'") %}
+    ---
+
+    | | | |
+
+    | --- | --- | --- |
+
+    | <font color = {%- if 'Advisory' in item.severity|trim("'[]'")
+    %}'gold'
+                {%- elif 'Watch' in item.severity|trim("'[]'") %}'darkorange'
+                {%- else %}'firebrick'
+                {%- endif %}><ha-icon icon={{ "'mdi:" + icon + "'" }}></ha-icon></font> | |
+                From: {{ item.effective_local }} |
+                To: {{ item.expires_local }} |
+                More info: {{ item.uri }} |
+
+    {{ item.description|trim("'[]'") }}  |
+    {% endfor %}
+
+      {% endfor %}
+    {% endif %}
+  title: Weather Alerts

@@ -41,6 +41,8 @@ If the location is configured in Home Assistant, it will be selected as the defa
 
 During setup you will have the option of installing Individual sensors for each of the *Current Day* values plus the next seven days of Forecast. This will be setup by default, but you can opt not to install them by deselecting the checkbox. If you deselect, and later want the sensors installed, you will have to remove the Integration and then set it up again.
 
+You will also have the option of adding *Weather Alerts* for your location. It is de-selected by default, but if you mark the box, an additional sensor will be created for Weather Alerts, showing the number of Alerts in the State, and the details for these alerts in the attributes. If you want to add or remove this sensor, delete the Integrations and re-add it to the system.
+
 The units used are defined by the Unit System set in the *General* section of the *Configuration* page. If you change the unit system here, you will have to restart Home Assistent for this Integration to reflect the changes.
 
 **You can only add locations through the integrations page, not in configuration files.**
