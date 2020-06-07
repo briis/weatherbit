@@ -85,3 +85,7 @@ class WeatherbitEntity(Entity):
         self.async_on_remove(
             self.fcst_coordinator.async_add_listener(self.async_write_ha_state)
         )
+        if self.alert_coordinator is not None:
+            self.async_on_remove(
+                self.alert_coordinator.async_add_listener(self.async_write_ha_state)
+            )
