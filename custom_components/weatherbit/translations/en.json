@@ -19,5 +19,17 @@
                 "title": "Location for Weatherbit Data"
             }
         }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "add_alerts": "Activate Severe Weather Alerts",
+                    "add_sensors": "Install individual sensors",
+                    "cur_update_interval": "Current Data Update Interval (Minutes)",
+                    "fcs_update_interval": "Forecast Data Update Interval (Minutes)"
+                }
+            }
+        }
     }
 }

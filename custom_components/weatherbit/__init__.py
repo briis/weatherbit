@@ -27,6 +27,7 @@ from .const import (
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
     CONF_ADD_ALERTS,
+    CONF_ADD_SENSORS,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
     WEATHERBIT_PLATFORMS,
@@ -45,6 +46,17 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
 
 async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Set up Weatherbit forecast as config entry."""
+    if not entry.options:
+        hass.config_entries.async_update_entry(
+            entry,
+            options={
+                "fcs_update_interval": entry.data[CONF_FCS_UPDATE_INTERVAL],
+                "cur_update_interval": entry.data[CONF_CUR_UPDATE_INTERVAL],
+                "add_sensors": entry.data[CONF_ADD_SENSORS],
+                "add_alerts": entry.data[CONF_ADD_ALERTS],
+            },
+        )
+
     session = aiohttp_client.async_get_clientsession(hass)
 
     weatherbit = Weatherbit(
@@ -58,8 +70,8 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = weatherbit
     _LOGGER.debug("Connected to Weatherbit")
 
-    if entry.data.get(CONF_FCS_UPDATE_INTERVAL):
-        fcst_scan_interval = timedelta(minutes=entry.data[CONF_FCS_UPDATE_INTERVAL])
+    if entry.options.get(CONF_FCS_UPDATE_INTERVAL):
+        fcst_scan_interval = timedelta(minutes=entry.options[CONF_FCS_UPDATE_INTERVAL])
     else:
         fcst_scan_interval = SCAN_INTERVAL
 
@@ -71,7 +83,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_interval=fcst_scan_interval,
     )
 
-    if entry.data.get(CONF_ADD_ALERTS):
+    if entry.options.get(CONF_ADD_ALERTS):
         alert_coordinator = DataUpdateCoordinator(
             hass,
             _LOGGER,
@@ -82,8 +94,10 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     else:
         alert_coordinator = None
 
-    if entry.data.get(CONF_CUR_UPDATE_INTERVAL):
-        current_scan_interval = timedelta(minutes=entry.data[CONF_CUR_UPDATE_INTERVAL])
+    if entry.options.get(CONF_CUR_UPDATE_INTERVAL):
+        current_scan_interval = timedelta(
+            minutes=entry.options[CONF_CUR_UPDATE_INTERVAL]
+        )
     else:
         current_scan_interval = SCAN_INTERVAL
 
@@ -97,7 +111,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
-    if entry.data.get(CONF_ADD_ALERTS):
+    if entry.options.get(CONF_ADD_ALERTS):
         await alert_coordinator.async_refresh()
 
     hass.data[DOMAIN][entry.entry_id] = {
@@ -113,6 +127,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         hass.async_create_task(
             hass.config_entries.async_forward_entry_setup(entry, platform)
         )
+
+    if not entry.update_listeners:
+        entry.add_update_listener(async_update_options)
 
     return True
 
@@ -130,6 +147,11 @@ async def _async_get_or_create_weatherbit_device_in_registry(
         name=entry.data[CONF_ID],
         model="Weatherbit.io API",
     )
+
+
+async def async_update_options(hass, config_entry):
+    """Update options."""
+    await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def async_unload_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
