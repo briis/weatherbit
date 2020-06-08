@@ -19,5 +19,17 @@
             "name_exists": "Location already setup. Choose other coordinates.",
             "connection_error": "Could not connect to Weatherbit. Check API Key."
         }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "add_alerts": "Activate Severe Weather Alerts",
+                    "add_sensors": "Install individual sensors",
+                    "cur_update_interval": "Current Data Update Interval (Minutes)",
+                    "fcs_update_interval": "Forecast Data Update Interval (Minutes)"
+                }
+            }
+        }
     }
 }
