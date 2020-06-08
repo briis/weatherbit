@@ -139,14 +139,14 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             CONF_CUR_UPDATE_INTERVAL, DEFAULT_SCAN_INTERVAL
                         ),
                     ): vol.All(vol.Coerce(int), vol.Range(min=4, max=60)),
-                    vol.Optional(
-                        CONF_ADD_SENSORS,
-                        default=self.config_entry.options.get(CONF_ADD_SENSORS, True),
-                    ): bool,
-                    vol.Optional(
-                        CONF_ADD_ALERTS,
-                        default=self.config_entry.options.get(CONF_ADD_ALERTS, False),
-                    ): bool,
+                    # vol.Optional(
+                    #     CONF_ADD_SENSORS,
+                    #     default=self.config_entry.options.get(CONF_ADD_SENSORS, True),
+                    # ): bool,
+                    # vol.Optional(
+                    #     CONF_ADD_ALERTS,
+                    #     default=self.config_entry.options.get(CONF_ADD_ALERTS, False),
+                    # ): bool,
                 }
             ),
         )

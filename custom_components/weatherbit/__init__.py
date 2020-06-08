@@ -52,8 +52,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
             options={
                 "fcs_update_interval": entry.data[CONF_FCS_UPDATE_INTERVAL],
                 "cur_update_interval": entry.data[CONF_CUR_UPDATE_INTERVAL],
-                "add_sensors": entry.data[CONF_ADD_SENSORS],
-                "add_alerts": entry.data[CONF_ADD_ALERTS],
             },
         )
 
@@ -83,7 +81,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_interval=fcst_scan_interval,
     )
 
-    if entry.options.get(CONF_ADD_ALERTS):
+    if entry.data.get(CONF_ADD_ALERTS):
         alert_coordinator = DataUpdateCoordinator(
             hass,
             _LOGGER,
@@ -111,7 +109,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
-    if entry.options.get(CONF_ADD_ALERTS):
+    if entry.data.get(CONF_ADD_ALERTS):
         await alert_coordinator.async_refresh()
 
     hass.data[DOMAIN][entry.entry_id] = {
