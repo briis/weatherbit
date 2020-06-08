@@ -149,13 +149,13 @@ async def _async_get_or_create_weatherbit_device_in_registry(
     )
 
 
-async def async_update_options(hass, config_entry):
+async def async_update_options(hass: HomeAssistantType, entry: ConfigEntry):
     """Update options."""
-    await hass.config_entries.async_reload(config_entry.entry_id)
+    await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
-    """Unload Unifi Protect config entry."""
+    """Unload Weatherbit config entry."""
     unload_ok = all(
         await asyncio.gather(
             *[

@@ -81,7 +81,7 @@ async def async_setup_entry(
 
     # Exit if user did deselect sensors and alerts on config
     if (
-        not entry.data[CONF_ADD_SENSORS]
+        not entry.options[CONF_ADD_SENSORS]
         and hass.data[DOMAIN][entry.entry_id]["alert_coordinator"] is None
     ):
         return
@@ -100,7 +100,7 @@ async def async_setup_entry(
     sensors = []
 
     # Add Sensors if selected in Config
-    if entry.data[CONF_ADD_SENSORS]:
+    if entry.options[CONF_ADD_SENSORS]:
         for sensor in SENSORS:
             sensors.append(
                 WeatherbitSensor(
