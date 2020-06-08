@@ -139,3 +139,4 @@ icons/logo@2x.png
 custom_components/weatherbit/config_flow_org.py
 custom_components/weatherbit/config_flow_new.py
 accuforecast.json
+custom_components/weatherbit/config_flow_old.py
