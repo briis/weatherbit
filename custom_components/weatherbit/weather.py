@@ -29,6 +29,7 @@ import homeassistant.helpers.device_registry as dr
 
 from .const import (
     DOMAIN,
+    ATTR_WEATHERBIT_ALT_CONDITION,
     ATTR_WEATHERBIT_AQI,
     ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_IS_NIGHT,
@@ -40,6 +41,7 @@ from .const import (
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_WEATHER,
     CONDITION_CLASSES,
+    ALT_CONDITION_CLASSES,
 )
 from .entity import WeatherbitEntity
 
@@ -205,6 +207,21 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
         return next((k for k, v in CONDITION_CLASSES.items() if wcode in v), None,)
 
     @property
+    def alt_condition(self) -> str:
+        """Return the alternative weather condition."""
+        if self._current is None:
+            return None
+
+        wcode = int(self._current.weather_code)
+
+        # If Night convert to night condition
+        if self.is_night:
+            if wcode in [800, 801, 802]:
+                wcode = wcode * 10
+
+        return next((k for k, v in ALT_CONDITION_CLASSES.items() if wcode in v), None,)
+
+    @property
     def attribution(self) -> str:
         """Return the attribution."""
         return DEFAULT_ATTRIBUTION
@@ -215,6 +232,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
         return {
             ATTR_WEATHERBIT_AQI: self.aqi,
             ATTR_WEATHERBIT_CLOUDINESS: self.cloudiness,
+            ATTR_WEATHERBIT_ALT_CONDITION: self.alt_condition,
             ATTR_WEATHERBIT_IS_NIGHT: self.is_night,
             ATTR_WEATHERBIT_PRECIPITATION: self.precipitation,
             ATTR_WEATHERBIT_WIND_GUST: self.wind_gust,

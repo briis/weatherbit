@@ -340,9 +340,6 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
                 ATTR_FORECAST_TIME: getattr(
-                    self.fcst_coordinator.data[self._index], "timestamp"
-                ).isoformat(),
-                "local_time": getattr(
                     self.fcst_coordinator.data[self._index], "local_time"
                 ),
                 ATTR_FORECAST_TEMP: temp,
