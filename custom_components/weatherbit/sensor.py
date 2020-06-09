@@ -342,6 +342,9 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_TIME: getattr(
                     self.fcst_coordinator.data[self._index], "timestamp"
                 ).isoformat(),
+                "local_time": getattr(
+                    self.fcst_coordinator.data[self._index], "local_time"
+                ),
                 ATTR_FORECAST_TEMP: temp,
                 ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
