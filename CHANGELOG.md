@@ -1,3 +1,7 @@
+### Release 0.20
+* Changed `datetime` attribute on the `forecast_day_x` sensors to use the correct local date. Please note, that Weatherbit only supplies the date part, so time will always be 00:00:00.
+* Added new attribute to the Weather Entity called `alt_condition`. This attribute will show the same data as the `state` with the exception of the *partlycloudy* condition, which will separate between a day and night condition called *partlycloudy_day* and *partlycloudy_night* respectively.
+
 ### Release 0.16
 
 * Added **Weather Alerts**. If selected during config, there will now be a new sensor added, called `weather_alerts`. The state of the sensor shows the number of alerts for the selected location, and the Attributes hold the details for the alert. See the README.md file for an example on how to use this.<br>
