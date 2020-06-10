@@ -20,6 +20,7 @@ CONF_ADD_SENSORS = "add_sensors"
 CONF_ADD_ALERTS = "add_alerts"
 CONF_CUR_UPDATE_INTERVAL = "cur_update_interval"
 CONF_FCS_UPDATE_INTERVAL = "fcs_update_interval"
+CONF_FORECAST_LANGUAGE = "fcst_language"
 
 DOMAIN = "weatherbit"
 

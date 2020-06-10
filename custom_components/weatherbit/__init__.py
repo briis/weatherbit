@@ -28,6 +28,7 @@ from .const import (
     CONF_FCS_UPDATE_INTERVAL,
     CONF_ADD_ALERTS,
     CONF_ADD_SENSORS,
+    CONF_FORECAST_LANGUAGE,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
     WEATHERBIT_PLATFORMS,
@@ -46,12 +47,24 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
 
 async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Set up Weatherbit forecast as config entry."""
+
     if not entry.options:
         hass.config_entries.async_update_entry(
             entry,
             options={
                 "fcs_update_interval": entry.data[CONF_FCS_UPDATE_INTERVAL],
                 "cur_update_interval": entry.data[CONF_CUR_UPDATE_INTERVAL],
+                "fcst_language": entry.data[CONF_FORECAST_LANGUAGE],
+            },
+        )
+    # Need this for people who already have installed Weatherbit
+    if entry.options and not entry.options.get(CONF_FORECAST_LANGUAGE):
+        hass.config_entries.async_update_entry(
+            entry,
+            options={
+                "fcs_update_interval": entry.options[CONF_FCS_UPDATE_INTERVAL],
+                "cur_update_interval": entry.options[CONF_CUR_UPDATE_INTERVAL],
+                "fcst_language": "en",
             },
         )
 
@@ -61,7 +74,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         entry.data[CONF_API_KEY],
         entry.data[CONF_LATITUDE],
         entry.data[CONF_LONGITUDE],
-        "en",
+        entry.options.get(CONF_FORECAST_LANGUAGE),
         "M",
         session,
     )

@@ -23,6 +23,8 @@ from .const import (
     CONF_ADD_ALERTS,
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
+    CONF_FORECAST_LANGUAGE,
+    FORECAST_LANGUAGES,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -75,6 +77,7 @@ class WeatherbitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_API_KEY: user_input[CONF_API_KEY],
                         CONF_LATITUDE: user_input[CONF_LATITUDE],
                         CONF_LONGITUDE: user_input.get(CONF_LONGITUDE),
+                        CONF_FORECAST_LANGUAGE: user_input.get(CONF_FORECAST_LANGUAGE),
                         CONF_FCS_UPDATE_INTERVAL: user_input.get(
                             CONF_FCS_UPDATE_INTERVAL
                         ),
@@ -97,6 +100,9 @@ class WeatherbitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(
                         CONF_LONGITUDE, default=self.hass.config.longitude
                     ): cv.longitude,
+                    vol.Optional(CONF_FORECAST_LANGUAGE, default="en"): vol.In(
+                        FORECAST_LANGUAGES
+                    ),
                     vol.Optional(
                         CONF_FCS_UPDATE_INTERVAL, default=DEFAULT_SCAN_INTERVAL
                     ): vol.All(vol.Coerce(int), vol.Range(min=30, max=120)),
@@ -127,6 +133,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             step_id="init",
             data_schema=vol.Schema(
                 {
+                    vol.Optional(CONF_FORECAST_LANGUAGE, default="en"): vol.In(
+                        FORECAST_LANGUAGES
+                    ),
                     vol.Optional(
                         CONF_FCS_UPDATE_INTERVAL,
                         default=self.config_entry.options.get(
