@@ -100,6 +100,13 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;30 minutes
 
+**fcst_language**<br>
+&nbsp;&nbsp;*(string)(Optional)*.<br>
+&nbsp;&nbsp;Specify the language that Weatherbit should return the Forecast strings in. Se list of supported languages below.
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;en (English)
+
 **Add Sensors**<br>
 &nbsp;&nbsp;*(bool)Optional)*.<br>
 &nbsp;&nbsp;Deselect this checkbox of you don't want the sensors added to Home Assistant.
@@ -113,3 +120,44 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;False
+
+### Supported Forecast Languages
+
+Here is the list of languages that Weatherbit can return Forecast strings in:
+* en - English
+* ar - Arabic
+* az - Azerbaijani
+* be - Belarusian
+* bg - Bulgarian
+* bs - Bosnian
+* ca - Catalan
+* cz - Czech
+* da - Danish
+* de - German
+* fi - Finnish
+* fr - French
+* el - Greek
+* es - Spanish
+* et - Estonian
+* hr - Croation
+* hu - Hungarian
+* id - Indonesian
+* it - Italian
+* is - Icelandic
+* iw - Hebrew
+* kw - Cornish
+* lt - Lithuanian
+* nb - Norwegian Bokmål
+* nl - Dutch
+* pl - Polish
+* pt - Portuguese
+* ro - Romanian
+* ru - Russian
+* sk - Slovak
+* sl - Slovenian
+* sr - Serbian
+* sv - Swedish
+* tr - Turkish
+* uk - Ukrainian
+* zh - Chinese (Simplified)
+* zh-tw - Chinese (Traditional)
