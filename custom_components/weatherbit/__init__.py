@@ -57,7 +57,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 "fcst_language": entry.data[CONF_FORECAST_LANGUAGE],
             },
         )
-    # Need this for people who already have installed Weatherbit
+    # Need this for people who already have installed Weatherbit and configured options
     if entry.options and not entry.options.get(CONF_FORECAST_LANGUAGE):
         hass.config_entries.async_update_entry(
             entry,
