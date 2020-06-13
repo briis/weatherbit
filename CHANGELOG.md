@@ -1,3 +1,7 @@
+### Release 0.21
+* Added support for setting the Forecast Language. When retrieving data from Weatherbit, some of the text strings can be translated in to another language. Example: The `weather_text` string which gives a text with Forecast. This release now makes it possible to get these strings in local Language. See the README.md for a list of Weatherbit supported languages.<br>
+If you are upgrading this Integration, after the restart, go to *Integrations* and select *Options* on the Weatherbit Widget to select a new language. Please note, this only affects specific sensors and not the Weather Entity, as language for Weather is handled by Home Assistant.
+
 ### Release 0.20
 * Changed `datetime` attribute on the `forecast_day_x` sensors to use the correct local date. Please note, that Weatherbit only supplies the date part, so time will always be 00:00:00.
 * Added new attribute to the Weather Entity called `alt_condition`. This attribute will show the same data as the `state` with the exception of the *partlycloudy* condition, which will separate between a day and night condition called *partlycloudy_day* and *partlycloudy_night* respectively.
