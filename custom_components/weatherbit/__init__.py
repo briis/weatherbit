@@ -31,6 +31,7 @@ from .const import (
     CONF_FORECAST_LANGUAGE,
     DEFAULT_BRAND,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_FORECAST_LANGUAGE,
     WEATHERBIT_PLATFORMS,
 )
 
@@ -57,16 +58,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 "fcst_language": entry.data[CONF_FORECAST_LANGUAGE],
             },
         )
-    # Need this for people who already have installed Weatherbit and configured options
-    if entry.options and not entry.options.get(CONF_FORECAST_LANGUAGE):
-        hass.config_entries.async_update_entry(
-            entry,
-            options={
-                "fcs_update_interval": entry.options[CONF_FCS_UPDATE_INTERVAL],
-                "cur_update_interval": entry.options[CONF_CUR_UPDATE_INTERVAL],
-                "fcst_language": "en",
-            },
-        )
 
     session = aiohttp_client.async_get_clientsession(hass)
 
@@ -74,7 +65,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         entry.data[CONF_API_KEY],
         entry.data[CONF_LATITUDE],
         entry.data[CONF_LONGITUDE],
-        entry.options.get(CONF_FORECAST_LANGUAGE),
+        entry.options.get(CONF_FORECAST_LANGUAGE, DEFAULT_FORECAST_LANGUAGE),
         "M",
         session,
     )

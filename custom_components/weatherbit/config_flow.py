@@ -19,6 +19,7 @@ from homeassistant.core import callback
 from .const import (
     DOMAIN,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_FORECAST_LANGUAGE,
     CONF_ADD_SENSORS,
     CONF_ADD_ALERTS,
     CONF_CUR_UPDATE_INTERVAL,
@@ -133,9 +134,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             step_id="init",
             data_schema=vol.Schema(
                 {
-                    vol.Optional(CONF_FORECAST_LANGUAGE, default="en"): vol.In(
-                        FORECAST_LANGUAGES
-                    ),
+                    vol.Optional(
+                        CONF_FORECAST_LANGUAGE,
+                        default=self.config_entry.options.get(
+                            CONF_FORECAST_LANGUAGE, DEFAULT_FORECAST_LANGUAGE
+                        ),
+                    ): vol.In(FORECAST_LANGUAGES),
                     vol.Optional(
                         CONF_FCS_UPDATE_INTERVAL,
                         default=self.config_entry.options.get(
