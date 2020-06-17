@@ -65,6 +65,8 @@ SENSORS = {
     "aqi": ["Air Quality", "AQI", "hvac"],
     "weather_text": ["Description", "", "text-short"],
     "weather_icon": ["Icon Code", "", "simple-icons"],
+    "beaufort_value": ["Beaufort Value", "", "weather-tornado"],
+    "beaufort_text": ["Beaufort Text", "", "weather-tornado"],
 }
 
 ALERTS = {
