@@ -1,3 +1,6 @@
+### Release 0.22
+* Added two Beaufort Sensors, one with the Beaufort Scale Value `weatherbit_beaufort_value` and one with the textual representation of that value `weatherbit_beaufort_text`. Default the text is in english but if you set the Forecast Language as described in release 0.21, then this text will also be translated. Not all Weatherbit languages are supported yet, but if you are missing a language [go here](https://github.com/briis/py-weatherbit/tree/master/weatherbitpypi/translations) and take on of the files, and make your translation to your language. Either make a PR or send me the file. The same goes if you find errors in any of the translations.
+
 ### Release 0.21
 * Added support for setting the **Forecast Language**. When retrieving data from Weatherbit, some of the text strings can be translated in to another language. F.ex the `weather_text` string which gives a text with Forecast. This release now makes it possible to get these strings in local Language. See the README.md for a list of Weatherbit supported languages.
 
