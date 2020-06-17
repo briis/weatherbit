@@ -86,14 +86,14 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**Update Interval Current Data**<br>
+**Update Interval - Current Data**<br>
 &nbsp;&nbsp;*(int)(Optional)*.<br>
 &nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Value between 4 and 60 minutes. If you set it in the low end, be carefull not to run over your daily limit of 500 calls.
 
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;30 minutes
 
-**Update Interval Forecast Data**<br>
+**Update Interval - Forecast Data**<br>
 &nbsp;&nbsp;*(int)(Optional)*.<br>
 &nbsp;&nbsp;Specify the time in minutes for the Forecast Data being updated. Value between 30 and 120 minutes.
 
