@@ -39,6 +39,7 @@ from .const import (
     DEVICE_TYPE_WIND,
     DEVICE_TYPE_HUMIDITY,
     DEVICE_TYPE_RAIN,
+    DEVICE_TYPE_SNOW,
     DEVICE_TYPE_PRESSURE,
     DEVICE_TYPE_DISTANCE,
     TYPE_SENSOR,
@@ -68,6 +69,7 @@ SENSORS = {
     "weather_icon": ["Icon Code", "", "simple-icons"],
     "beaufort_value": ["Beaufort Value", "", "weather-tornado"],
     "beaufort_text": ["Beaufort Text", "", "weather-tornado"],
+    "snow": ["Snow", DEVICE_TYPE_SNOW, "weather-snowy-heavy"],
 }
 
 ALERTS = {
@@ -228,7 +230,10 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                     return round(
                         convert_pressure(value, PRESSURE_HPA, PRESSURE_INHG), 2
                     )
-            elif self._device_class == DEVICE_TYPE_RAIN:
+            elif (
+                self._device_class == DEVICE_TYPE_RAIN
+                or self._device_class == DEVICE_TYPE_SNOW
+            ):
                 if self._is_metric:
                     return round(float(value), 1)
                 else:
@@ -273,6 +278,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 return "%"
             elif self._device_class == DEVICE_TYPE_RAIN:
                 return "mm" if self._is_metric else "in"
+            elif self._device_class == DEVICE_TYPE_SNOW:
+                return "mm/hr" if self._is_metric else "in/hr"
             elif self._device_class == DEVICE_TYPE_DISTANCE:
                 return "km" if self._is_metric else "mi"
             else:
