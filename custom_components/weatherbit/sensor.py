@@ -34,6 +34,7 @@ from .const import (
     ATTR_WEATHERBIT_FCST_POP,
     ATTR_WEATHERBIT_WEATHER_TEXT,
     ATTR_WEATHERBIT_WEATHER_ICON,
+    ATTR_WEATHERBIT_SNOW,
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_TEMPERATURE,
     DEVICE_TYPE_WIND,
@@ -347,6 +348,12 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             else:
                 precip = round(float(_precip) / 25.4, 2)
 
+            _snow = getattr(self.fcst_coordinator.data[self._index], "snow")
+            if self._is_metric:
+                snow = round(float(_snow), 1)
+            else:
+                snow = round(float(_snow) / 25.4, 2)
+
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
                 ATTR_FORECAST_TIME: getattr(
@@ -355,6 +362,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_TEMP: temp,
                 ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
+                ATTR_WEATHERBIT_SNOW: snow,
                 ATTR_WEATHERBIT_CLOUDINESS: getattr(
                     self.fcst_coordinator.data[self._index], "clouds"
                 ),
