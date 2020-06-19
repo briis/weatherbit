@@ -37,6 +37,7 @@ from .const import (
     ATTR_WEATHERBIT_PRECIPITATION,
     ATTR_WEATHERBIT_FCST_POP,
     ATTR_WEATHERBIT_UVI,
+    ATTR_WEATHERBIT_SNOW,
     ATTR_WEATHERBIT_UPDATED,
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_WEATHER,
@@ -266,12 +267,19 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             else:
                 precip = round(float(forecast.precip) / 25.4, 2)
 
+            # Convert Snowfall
+            if self._is_metric or forecast.snow is None:
+                snow = round(forecast.snow, 1)
+            else:
+                snow = round(float(forecast.snow) / 25.4, 2)
+
             data.append(
                 {
                     ATTR_FORECAST_TIME: utc_from_timestamp(forecast.ts).isoformat(),
                     ATTR_FORECAST_TEMP: forecast.max_temp,
                     ATTR_FORECAST_TEMP_LOW: forecast.min_temp,
                     ATTR_FORECAST_PRECIPITATION: precip,
+                    ATTR_WEATHERBIT_SNOW: snow,
                     ATTR_WEATHERBIT_FCST_POP: forecast.pop,
                     ATTR_FORECAST_CONDITION: condition,
                     ATTR_FORECAST_WIND_SPEED: wspeed,
