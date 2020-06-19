@@ -4,7 +4,7 @@
     "config_flow": true,
     "documentation": "https://github.com/briis/weatherbit",
     "requirements": [
-      "weatherbitpypi==0.22"
+      "weatherbitpypi==0.23"
     ],
     "codeowners": [
       "@briis"
