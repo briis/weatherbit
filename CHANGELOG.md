@@ -3,6 +3,7 @@
 * Each `weatherbit_forecast_day_x` sensor now has an Attribute called `cloudiness` which shows the forecasted Cloud Cover in %.
 * Each `weatherbit_forecast_day_x` sensor now has an Attribute called `snow` which shows the forecasted accumulated snowfall for the day in either mm or inches.
 * A new sensor called `weatherbit_snow` is now added that shows the current snowfall in mm/hr or inches/hr.
+* Bumped weatherbitpypi to 0.22
 
 ### Release 0.23
 * Updated Dutch Language file for Beaufort Text
