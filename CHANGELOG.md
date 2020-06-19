@@ -1,3 +1,7 @@
+### Release 0.24
+* Language support for Wind Direction Text is now done in the IO Module, as Weatherbit did not handle 8Bit Characters very well. ENE which in danish is ØNØ, was translated to ONO. If I did not get this right for all Languages, please [go here](https://github.com/briis/py-weatherbit/tree/master/weatherbitpypi/translations) and add or change the relevant file. Mail it to me or make a PR.
+* Each `weatherbit_forecast_day_x` sensor now has an Attribute called `cloudiness` which shows the forecasted Cloud Cover in %.
+
 ### Release 0.23
 * Updated Dutch Language file for Beaufort Text
 * Added Portugise Language file for Beaufort Text

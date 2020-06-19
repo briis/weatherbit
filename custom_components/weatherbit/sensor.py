@@ -347,6 +347,9 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 ATTR_FORECAST_TEMP: temp,
                 ATTR_FORECAST_TEMP_LOW: tempmin,
                 ATTR_FORECAST_PRECIPITATION: precip,
+                ATTR_WEATHERBIT_CLOUDINESS: getattr(
+                    self.fcst_coordinator.data[self._index], "clouds"
+                ),
                 ATTR_WEATHERBIT_FCST_POP: getattr(
                     self.fcst_coordinator.data[self._index], "pop"
                 ),
