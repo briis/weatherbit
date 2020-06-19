@@ -58,7 +58,7 @@ SENSORS = {
     "humidity": ["Humidity", DEVICE_TYPE_HUMIDITY, "water-percent"],
     "pres": ["Pressure", DEVICE_TYPE_PRESSURE, "gauge"],
     "clouds": ["Cloud Coverage", "%", "cloud-outline"],
-    "solar_rad": ["Solar Radiation", "W/m2", "weather-sunny"],
+    "solar_rad": ["Solar Radiation", "W/m^2", "weather-sunny"],
     "wind_cdir": ["Wind Direction", "", "compass-outline"],
     "wind_dir": ["Wind Bearing", "°", "compass-outline"],
     "dewpt": ["Dewpoint", DEVICE_TYPE_TEMPERATURE, "thermometer"],
