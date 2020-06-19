@@ -29,6 +29,7 @@ from homeassistant.components.weather import (
 from .const import (
     DOMAIN,
     ATTR_WEATHERBIT_ALERTS,
+    ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_UPDATED,
     ATTR_WEATHERBIT_FCST_POP,
     ATTR_WEATHERBIT_WEATHER_TEXT,
