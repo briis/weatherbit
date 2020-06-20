@@ -314,10 +314,23 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
     def device_state_attributes(self):
         """Return Weatherbit specific attributes."""
         if self._sensor_type == TYPE_SENSOR:
-            return {
-                ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
-                ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
-            }
+            if self._sensor == "solar_rad":
+                return {
+                    ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
+                    ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
+                    "dhi": getattr(self._current, "dhi"),
+                    "dni": getattr(self._current, "dni"),
+                    "ghi": getattr(self._current, "ghi"),
+                    "elev_angle": getattr(self._current, "elev_angle"),
+                    "h_angle": getattr(self._current, "h_angle"),
+                    "sunrise": getattr(self._current, "sunrise"),
+                    "sunset": getattr(self._current, "sunset"),
+                }
+            else:
+                return {
+                    ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
+                    ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
+                }
         elif self._sensor_type == TYPE_ALERT:
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
