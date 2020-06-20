@@ -5,6 +5,7 @@
   * **ghi**: Global horizontal solar irradiance (W/m^2)
   * **elev_angle**: Solar elevation angle (degrees)
   * **h_angle**: Solar hour angle (degrees).
+  
   They were added as Attributes here as they are closely linked to Solar Radiation, and I did not want to create more sensors for values that only a few people will use.
 
 ### Release 0.24
