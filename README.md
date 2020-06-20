@@ -47,10 +47,16 @@ The units used are defined by the Unit System set in the *General* section of th
 
 **You can only add locations through the integrations page, not in configuration files.**
 
-### Remove Sensors that is not needed
+### Remove Sensors that are not needed
 The Integration creates a significant amount of sensors, so if there are any of these you don't need, and want to clean-up your installation, you can disable the sensors, so that they are not created in Home Assistant.
 
-In order to do that, go to the *Configuration* tab, select *Integrations* and then find the *Weatherbit* Integration. Now click on *x entities* where x shows the number of entities created for Weatherbit. Select the sensors you don't need by marking the box to the left. Once you are done, click *DISABLE SELECTED* on the top right, and the sensors will be removed and not enabled on next restart. Should you want them back, you can click on the *Filter* symbol on the top right, and select *Show disabled entities* and you can now re-add them again.
+In order to do that:
+* Go to the *Configuration* tab, select *Integrations*
+* Find the *Weatherbit* Integration. Now click on *x entities* where x shows the number of entities created for Weatherbit.
+* Select the sensors you don't need by marking the box to the left.
+* Once you are done, click *DISABLE SELECTED* on the top right, and the sensors will be removed and not enabled on next restart.
+
+Should you want them back, you can click on the *Filter* symbol on the top right, and select *Show disabled entities* and you can now re-add them again.
 
 ## API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
