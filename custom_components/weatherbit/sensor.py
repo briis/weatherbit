@@ -16,6 +16,8 @@ from homeassistant.const import (
     PRESSURE_HPA,
     PRESSURE_INHG,
     TEMP_CELSIUS,
+    SUN_EVENT_SUNSET,
+    SUN_EVENT_SUNRISE,
 )
 from homeassistant.components.weather import (
     ATTR_FORECAST_CONDITION,
@@ -50,6 +52,7 @@ from .const import (
     CONF_ADD_SENSORS,
 )
 from .entity import WeatherbitEntity
+
 
 SENSORS = {
     "temp": ["Temperature", DEVICE_TYPE_TEMPERATURE, "thermometer"],
@@ -323,8 +326,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                     "ghi": getattr(self._current, "ghi"),
                     "elev_angle": getattr(self._current, "elev_angle"),
                     "h_angle": getattr(self._current, "h_angle"),
-                    "sunrise": getattr(self._current, "sunrise"),
-                    "sunset": getattr(self._current, "sunset"),
+                    SUN_EVENT_SUNRISE: getattr(self._current, "sunrise"),
+                    SUN_EVENT_SUNSET: getattr(self._current, "sunset"),
                 }
             else:
                 return {
