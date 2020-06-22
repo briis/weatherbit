@@ -8,6 +8,7 @@
 
   They were added as Attributes here as they are closely linked to Solar Radiation, and I did not want to create more sensors for values that only a few people will use.
 * Added Polish tranlation
+* Updated [README.md](https://github.com/briis/weatherbit/blob/master/README.md) to show how to disable Sensors if you don't need them all.
 * Bumped `weatherbitpypi` to V0.23.2
 
 ### Release 0.24
