@@ -10,7 +10,7 @@
 * Added Polish tranlation for Integration and Options setup. If other people would like to contribute to the translation of the Integration Setup page, please [go here](https://github.com/briis/weatherbit/tree/master/custom_components/weatherbit/translations) and take a copy of the `en.json` file, edit the content and save under your language code. Upload the file to the directory and make a PR or send me the file, and I will add it.
 * Updated Dutch Language file for Wind Direction
 * Updated [README.md](https://github.com/briis/weatherbit/blob/master/README.md) to show how to disable Sensors if you don't need them all.
-* Bumped `weatherbitpypi` to V0.23.1
+* Bumped `weatherbitpypi` to V0.24.1
 
 ### Release 0.24
 * Language support for Wind Direction Text is now done in the IO Module, as Weatherbit did not handle 8Bit Characters very well. ENE which in danish is ØNØ, was translated to ONO. If I did not get this right for all Languages, please [go here](https://github.com/briis/py-weatherbit/tree/master/weatherbitpypi/translations) and add or change the relevant file. Mail it to me or make a PR.
