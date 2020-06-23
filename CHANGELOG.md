@@ -5,9 +5,11 @@
   * **ghi**: Global horizontal solar irradiance (W/m^2)
   * **elev_angle**: Solar elevation angle (degrees)
   * **h_angle**: Solar hour angle (degrees).
+  * **sunrise**: The time of the next sunrise at location
+  * **sunset**: The time of the next sunset at location
 
   They were added as Attributes here as they are closely linked to Solar Radiation, and I did not want to create more sensors for values that only a few people will use.
-* Added Polish tranlation for Integration and Options setup. If other people would like to contribute to the translation of the Integration Setup page, please [go here](https://github.com/briis/weatherbit/tree/master/custom_components/weatherbit/translations) and take a copy of the `en.json` file, edit the content and save under your language code. Upload the file to the directory and make a PR or send me the file, and I will add it.
+* Added Polish translation for Integration and Options setup. If other people would like to contribute to the translation of the Integration Setup page, please [go here](https://github.com/briis/weatherbit/tree/master/custom_components/weatherbit/translations) and take a copy of the `en.json` file, edit the content and save under your language code. Upload the file to the directory and make a PR or send me the file, and I will add it.
 * Updated Dutch Language file for Wind Direction
 * Updated [README.md](https://github.com/briis/weatherbit/blob/master/README.md) to show how to disable Sensors if you don't need them all.
 * Bumped `weatherbitpypi` to V0.24.1
