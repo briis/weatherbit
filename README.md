@@ -1,7 +1,7 @@
 # // weatherbit
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/briis/weatherbit?include_prereleases&style=flat-square) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square)](https://github.com/custom-components/hacs) [![](https://img.shields.io/badge/COMMUNITY-FORUM-success?style=flat-square)](https://community.home-assistant.io/t/weatherbit-io-current-weather-and-forecast-data/200224)
 
-The weatherbit integration adds support for the *weatherbit.io* web service as a source for meteorological data for your location.
+The weatherbit integration adds support for the [weatherbit.io](https://www.weatherbit.io/) web service as a source for meteorological data for your location.
 
 There is currently support for the following device types within Home Assistant:
 * Weather
