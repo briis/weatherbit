@@ -1,4 +1,4 @@
-### Release 0.26
+### Release 0.27
 * Fixed error in IO module that occured when weatherbit could not be contacted.
 * Bumped weatherbitpypi to 0.24.4
 
