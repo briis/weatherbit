@@ -1,3 +1,7 @@
+### Release 0.26
+* Fixed error in IO module that occured when weatherbit could not be contacted.
+* Bumped weatherbitpypi to 0.24.4
+
 ### Release 0.25
 * Issue #19 - Added the following new Attributes to the Solar Ration Sensor:
   * **dhi**: Diffuse horizontal solar irradiance (W/m^2)
