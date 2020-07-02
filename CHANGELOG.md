@@ -1,6 +1,6 @@
 ### Release 0.29
-* Fixed error in IO module that occured when weatherbit could not be contacted.
-* Added better error handling during Initialization to flag a retry when Weatherbit could not be contacted.
+* Fixed error in IO module that occurred when weatherbit could not be contacted.
+* Added better error handling during Initialisation to flag a retry when Weatherbit could not be contacted.
 * Bumped weatherbitpypi to 0.24.7
 
 ### Release 0.27
