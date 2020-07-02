@@ -123,7 +123,8 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     except InvalidApiKey:
         _LOGGER.error("Your API Key is invalid or does not support this operation")
         return
-    except (RequestError, ServerDisconnectedError):
+    except (RequestError, ServerDisconnectedError) as err:
+        _LOGGER.warning(str(err))
         raise ConfigEntryNotReady
 
     await fcst_coordinator.async_refresh()
