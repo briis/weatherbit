@@ -2,10 +2,17 @@
 import asyncio
 import logging
 from datetime import timedelta
+from aiohttp.client_exceptions import ServerDisconnectedError
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
-from weatherbitpypi import Weatherbit, WeatherbitError
+from homeassistant.exceptions import ConfigEntryNotReady
+from weatherbitpypi import (
+    Weatherbit,
+    WeatherbitError,
+    InvalidApiKey,
+    RequestError,
+)
 
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.dispatcher import (
@@ -110,6 +117,14 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         update_method=weatherbit.async_get_current_data,
         update_interval=current_scan_interval,
     )
+
+    try:
+        await weatherbit.async_get_city_name()
+    except InvalidApiKey:
+        _LOGGER.error("Your API Key is invalid or does not support this operation")
+        return
+    except (RequestError, ServerDisconnectedError):
+        raise ConfigEntryNotReady
 
     await fcst_coordinator.async_refresh()
     await cur_coordinator.async_refresh()
