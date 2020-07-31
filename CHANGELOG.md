@@ -1,3 +1,6 @@
+### Release 0.31
+* Added new Sensor `weatherbit_slp` to Current and Forecast data, showing the pressure at Sea Level. Issue #21
+
 ### Release 0.30
 * Another go at error handling in the IO module that occurred when weatherbit could not be contacted.
 * Bumped weatherbitpypi to 0.24.9
