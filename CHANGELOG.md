@@ -1,5 +1,7 @@
 ### Release 0.31
-* Added new Sensor `weatherbit_slp` to Current and Forecast data, showing the pressure at Sea Level. Issue #21
+* **BREAKING CHANGE** A user pointed out that *precip* in the current data is NOT accumulated precipitation for the day, but *Precipitation Rate* and as such the name of the Precipitation sensor `weatherbit_rain_today` is not correct. Therefore this sensor is now renamed to `weatherbit_rain_rate`, and the unit of measurement is changed to `mm/hr` or `in/hr` depending on unit system. Issue #23. **NOTE*: As the Unique_Id stayes the same, the sensor will still be called `weatherbit_rain_today` until you delete the integration and add it again, it will just be the Friendly Name and the Unit that changes.
+* Added new Sensor `weatherbit_slp` to Current data, showing the pressure at Sea Level. Issue #21
+* Fixed Issue #22, where the Friendly Name of the Weather Entity would not be correctly capitalized, when location has more than one word.
 
 ### Release 0.30
 * Another go at error handling in the IO module that occurred when weatherbit could not be contacted.
