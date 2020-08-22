@@ -1,6 +1,7 @@
 ### Release 0.32
 
-If you are using the *Metric* Unit System in Home Assistant, there is now an option to set the Wind Unit to either *m/s* or *km/h* in the Config Flow. You will be asked during installation, or you can change it if the Integration is already installed, by going to the Integrations tab and select *Options*. **Note**: If you are using the *Imperial* Unit system, changing this has no effect.
+* **Added option to set Wind Unit**
+  If you are using the *Metric* Unit System in Home Assistant, there is now an option to set the Wind Unit to either *m/s*, *km/h* or *knot* in the Config Flow. You will be asked during installation, or you can change it, if the Integration is already installed, by going to the Integrations tab and select *Options*. **Note**: If you are using the *Imperial* Unit system, changing this has no effect.
 
 ### Release 0.31
 * **POSSIBLE BREAKING CHANGE** A user pointed out that *precip* in the current data is NOT accumulated precipitation for the day, but *Precipitation Rate* and as such the name of the Precipitation sensor `weatherbit_rain_today` is not correct. Therefore this sensor is now renamed to `weatherbit_rain_rate`, and the unit of measurement is changed to `mm/hr` or `in/hr` depending on unit system. At the same time, `weatherbit_snow` is renamed to `weatherbit_snow_rate` as the same logic applies here. Issue #23.
