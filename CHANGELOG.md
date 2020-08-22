@@ -1,3 +1,10 @@
+### Release 0.33
+
+* **Added new sensor Wind Speed nautical**
+  A new sensor that display the Wind Speed in Nautical Miles per Hour, has been added.
+* Removed the *knot* conversion introduced in release 0.32, and replaced it with the sensor from this integration.
+* Bumped *weatherbitpypi to 0.25.1
+
 ### Release 0.32
 
 * **Added option to set Wind Unit**
