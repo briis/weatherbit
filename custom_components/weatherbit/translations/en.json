@@ -7,6 +7,7 @@
         "step": {
             "user": {
                 "data": {
+                    "wind_unit": "Wind Unit (Only applies if Unit System is Metric)",
                     "add_alerts": "Activate Severe Weather Alerts",
                     "add_sensors": "Install individual sensors",
                     "cur_update_interval": "Current Data Update Interval (Minutes)",
@@ -25,6 +26,7 @@
         "step": {
             "init": {
                 "data": {
+                    "wind_unit": "Wind Unit (Only applies if Unit System is Metric)",
                     "add_alerts": "Activate Severe Weather Alerts",
                     "add_sensors": "Install individual sensors",
                     "fcst_language": "Forecast Language",
