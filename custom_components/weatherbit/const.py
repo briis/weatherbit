@@ -41,9 +41,11 @@ TYPE_ALERT = "alert"
 
 UNIT_WIND_MS = "m/s"
 UNIT_WIND_KMH = "km/h"
+UNIT_WIND_KNOT = "knot"
 WIND_UNITS = [
     UNIT_WIND_MS,
     UNIT_WIND_KMH,
+    UNIT_WIND_KNOT,
 ]
 
 WEATHERBIT_PLATFORMS = [

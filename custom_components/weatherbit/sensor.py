@@ -52,6 +52,7 @@ from .const import (
     CONF_ADD_SENSORS,
     UNIT_WIND_KMH,
     UNIT_WIND_MS,
+    UNIT_WIND_KNOT,
 )
 from .entity import WeatherbitEntity
 
@@ -239,6 +240,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 if self._is_metric:
                     if self._wind_unit_metric == UNIT_WIND_KMH:
                         return round(value * 3.6, 1)
+                    elif self._wind_unit_metric == UNIT_WIND_KNOT:
+                        return round(value * 1.9438444924406, 1)
                     else:
                         return round(value, 1)
                 else:
