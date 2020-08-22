@@ -60,6 +60,7 @@ from .entity import WeatherbitEntity
 SENSORS = {
     "temp": ["Temperature", DEVICE_TYPE_TEMPERATURE, "thermometer"],
     "wind_spd": ["Wind Speed", DEVICE_TYPE_WIND, "weather-windy"],
+    "wind_spd_knot": ["Wind Speed Nautical", UNIT_WIND_KNOT, "sign-direction"],
     "app_temp": ["Apparent Temperature", DEVICE_TYPE_TEMPERATURE, "thermometer"],
     "humidity": ["Humidity", DEVICE_TYPE_HUMIDITY, "water-percent"],
     "pres": ["Pressure", DEVICE_TYPE_PRESSURE, "gauge"],
@@ -240,8 +241,6 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                 if self._is_metric:
                     if self._wind_unit_metric == UNIT_WIND_KMH:
                         return round(value * 3.6, 1)
-                    elif self._wind_unit_metric == UNIT_WIND_KNOT:
-                        return round(value * 1.9438444924406, 1)
                     else:
                         return round(value, 1)
                 else:
@@ -270,6 +269,8 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                     )
             elif self._device_class == "UVI":
                 return round(float(value), 1)
+            elif self._device_class == UNIT_WIND_KNOT:
+                return round(value, 1)
             else:
                 return value
         elif self._sensor_type == TYPE_ALERT:
