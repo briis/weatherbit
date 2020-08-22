@@ -97,6 +97,13 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
+**wind_unit**<br>
+&nbsp;&nbsp;*(string)(Optional)*.<br>
+&nbsp;&nbsp;Select the Wind Unit, if Home Assistant is set to the Metric Unit System. If Unit System is Imperial, this will always be *mph (Miles per Hour)*
+
+&nbsp;&nbsp;*Default value:*<br>
+&nbsp;&nbsp;m/s (Meters per second)
+
 **Update Interval - Current Data**<br>
 &nbsp;&nbsp;*(int)(Optional)*.<br>
 &nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Value between 4 and 60 minutes. If you set it in the low end, be carefull not to run over your daily limit of 500 calls.
