@@ -97,7 +97,7 @@ If you set Forecast Update Interval to every 60 min, and Current Data Update Int
 &nbsp;&nbsp;*Default value:*<br>
 &nbsp;&nbsp;Provided by Home Assistant configuration
 
-**wind_unit**<br>
+**Wind Unit**<br>
 &nbsp;&nbsp;*(string)(Optional)*.<br>
 &nbsp;&nbsp;Select the Wind Unit, if Home Assistant is set to the Metric Unit System. Possible values are: m/s and km/h. If Unit System is Imperial, this will always be *mph (Miles per Hour)*
 
