@@ -50,6 +50,8 @@ from .const import (
     TYPE_ALERT,
     CONDITION_CLASSES,
     CONF_ADD_SENSORS,
+    UNIT_WIND_KMH,
+    UNIT_WIND_MS,
 )
 from .entity import WeatherbitEntity
 
@@ -96,6 +98,11 @@ async def async_setup_entry(
     ):
         return
 
+    # Retrive the Wind Unit (Only Applied if we are in the Metric System)
+    wind_unit_metric = hass.data[DOMAIN][entry.entry_id]["wind_unit_metric"]
+    if not wind_unit_metric:
+        return
+
     # Get the Data Coordinators used
     fcst_coordinator = hass.data[DOMAIN][entry.entry_id]["fcst_coordinator"]
     if not fcst_coordinator.data:
@@ -121,6 +128,7 @@ async def async_setup_entry(
                     sensor,
                     hass.config.units.is_metric,
                     TYPE_SENSOR,
+                    wind_unit_metric,
                     0,
                 )
             )
@@ -136,6 +144,7 @@ async def async_setup_entry(
                     forecast,
                     hass.config.units.is_metric,
                     TYPE_FORECAST,
+                    wind_unit_metric,
                     cnt,
                 )
             )
@@ -153,6 +162,7 @@ async def async_setup_entry(
                     sensor,
                     hass.config.units.is_metric,
                     TYPE_ALERT,
+                    wind_unit_metric,
                     0,
                 )
             )
@@ -176,6 +186,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         sensor,
         is_metric,
         sensor_type,
+        wind_unit_metric,
         index,
     ):
         """Initialize Weatherbit sensor."""
@@ -186,6 +197,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         self._sensor_type = sensor_type
         self._is_metric = is_metric
         self._index = index
+        self._wind_unit_metric = wind_unit_metric
 
         if self._sensor_type == TYPE_SENSOR:
             self._name = f"{DOMAIN.capitalize()} {SENSORS[self._sensor][0]}"
@@ -225,7 +237,10 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             value = getattr(self._current, self._sensor)
             if self._device_class == DEVICE_TYPE_WIND:
                 if self._is_metric:
-                    return round(value, 1)
+                    if self._wind_unit_metric == UNIT_WIND_KMH:
+                        return round(value * 3.6, 1)
+                    else:
+                        return round(value, 1)
                 else:
                     return round(float(value * 2.23693629), 2)
             elif self._device_class == DEVICE_TYPE_PRESSURE:
@@ -276,7 +291,10 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
             if self._device_class == DEVICE_TYPE_TEMPERATURE:
                 return TEMP_CELSIUS
             elif self._device_class == DEVICE_TYPE_WIND:
-                return "m/s" if self._is_metric else "mph"
+                if self._is_metric:
+                    return self._wind_unit_metric
+                else:
+                    return "mph"
             elif self._device_class == DEVICE_TYPE_PRESSURE:
                 return "hPa" if self._is_metric else "inHg"
             elif self._device_class == DEVICE_TYPE_HUMIDITY:

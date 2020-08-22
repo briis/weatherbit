@@ -146,7 +146,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         default=self.config_entry.options.get(
                             CONF_WIND_UNITS, UNIT_WIND_MS
                         ),
-                    ): vol.In(FORECAST_LANGUAGES),
+                    ): vol.In(WIND_UNITS),
                     vol.Optional(
                         CONF_FORECAST_LANGUAGE,
                         default=self.config_entry.options.get(
