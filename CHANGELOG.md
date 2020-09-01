@@ -1,6 +1,6 @@
 ### Release 0.34 - NOT RELEASED YET
 
-* Changed Wind Speed Nautical icon to `mdi:sail-boat`. There is not a good icon for this, so using a Sail Boat shows where this value would normally be relevant.
+* Changed Wind Speed Nautical icon to `mdi:tailwind`.
 
 
 ### Release 0.33
