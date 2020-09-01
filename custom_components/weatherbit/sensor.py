@@ -60,7 +60,7 @@ from .entity import WeatherbitEntity
 SENSORS = {
     "temp": ["Temperature", DEVICE_TYPE_TEMPERATURE, "thermometer"],
     "wind_spd": ["Wind Speed", DEVICE_TYPE_WIND, "weather-windy"],
-    "wind_spd_knot": ["Wind Speed Nautical", UNIT_WIND_KNOT, "sail-boat"],
+    "wind_spd_knot": ["Wind Speed Nautical", UNIT_WIND_KNOT, "tailwind"],
     "app_temp": ["Apparent Temperature", DEVICE_TYPE_TEMPERATURE, "thermometer"],
     "humidity": ["Humidity", DEVICE_TYPE_HUMIDITY, "water-percent"],
     "pres": ["Pressure", DEVICE_TYPE_PRESSURE, "gauge"],
