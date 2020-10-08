@@ -1,0 +1,39 @@
+{
+    "config": {
+        "error": {
+            "name_exists": "Asukoht on juba määratud. Vali uus asukoht",
+            "connection_error": "Ei saanud Weatherbit-iga ühendust. Kontrolli API võtit."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "wind_unit": "Tuule kiiruse ühik (ainult meetermõõdustiku puhul)",
+                    "add_alerts": "Luba ohtlike nähtuste hoiatused",
+                    "add_sensors": "Vali kasutatavad elemendid",
+                    "cur_update_interval": "Ilmaandmete värskendus (minutites)",
+                    "fcs_update_interval": "Ennustuse värskendus (minutites)",
+                    "fcst_language": "Ilmaennustuse keel",
+                    "latitude": "Laius",
+                    "longitude": "Pikkus",
+                    "api_key": "Weatherbit API võti",
+                    "name": "Name"
+                },
+                "title": "Weatherbit andmete asukoht"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "wind_unit": "Tuule kiiruse ühik (ainult meetermõõdustiku puhul)",
+                    "add_alerts": "Luba ohtlike nähtuste hoiatused",
+                    "add_sensors": "Vali kasutatavad elemendid",
+                    "fcst_language": "Ilmaennustuse keel",
+                    "cur_update_interval": "Ilmaandmete värskendus (minutites)",
+                    "fcs_update_interval": "Ennustuse värskendus (minutites)"
+                }
+            }
+        }
+    }
+}
