@@ -1,6 +1,7 @@
 ### Release 0.34 - NOT RELEASED YET
 
 * Changed Wind Speed Nautical icon to `mdi:tailwind`.
+* Added Estonian translation
 
 
 ### Release 0.33
