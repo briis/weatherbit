@@ -14,7 +14,6 @@ from homeassistant.components.weather import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_ID,
-    LENGTH_METERS,
     LENGTH_MILES,
     LENGTH_KILOMETERS,
     PRESSURE_HPA,
@@ -33,6 +32,7 @@ from .const import (
     ATTR_WEATHERBIT_AQI,
     ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_IS_NIGHT,
+    ATTR_WEATHERBIT_MDI_ICON,
     ATTR_WEATHERBIT_WIND_GUST,
     ATTR_WEATHERBIT_PRECIPITATION,
     ATTR_WEATHERBIT_FCST_POP,
@@ -43,6 +43,7 @@ from .const import (
     DEVICE_TYPE_WEATHER,
     CONDITION_CLASSES,
     ALT_CONDITION_CLASSES,
+    MDI_CONDITION_CLASSES,
 )
 from .entity import WeatherbitEntity
 
@@ -63,7 +64,10 @@ async def async_setup_entry(
         return
 
     weather_entity = WeatherbitWeather(
-        fcst_coordinator, cur_coordinator, entry.data, hass.config.units.is_metric,
+        fcst_coordinator,
+        cur_coordinator,
+        entry.data,
+        hass.config.units.is_metric,
     )
 
     async_add_entities([weather_entity], True)
@@ -205,7 +209,10 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
         if wcode == 800 and self.is_night:
             wcode = wcode * 10
 
-        return next((k for k, v in CONDITION_CLASSES.items() if wcode in v), None,)
+        return next(
+            (k for k, v in CONDITION_CLASSES.items() if wcode in v),
+            None,
+        )
 
     @property
     def alt_condition(self) -> str:
@@ -220,7 +227,28 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             if wcode in [800, 801, 802]:
                 wcode = wcode * 10
 
-        return next((k for k, v in ALT_CONDITION_CLASSES.items() if wcode in v), None,)
+        return next(
+            (k for k, v in ALT_CONDITION_CLASSES.items() if wcode in v),
+            None,
+        )
+
+    @property
+    def mdi_icon(self) -> str:
+        """Return the mdi icon for the current condition."""
+        if self._current is None:
+            return None
+
+        wcode = int(self._current.weather_code)
+
+        # If Night convert to night condition
+        if self.is_night:
+            if wcode in [800, 801, 802]:
+                wcode = wcode * 10
+
+        return next(
+            (k for k, v in MDI_CONDITION_CLASSES.items() if wcode in v),
+            None,
+        )
 
     @property
     def attribution(self) -> str:
@@ -234,6 +262,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             ATTR_WEATHERBIT_AQI: self.aqi,
             ATTR_WEATHERBIT_CLOUDINESS: self.cloudiness,
             ATTR_WEATHERBIT_ALT_CONDITION: self.alt_condition,
+            ATTR_WEATHERBIT_MDI_ICON: f"mdi:{self.mdi_icon}",
             ATTR_WEATHERBIT_IS_NIGHT: self.is_night,
             ATTR_WEATHERBIT_PRECIPITATION: self.precipitation,
             ATTR_WEATHERBIT_WIND_GUST: self.wind_gust,
