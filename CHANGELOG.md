@@ -2,6 +2,7 @@
 
 * Changed Wind Speed Nautical icon to `mdi:tailwind`.
 * Added Estonian translation
+* Added dynamic icon to Weather Entity, so that `icon` attribute always reflects current condition. (Issue #26)
 
 
 ### Release 0.33
