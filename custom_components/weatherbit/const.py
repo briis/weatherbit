@@ -16,7 +16,6 @@ ATTR_WEATHERBIT_FCST_POP = "precip_prob"
 ATTR_WEATHERBIT_WEATHER_TEXT = "weather_text"
 ATTR_WEATHERBIT_WEATHER_ICON = "weather_icon"
 ATTR_WEATHERBIT_ALT_CONDITION = "alt_condition"
-ATTR_WEATHERBIT_MDI_ICON = "mdi_icon"
 
 CONF_ADD_SENSORS = "add_sensors"
 CONF_ADD_ALERTS = "add_alerts"

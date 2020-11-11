@@ -32,7 +32,6 @@ from .const import (
     ATTR_WEATHERBIT_AQI,
     ATTR_WEATHERBIT_CLOUDINESS,
     ATTR_WEATHERBIT_IS_NIGHT,
-    ATTR_WEATHERBIT_MDI_ICON,
     ATTR_WEATHERBIT_WIND_GUST,
     ATTR_WEATHERBIT_PRECIPITATION,
     ATTR_WEATHERBIT_FCST_POP,
@@ -233,7 +232,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
         )
 
     @property
-    def mdi_icon(self) -> str:
+    def icon(self):
         """Return the mdi icon for the current condition."""
         if self._current is None:
             return None
@@ -245,10 +244,12 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             if wcode in [800, 801, 802]:
                 wcode = wcode * 10
 
-        return next(
+        icon_name = next(
             (k for k, v in MDI_CONDITION_CLASSES.items() if wcode in v),
             None,
         )
+
+        return f"mdi:{icon_name}"
 
     @property
     def attribution(self) -> str:
@@ -262,7 +263,6 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             ATTR_WEATHERBIT_AQI: self.aqi,
             ATTR_WEATHERBIT_CLOUDINESS: self.cloudiness,
             ATTR_WEATHERBIT_ALT_CONDITION: self.alt_condition,
-            ATTR_WEATHERBIT_MDI_ICON: f"mdi:{self.mdi_icon}",
             ATTR_WEATHERBIT_IS_NIGHT: self.is_night,
             ATTR_WEATHERBIT_PRECIPITATION: self.precipitation,
             ATTR_WEATHERBIT_WIND_GUST: self.wind_gust,
