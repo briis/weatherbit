@@ -246,7 +246,7 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
 
         icon_name = next(
             (k for k, v in MDI_CONDITION_CLASSES.items() if wcode in v),
-            "weather-cloudy-alert",
+            "radar",
         )
 
         return f"mdi:{icon_name}"
