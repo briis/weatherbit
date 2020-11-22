@@ -1,4 +1,4 @@
-### Release 0.35
+### Release 0.34.1
 
 * Re-Added English translation. Got deleted in last release.
 
