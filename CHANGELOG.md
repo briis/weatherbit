@@ -1,3 +1,8 @@
+### Release 0.34.2
+
+* Added version number to `manifest.json`
+
+
 ### Release 0.34.1
 
 * Re-Added English translation. Got deleted in last release.
