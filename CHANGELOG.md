@@ -1,3 +1,11 @@
+
+### Release 0.34.3
+
+Release date: NOT RELEASED YET
+
+* `FIXED`: If authentication failed during setup or startup of the Integration it did not return the proper boolean, and did not close the session properly.
+
+
 ### Release 0.34.2
 
 * Added version number to `manifest.json`
