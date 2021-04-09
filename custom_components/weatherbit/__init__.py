@@ -126,7 +126,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         await weatherbit.async_get_city_name()
     except InvalidApiKey:
         _LOGGER.error("Your API Key is invalid or does not support this operation")
-        return
+        return False
     except (RequestError, ServerDisconnectedError) as err:
         _LOGGER.warning(str(err))
         raise ConfigEntryNotReady
