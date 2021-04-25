@@ -5,6 +5,7 @@ Release date: NOT RELEASED YET
 
 * `FIXED`: If authentication failed during setup or startup of the Integration it did not return the proper boolean, and did not close the session properly.
 * `CHANGED`: Updated Polish Translation. Thank you @nepozs
+* `CHANGED`: Modified several files to ensure compatability with HA 2021.5.x
 
 ### Release 0.34.2
 
