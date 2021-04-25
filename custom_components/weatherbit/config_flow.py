@@ -5,7 +5,6 @@ from weatherbitpypi import Weatherbit, WeatherbitError
 
 import voluptuous as vol
 
-from homeassistant import config_entries
 from homeassistant.const import (
     CONF_API_KEY,
     CONF_ID,
@@ -39,7 +38,9 @@ async def validate_input(hass: core.HomeAssistant, data):
     Data has the keys from DATA_SCHEMA with values provided by the user.
     """
     wbit_client = Weatherbit(
-        data[CONF_API_KEY], data[CONF_LATITUDE], data[CONF_LONGITUDE],
+        data[CONF_API_KEY],
+        data[CONF_LATITUDE],
+        data[CONF_LONGITUDE],
     )
 
     unique_id = await wbit_client.async_get_city_name()

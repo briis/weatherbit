@@ -20,11 +20,10 @@ from homeassistant.const import (
     PRESSURE_INHG,
     TEMP_CELSIUS,
 )
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 from homeassistant.util.distance import convert as convert_distance
 from homeassistant.util.pressure import convert as convert_pressure
 from homeassistant.util.dt import utc_from_timestamp
-import homeassistant.helpers.device_registry as dr
 
 from .const import (
     DOMAIN,
@@ -50,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Add a weather entity from mapped location."""
 

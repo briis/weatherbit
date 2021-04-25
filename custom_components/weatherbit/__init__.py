@@ -4,21 +4,21 @@ import logging
 from datetime import timedelta
 from aiohttp.client_exceptions import ServerDisconnectedError
 
+from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import ConfigEntryNotReady
 from weatherbitpypi import (
     Weatherbit,
-    WeatherbitError,
     InvalidApiKey,
     RequestError,
 )
 
-from homeassistant.helpers.event import async_track_time_interval
-from homeassistant.helpers.dispatcher import (
-    async_dispatcher_connect,
-    async_dispatcher_send,
-)
+# from homeassistant.helpers.event import async_track_time_interval
+# from homeassistant.helpers.dispatcher import (
+#     async_dispatcher_connect,
+#     async_dispatcher_send,
+# )
 from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 import homeassistant.helpers.device_registry as dr
@@ -34,14 +34,11 @@ from .const import (
     CONF_CUR_UPDATE_INTERVAL,
     CONF_FCS_UPDATE_INTERVAL,
     CONF_ADD_ALERTS,
-    CONF_ADD_SENSORS,
     CONF_FORECAST_LANGUAGE,
     CONF_WIND_UNITS,
     DEFAULT_BRAND,
-    DEFAULT_SCAN_INTERVAL,
     DEFAULT_FORECAST_LANGUAGE,
     UNIT_WIND_MS,
-    UNIT_WIND_KMH,
     WEATHERBIT_PLATFORMS,
 )
 
@@ -50,13 +47,13 @@ _LOGGER = logging.getLogger(__name__)
 SCAN_INTERVAL = timedelta(minutes=30)
 
 
-async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up configured Weatherbit."""
     # We allow setup only through config flow type of config
     return True
 
 
-async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Weatherbit forecast as config entry."""
 
     if not entry.options:
@@ -158,7 +155,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
 
 async def _async_get_or_create_weatherbit_device_in_registry(
-    hass: HomeAssistantType, entry: ConfigEntry
+    hass: HomeAssistant, entry: ConfigEntry
 ) -> None:
     device_registry = await dr.async_get_registry(hass)
     device_key = f"{entry.data[CONF_LATITUDE]}_{entry.data[CONF_LONGITUDE]}"
@@ -172,12 +169,12 @@ async def _async_get_or_create_weatherbit_device_in_registry(
     )
 
 
-async def async_update_options(hass: HomeAssistantType, entry: ConfigEntry):
+async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload Weatherbit config entry."""
     unload_ok = all(
         await asyncio.gather(

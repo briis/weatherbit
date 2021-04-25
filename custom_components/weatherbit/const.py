@@ -1,7 +1,7 @@
 """Constants in weatherbit component."""
 import logging
 
-from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
+# from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 ATTR_WEATHERBIT_AQI = "aqi"
 ATTR_WEATHERBIT_ALERTS = "alerts"

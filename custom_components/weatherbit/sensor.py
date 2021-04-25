@@ -1,16 +1,15 @@
 """Weatherbit Sensors for Home Assistant."""
 
 import logging
-from typing import Dict, List
+from typing import List
 
 from homeassistant.helpers.entity import Entity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.core import HomeAssistant
 from homeassistant.util.pressure import convert as convert_pressure
 from homeassistant.util.distance import convert as convert_distance
 from homeassistant.const import (
     ATTR_ATTRIBUTION,
-    LENGTH_METERS,
     LENGTH_MILES,
     LENGTH_KILOMETERS,
     PRESSURE_HPA,
@@ -20,7 +19,6 @@ from homeassistant.const import (
     SUN_EVENT_SUNRISE,
 )
 from homeassistant.components.weather import (
-    ATTR_FORECAST_CONDITION,
     ATTR_FORECAST_PRECIPITATION,
     ATTR_FORECAST_TEMP,
     ATTR_FORECAST_TEMP_LOW,
@@ -51,7 +49,6 @@ from .const import (
     CONDITION_CLASSES,
     CONF_ADD_SENSORS,
     UNIT_WIND_KMH,
-    UNIT_WIND_MS,
     UNIT_WIND_KNOT,
 )
 from .entity import WeatherbitEntity
@@ -89,7 +86,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Setup the Weatherbit sensor platform."""
 
@@ -315,7 +312,7 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
     @property
     def alerts(self) -> List:
         if self._sensor_type != TYPE_ALERT:
-            return
+            return None
 
         if self.alert_coordinator.data is None:
             return None

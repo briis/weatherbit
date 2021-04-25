@@ -4,14 +4,12 @@ from homeassistant.helpers.entity import Entity
 import homeassistant.helpers.device_registry as dr
 
 from homeassistant.const import (
-    ATTR_ATTRIBUTION,
     CONF_LATITUDE,
     CONF_LONGITUDE,
 )
 from .const import (
     DOMAIN,
     DEFAULT_BRAND,
-    DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_WEATHER,
 )
 
