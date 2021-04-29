@@ -10,5 +10,6 @@
     ],
     "codeowners": [
       "@briis"
-    ]
+    ],
+    "iot_class": "cloud_polling"
   }
