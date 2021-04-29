@@ -1,12 +1,12 @@
 
 ### Release 0.34.3
 
-Release date: NOT RELEASED YET
+Release date: April 29th, 2021
 
 * `FIXED`: If authentication failed during setup or startup of the Integration it did not return the proper boolean, and did not close the session properly.
 * `CHANGED`: Updated Polish Translation. Thank you @nepozs
 * `CHANGED`: Modified several files to ensure compatability with HA 2021.5.x
-* `CHANGED`: Added iot_class to manifest.json, as per HA requirements
+* `CHANGED`: Added **iot_class** to `manifest.json`, as per HA requirements
 
 ### Release 0.34.2
 
