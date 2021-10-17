@@ -7,7 +7,6 @@ from aiohttp.client_exceptions import ServerDisconnectedError
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import ConfigType
-from homeassistant.exceptions import ConfigEntryNotReady
 from weatherbitpypi import (
     Weatherbit,
     InvalidApiKey,
