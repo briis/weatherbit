@@ -111,8 +111,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     @property
     def wind_speed(self) -> float:
         """Return the wind speed."""
+        if self._current.wind_spd is None:
+            return None
+
         speed_m_s = self._current.wind_spd
-        if self._is_metric or speed_m_s is None:
+        if self._is_metric:
             return round(float(speed_m_s) * 3.6, 1)
 
         return round(float(speed_m_s * 2.23693629), 2)
@@ -120,8 +123,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     @property
     def wind_gust(self) -> float:
         """Return the wind Gust."""
+        if self._forecast.wind_gust_spd is None:
+            return None
+
         speed_m_s = self._forecast.wind_gust_spd
-        if self._is_metric or speed_m_s is None:
+        if self._is_metric:
             return round(speed_m_s, 1)
 
         return round(float(speed_m_s * 2.23693629), 2)
@@ -136,7 +142,10 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     @property
     def precipitation(self) -> float:
         """Return the precipitation."""
-        if self._is_metric or self._current.precip is None:
+        if self._current.precip is None:
+            return None
+
+        if self._is_metric:
             return round(float(self._current.precip), 1)
 
         return round(float(self._current.precip) / 25.4, 2)
@@ -151,8 +160,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     @property
     def visibility(self) -> float:
         """Return the visibility."""
+        if self._current.vis is None:
+            return None
+
         visibility_km = self._current.vis
-        if self._is_metric or visibility_km is None:
+        if self._is_metric:
             return visibility_km
 
         visibility_mi = convert_distance(visibility_km, LENGTH_KILOMETERS, LENGTH_MILES)
@@ -161,8 +173,11 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
     @property
     def pressure(self) -> int:
         """Return the pressure."""
+        if self._current.pres is None:
+            return None
+
         pressure_hpa = self._current.pres
-        if self._is_metric or pressure_hpa is None:
+        if self._is_metric:
             return pressure_hpa
 
         return round(convert_pressure(pressure_hpa, PRESSURE_HPA, PRESSURE_INHG), 2)
@@ -284,22 +299,31 @@ class WeatherbitWeather(WeatherbitEntity, WeatherEntity):
             )
 
             # Convert Wind Speed
-            if self._is_metric or forecast.wind_spd is None:
-                wspeed = round(float(forecast.wind_spd) * 3.6, 1)
+            if forecast.wind_spd is None:
+                wspeed = None
             else:
-                wspeed = round(float(forecast.wind_spd * 2.23693629), 1)
+                if self._is_metric:
+                    wspeed = round(float(forecast.wind_spd) * 3.6, 1)
+                else:
+                    wspeed = round(float(forecast.wind_spd * 2.23693629), 1)
 
             # Convert Precipitation
-            if self._is_metric or forecast.precip is None:
-                precip = round(forecast.precip, 1)
+            if forecast.precip is None:
+                precip = None
             else:
-                precip = round(float(forecast.precip) / 25.4, 2)
+                if self._is_metric:
+                    precip = round(forecast.precip, 1)
+                else:
+                    precip = round(float(forecast.precip) / 25.4, 2)
 
             # Convert Snowfall
-            if self._is_metric or forecast.snow is None:
-                snow = round(forecast.snow, 1)
+            if forecast.snow is None:
+                snow = None
             else:
-                snow = round(float(forecast.snow) / 25.4, 2)
+                if self._is_metric:
+                    snow = round(forecast.snow, 1)
+                else:
+                    snow = round(float(forecast.snow) / 25.4, 2)
 
             data.append(
                 {

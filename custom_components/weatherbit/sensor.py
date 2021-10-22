@@ -234,56 +234,58 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         """Return the state of the sensor."""
         if self._sensor_type == TYPE_SENSOR:
             value = getattr(self._current, self._sensor)
+            if value is None:
+                return None
+
             if self._device_class == DEVICE_TYPE_WIND:
                 if self._is_metric:
                     if self._wind_unit_metric == UNIT_WIND_KMH:
                         return round(value * 3.6, 1)
-                    else:
-                        return round(value, 1)
-                else:
-                    return round(float(value * 2.23693629), 2)
-            elif self._device_class == DEVICE_TYPE_PRESSURE:
+                    return round(value, 1)
+                return round(float(value * 2.23693629), 2)
+
+            if self._device_class == DEVICE_TYPE_PRESSURE:
                 if self._is_metric:
                     return value
-                else:
-                    return round(
-                        convert_pressure(value, PRESSURE_HPA, PRESSURE_INHG), 2
-                    )
-            elif (
+                return round(convert_pressure(value, PRESSURE_HPA, PRESSURE_INHG), 2)
+
+            if (
                 self._device_class == DEVICE_TYPE_RAIN
                 or self._device_class == DEVICE_TYPE_SNOW
             ):
                 if self._is_metric:
                     return round(float(value), 1)
-                else:
-                    return round(float(value) / 25.4, 2)
-            elif self._device_class == DEVICE_TYPE_DISTANCE:
+                return round(float(value) / 25.4, 2)
+
+            if self._device_class == DEVICE_TYPE_DISTANCE:
                 if self._is_metric:
                     return value
-                else:
-                    return int(
-                        float(convert_distance(value, LENGTH_KILOMETERS, LENGTH_MILES))
-                    )
-            elif self._device_class == "UVI":
+                return int(
+                    float(convert_distance(value, LENGTH_KILOMETERS, LENGTH_MILES))
+                )
+
+            if self._device_class == "UVI":
                 return round(float(value), 1)
-            elif self._device_class == UNIT_WIND_KNOT:
+
+            if self._device_class == UNIT_WIND_KNOT:
                 return round(value, 1)
-            else:
-                return value
-        elif self._sensor_type == TYPE_ALERT:
+            return value
+
+        if self._sensor_type == TYPE_ALERT:
             return getattr(self._alerts, "alert_count")
-        else:
-            return self._condition
+
+        return self._condition
 
     @property
     def icon(self):
         """Return icon for sensor."""
         if self._sensor_type == TYPE_SENSOR:
             return f"mdi:{SENSORS[self._sensor][2]}"
-        elif self._sensor_type == TYPE_ALERT:
+
+        if self._sensor_type == TYPE_ALERT:
             return f"mdi:{ALERTS[self._sensor][2]}"
-        else:
-            return f"mdi:weather-{self._weather_icon}"
+
+        return f"mdi:weather-{self._weather_icon}"
 
     @property
     def unit_of_measurement(self):
@@ -291,23 +293,30 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
         if self._sensor_type == TYPE_SENSOR:
             if self._device_class == DEVICE_TYPE_TEMPERATURE:
                 return TEMP_CELSIUS
-            elif self._device_class == DEVICE_TYPE_WIND:
+
+            if self._device_class == DEVICE_TYPE_WIND:
                 if self._is_metric:
                     return self._wind_unit_metric
-                else:
-                    return "mph"
-            elif self._device_class == DEVICE_TYPE_PRESSURE:
+                return "mph"
+
+            if self._device_class == DEVICE_TYPE_PRESSURE:
                 return "hPa" if self._is_metric else "inHg"
-            elif self._device_class == DEVICE_TYPE_HUMIDITY:
+
+            if self._device_class == DEVICE_TYPE_HUMIDITY:
                 return "%"
-            elif self._device_class == DEVICE_TYPE_RAIN:
+
+            if self._device_class == DEVICE_TYPE_RAIN:
                 return "mm/hr" if self._is_metric else "in/hr"
-            elif self._device_class == DEVICE_TYPE_SNOW:
+
+            if self._device_class == DEVICE_TYPE_SNOW:
                 return "mm/hr" if self._is_metric else "in/hr"
-            elif self._device_class == DEVICE_TYPE_DISTANCE:
+
+            if self._device_class == DEVICE_TYPE_DISTANCE:
                 return "km" if self._is_metric else "mi"
-            else:
-                return self._device_class
+
+            return self._device_class
+
+        return None
 
     @property
     def alerts(self) -> List:
@@ -349,70 +358,71 @@ class WeatherbitSensor(WeatherbitEntity, Entity):
                     SUN_EVENT_SUNRISE: getattr(self._current, "sunrise"),
                     SUN_EVENT_SUNSET: getattr(self._current, "sunset"),
                 }
-            else:
-                return {
-                    ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
-                    ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
-                }
-        elif self._sensor_type == TYPE_ALERT:
+
+            return {
+                ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
+                ATTR_WEATHERBIT_UPDATED: getattr(self._current, "obs_time_local"),
+            }
+
+        if self._sensor_type == TYPE_ALERT:
             return {
                 ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
                 ATTR_WEATHERBIT_ALERTS: self.alerts,
             }
+
+        _temp = getattr(self.fcst_coordinator.data[self._index], "max_temp")
+        if self._is_metric:
+            temp = _temp
         else:
-            _temp = getattr(self.fcst_coordinator.data[self._index], "max_temp")
-            if self._is_metric:
-                temp = _temp
-            else:
-                temp = round(float((_temp * 1.8) + 32), 1)
+            temp = round(float((_temp * 1.8) + 32), 1)
 
-            _tempmin = getattr(self.fcst_coordinator.data[self._index], "min_temp")
-            if self._is_metric:
-                tempmin = _tempmin
-            else:
-                tempmin = round(float((_tempmin * 1.8) + 32), 1)
+        _tempmin = getattr(self.fcst_coordinator.data[self._index], "min_temp")
+        if self._is_metric:
+            tempmin = _tempmin
+        else:
+            tempmin = round(float((_tempmin * 1.8) + 32), 1)
 
-            _wspeed = getattr(self.fcst_coordinator.data[self._index], "wind_spd")
-            if self._is_metric:
-                wspeed = round(float(_wspeed) * 3.6, 1)
-            else:
-                wspeed = round(float(_wspeed * 2.23693629), 1)
+        _wspeed = getattr(self.fcst_coordinator.data[self._index], "wind_spd")
+        if self._is_metric:
+            wspeed = round(float(_wspeed) * 3.6, 1)
+        else:
+            wspeed = round(float(_wspeed * 2.23693629), 1)
 
-            _precip = getattr(self.fcst_coordinator.data[self._index], "precip")
-            if self._is_metric:
-                precip = round(float(_precip), 1)
-            else:
-                precip = round(float(_precip) / 25.4, 2)
+        _precip = getattr(self.fcst_coordinator.data[self._index], "precip")
+        if self._is_metric:
+            precip = round(float(_precip), 1)
+        else:
+            precip = round(float(_precip) / 25.4, 2)
 
-            _snow = getattr(self.fcst_coordinator.data[self._index], "snow")
-            if self._is_metric:
-                snow = round(float(_snow), 1)
-            else:
-                snow = round(float(_snow) / 25.4, 2)
+        _snow = getattr(self.fcst_coordinator.data[self._index], "snow")
+        if self._is_metric:
+            snow = round(float(_snow), 1)
+        else:
+            snow = round(float(_snow) / 25.4, 2)
 
-            return {
-                ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
-                ATTR_FORECAST_TIME: getattr(
-                    self.fcst_coordinator.data[self._index], "local_time"
-                ),
-                ATTR_FORECAST_TEMP: temp,
-                ATTR_FORECAST_TEMP_LOW: tempmin,
-                ATTR_FORECAST_PRECIPITATION: precip,
-                ATTR_WEATHERBIT_SNOW: snow,
-                ATTR_WEATHERBIT_CLOUDINESS: getattr(
-                    self.fcst_coordinator.data[self._index], "clouds"
-                ),
-                ATTR_WEATHERBIT_FCST_POP: getattr(
-                    self.fcst_coordinator.data[self._index], "pop"
-                ),
-                ATTR_FORECAST_WIND_SPEED: wspeed,
-                ATTR_FORECAST_WIND_BEARING: getattr(
-                    self.fcst_coordinator.data[self._index], "wind_dir"
-                ),
-                ATTR_WEATHERBIT_WEATHER_TEXT: getattr(
-                    self.fcst_coordinator.data[self._index], "weather_text"
-                ),
-                ATTR_WEATHERBIT_WEATHER_ICON: getattr(
-                    self.fcst_coordinator.data[self._index], "weather_icon"
-                ),
-            }
+        return {
+            ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
+            ATTR_FORECAST_TIME: getattr(
+                self.fcst_coordinator.data[self._index], "local_time"
+            ),
+            ATTR_FORECAST_TEMP: temp,
+            ATTR_FORECAST_TEMP_LOW: tempmin,
+            ATTR_FORECAST_PRECIPITATION: precip,
+            ATTR_WEATHERBIT_SNOW: snow,
+            ATTR_WEATHERBIT_CLOUDINESS: getattr(
+                self.fcst_coordinator.data[self._index], "clouds"
+            ),
+            ATTR_WEATHERBIT_FCST_POP: getattr(
+                self.fcst_coordinator.data[self._index], "pop"
+            ),
+            ATTR_FORECAST_WIND_SPEED: wspeed,
+            ATTR_FORECAST_WIND_BEARING: getattr(
+                self.fcst_coordinator.data[self._index], "wind_dir"
+            ),
+            ATTR_WEATHERBIT_WEATHER_TEXT: getattr(
+                self.fcst_coordinator.data[self._index], "weather_text"
+            ),
+            ATTR_WEATHERBIT_WEATHER_ICON: getattr(
+                self.fcst_coordinator.data[self._index], "weather_icon"
+            ),
+        }

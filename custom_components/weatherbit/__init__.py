@@ -6,18 +6,8 @@ from aiohttp.client_exceptions import ServerDisconnectedError
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.typing import ConfigType
-from weatherbitpypi import (
-    Weatherbit,
-    InvalidApiKey,
-    RequestError,
-)
-
-# from homeassistant.helpers.event import async_track_time_interval
-# from homeassistant.helpers.dispatcher import (
-#     async_dispatcher_connect,
-#     async_dispatcher_send,
-# )
 from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 import homeassistant.helpers.device_registry as dr
@@ -26,6 +16,11 @@ from homeassistant.const import (
     CONF_API_KEY,
     CONF_LATITUDE,
     CONF_LONGITUDE,
+)
+from weatherbitpypi import (
+    Weatherbit,
+    InvalidApiKey,
+    RequestError,
 )
 
 from .const import (
@@ -49,6 +44,7 @@ SCAN_INTERVAL = timedelta(minutes=30)
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up configured Weatherbit."""
     # We allow setup only through config flow type of config
+
     return True
 
 
