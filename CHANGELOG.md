@@ -1,4 +1,10 @@
 
+### Release 0.34.4
+
+Release date: October 22nd, 2021
+
+* `FIXED`: Issue #38 and #39. Better handling when WeatherBit does not supply any data, for whatever reason. Now the system will not throw an exception, just ad no value, and then retyr on next interval.
+
 ### Release 0.34.3
 
 Release date: April 29th, 2021

@@ -1,5 +1,5 @@
 """Base Entity for Weatherbit."""
-
+import logging
 from homeassistant.helpers.entity import Entity
 import homeassistant.helpers.device_registry as dr
 
@@ -12,6 +12,8 @@ from .const import (
     DEFAULT_BRAND,
     DEVICE_TYPE_WEATHER,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class WeatherbitEntity(Entity):
@@ -48,6 +50,10 @@ class WeatherbitEntity(Entity):
     @property
     def _current(self):
         """Return Current Data."""
+        if self.cur_coordinator.data[0] is None:
+            _LOGGER.warning(
+                "Weatherbit did not supply data in the last pull request. Retrying on the next scheduled interval."
+            )
         return self.cur_coordinator.data[0]
 
     @property
