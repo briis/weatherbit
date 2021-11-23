@@ -31,6 +31,10 @@ DEFAULT_FORECAST_LANGUAGE = "en"
 
 DOMAIN = "weatherbit"
 
+DEVICE_CLASS_LOCAL_ALERTS = "alerts"
+DEVICE_CLASS_LOCAL_BEAUFORT = "beaufort"
+DEVICE_CLASS_LOCAL_WIND_CARDINAL = "wind_cardinal"
+
 DEVICE_TYPE_TEMPERATURE = "temperature"
 DEVICE_TYPE_WIND = "wind"
 DEVICE_TYPE_RAIN = "rain"
@@ -54,7 +58,7 @@ WIND_UNITS = [
 
 WEATHERBIT_API_VERSION = "2.0"
 WEATHERBIT_PLATFORMS = [
-    "weather",
+    # "weather",
     "sensor",
 ]
 
