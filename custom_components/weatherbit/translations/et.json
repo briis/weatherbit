@@ -7,16 +7,9 @@
         "step": {
             "user": {
                 "data": {
-                    "wind_unit": "Tuule kiiruse ühik (ainult meetermõõdustiku puhul)",
-                    "add_alerts": "Luba ohtlike nähtuste hoiatused",
-                    "add_sensors": "Vali kasutatavad elemendid",
-                    "cur_update_interval": "Ilmaandmete värskendus (minutites)",
-                    "fcs_update_interval": "Ennustuse värskendus (minutites)",
-                    "fcst_language": "Ilmaennustuse keel",
                     "latitude": "Laius",
                     "longitude": "Pikkus",
-                    "api_key": "Weatherbit API võti",
-                    "name": "Name"
+                    "api_key": "Weatherbit API võti"
                 },
                 "title": "Weatherbit andmete asukoht"
             }
@@ -26,12 +19,9 @@
         "step": {
             "init": {
                 "data": {
-                    "wind_unit": "Tuule kiiruse ühik (ainult meetermõõdustiku puhul)",
-                    "add_alerts": "Luba ohtlike nähtuste hoiatused",
-                    "add_sensors": "Vali kasutatavad elemendid",
-                    "fcst_language": "Ilmaennustuse keel",
-                    "cur_update_interval": "Ilmaandmete värskendus (minutites)",
-                    "fcs_update_interval": "Ennustuse värskendus (minutites)"
+                    "update_interval": "Interval in minutes between sensor updates (Default 5 min)",
+                    "forecast_interval": "Interval between in minutes forecast updates (Default 30 min)",
+                    "forecast_language": "Forecast Language"
                 }
             }
         }

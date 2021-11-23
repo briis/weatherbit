@@ -7,16 +7,9 @@
         "step": {
             "user": {
                 "data": {
-                    "wind_unit": "Jednostka prędkości wiatru (dotyczy tylko systemu metrycznego)",
-                    "add_alerts": "Aktywuj ostrzeżenia pogodowe",
-                    "add_sensors": "Zainstaluj indywidualne sensory",
-                    "cur_update_interval": "Interwał aktualizacji danych bieżących (minuty)",
-                    "fcs_update_interval": "Interwał aktualizacji danych prognozy (minuty)",
-                    "fcst_language": "Język prognozy",
                     "latitude": "Szerokość geograficzna",
                     "longitude": "Długość geograficzna",
-                    "api_key": "Klucz API Weatherbit",
-                    "name": "Nazwa"
+                    "api_key": "Klucz API Weatherbit"
                 },
                 "title": "Lokalizacja danych pomiarowych Weatherbit"
             }
@@ -26,12 +19,9 @@
         "step": {
             "init": {
                 "data": {
-                    "wind_unit": "Jednostka prędkości wiatru (dotyczy tylko systemu metrycznego)",
-                    "add_alerts": "Aktywuj ostrzeżenia pogodowe",
-                    "add_sensors": "Zainstaluj indywidualne sensory",
-                    "fcst_language": "Język prognozy",
-                    "cur_update_interval": "Interwał aktualizacji danych bieżących (minuty)",
-                    "fcs_update_interval": "Interwał aktualizacji danych prognozy (minuty)"
+                    "forecast_language": "Język prognozy",
+                    "update_interval": "Interwał aktualizacji danych bieżących (minuty)",
+                    "forecast_interval": "Interwał aktualizacji danych prognozy (minuty)"
                 }
             }
         }

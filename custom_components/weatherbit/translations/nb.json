@@ -7,16 +7,9 @@
         "step": {
             "user": {
                 "data": {
-                    "wind_unit": "Vindenhet (gjelder bare hvis enhetssystemet er metrisk)",
-                    "add_alerts": "Aktiver alvorlige værvarsler",
-                    "add_sensors": "Installer individuelle sensorer",
-                    "cur_update_interval": "Gjeldende dataoppdateringsintervall (minutter)",
-                    "fcs_update_interval": "Intervall for oppdatering av prognosedata (minutter)",
-                    "fcst_language": "Prognosespråk",
                     "latitude": "Breddegrad",
                     "longitude": "Lengdegrad",
-                    "api_key": "Weatherbit API-nøkkel",
-                    "name": "Navn"
+                    "api_key": "Weatherbit API-nøkkel"
                 },
                 "title": "Plassering for Weatherbit Data"
             }
@@ -26,12 +19,9 @@
         "step": {
             "init": {
                 "data": {
-                    "wind_unit": "Vindenhet (gjelder bare hvis enhetssystemet er metrisk)",
-                    "add_alerts": "Aktiver varsler om alvorlig vær",
-                    "add_sensors": "Installer individuelle sensorer",
-                    "fcst_language": "Prognosespråk",
-                    "cur_update_interval": "Gjeldende dataoppdateringsintervall (minutter)",
-                    "fcs_update_interval": "Intervall for oppdatering av prognosedata (minutter)"
+                    "forecast_language": "Prognosespråk",
+                    "update_interval": "Gjeldende dataoppdateringsintervall (minutter)",
+                    "forecast_interval": "Intervall for oppdatering av prognosedata (minutter)"
                 }
             }
         }

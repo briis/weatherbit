@@ -17,28 +17,22 @@ from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
 )
-from weatherbitpypi import (
-    Weatherbit,
-    InvalidApiKey,
+from pyweatherbitdata import (
     RequestError,
+    InvalidApiKey,
+    ResultError,
+    WeatherBitApiClient,
 )
 
 from .const import (
     DOMAIN,
-    CONF_CUR_UPDATE_INTERVAL,
-    CONF_FCS_UPDATE_INTERVAL,
-    CONF_ADD_ALERTS,
     CONF_FORECAST_LANGUAGE,
-    CONF_WIND_UNITS,
     DEFAULT_BRAND,
     DEFAULT_FORECAST_LANGUAGE,
-    UNIT_WIND_MS,
     WEATHERBIT_PLATFORMS,
 )
 
 _LOGGER = logging.getLogger(__name__)
-
-SCAN_INTERVAL = timedelta(minutes=30)
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:

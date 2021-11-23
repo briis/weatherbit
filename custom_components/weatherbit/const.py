@@ -17,12 +17,9 @@ ATTR_WEATHERBIT_WEATHER_TEXT = "weather_text"
 ATTR_WEATHERBIT_WEATHER_ICON = "weather_icon"
 ATTR_WEATHERBIT_ALT_CONDITION = "alt_condition"
 
-CONF_ADD_SENSORS = "add_sensors"
-CONF_ADD_ALERTS = "add_alerts"
-CONF_CUR_UPDATE_INTERVAL = "cur_update_interval"
-CONF_FCS_UPDATE_INTERVAL = "fcs_update_interval"
-CONF_FORECAST_LANGUAGE = "fcst_language"
-CONF_WIND_UNITS = "wind_unit"
+CONF_INTERVAL_SENSORS = "update_interval"
+CONF_INTERVAL_FORECAST = "forecast_interval"
+CONF_FORECAST_LANGUAGE = "forecast_language"
 
 DOMAIN = "weatherbit"
 
@@ -108,11 +105,12 @@ MDI_CONDITION_CLASSES = {
 }
 
 DEFAULT_ATTRIBUTION = "Powered by Weatherbit.io"
-DEFAULT_SCAN_INTERVAL = 30
+DEFAULT_INTERVAL_SENSORS = 5
+DEFAULT_INTERVAL_FORECAST = 30
 DEFAULT_BRAND = "Weatherbit.io"
 DEFAULT_FORECAST_LANGUAGE = "en"
 
-FORECAST_LANGUAGES = [
+VALID_LANGUAGES = [
     "en",
     "ar",
     "az",
