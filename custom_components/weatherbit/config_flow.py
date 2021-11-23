@@ -18,7 +18,6 @@ from .const import (
     CONF_INTERVAL_SENSORS,
     CONF_INTERVAL_FORECAST,
     CONF_FORECAST_LANGUAGE,
-    VALID_LANGUAGES,
 )
 
 from pyweatherbitdata import (
@@ -27,6 +26,7 @@ from pyweatherbitdata import (
     ResultError,
     WeatherBitApiClient,
 )
+from pyweatherbitdata.const import VALID_LANGUAGES
 from pyweatherbitdata.data import BaseDataDescription
 
 _LOGGER = logging.getLogger(__name__)

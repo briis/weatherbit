@@ -1,7 +1,4 @@
 """Constants in weatherbit component."""
-import logging
-
-# from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 ATTR_WEATHERBIT_AQI = "aqi"
 ATTR_WEATHERBIT_ALERTS = "alerts"
@@ -20,6 +17,17 @@ ATTR_WEATHERBIT_ALT_CONDITION = "alt_condition"
 CONF_INTERVAL_SENSORS = "update_interval"
 CONF_INTERVAL_FORECAST = "forecast_interval"
 CONF_FORECAST_LANGUAGE = "forecast_language"
+CONFIG_OPTIONS = [
+    CONF_FORECAST_LANGUAGE,
+    CONF_INTERVAL_FORECAST,
+    CONF_INTERVAL_SENSORS,
+]
+
+DEFAULT_ATTRIBUTION = "Powered by Weatherbit.io"
+DEFAULT_INTERVAL_SENSORS = 5
+DEFAULT_INTERVAL_FORECAST = 30
+DEFAULT_BRAND = "Weatherbit.io"
+DEFAULT_FORECAST_LANGUAGE = "en"
 
 DOMAIN = "weatherbit"
 
@@ -44,6 +52,7 @@ WIND_UNITS = [
     UNIT_WIND_KMH,
 ]
 
+WEATHERBIT_API_VERSION = "2.0"
 WEATHERBIT_PLATFORMS = [
     "weather",
     "sensor",
@@ -103,51 +112,3 @@ MDI_CONDITION_CLASSES = {
     "weather-sunny": [800],
     "weather-windy": [],
 }
-
-DEFAULT_ATTRIBUTION = "Powered by Weatherbit.io"
-DEFAULT_INTERVAL_SENSORS = 5
-DEFAULT_INTERVAL_FORECAST = 30
-DEFAULT_BRAND = "Weatherbit.io"
-DEFAULT_FORECAST_LANGUAGE = "en"
-
-VALID_LANGUAGES = [
-    "en",
-    "ar",
-    "az",
-    "be",
-    "bg",
-    "bs",
-    "ca",
-    "cz",
-    "da",
-    "de",
-    "fi",
-    "fr",
-    "el",
-    "es",
-    "et",
-    "hr",
-    "hu",
-    "id",
-    "it",
-    "is",
-    "iw",
-    "kw",
-    "lt",
-    "nb",
-    "nl",
-    "pl",
-    "pt",
-    "ro",
-    "ru",
-    "sk",
-    "sl",
-    "sr",
-    "sv",
-    "tr",
-    "uk",
-    "zh",
-    "zh-tw",
-]
-
-LOGGER = logging.getLogger(__package__)
