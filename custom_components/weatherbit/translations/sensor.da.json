@@ -15,6 +15,12 @@
             "violent_storm": "Stærk Storm",
             "hurricane": "Orkan"
         },
+        "alerts": {
+            "advisory": "Rådgivende",
+            "watch": "Overvåger",
+            "warning": "Advarsel",
+            "none": "Ingen varsler"
+        },
         "wind_cardinal": {
             "n": "N",
             "nne": "NNØ",
