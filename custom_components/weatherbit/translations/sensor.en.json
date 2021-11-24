@@ -15,12 +15,6 @@
             "violent_storm": "Violent Storm",
             "hurricane": "Hurricane"
         },
-        "alerts": {
-            "advisory": "Advisory",
-            "watch": "Watch",
-            "warning": "Warning",
-            "none": "No Alerts"
-        },
         "wind_cardinal": {
             "n": "N",
             "nne": "NNE",

@@ -1,18 +1,17 @@
 """Constants in weatherbit component."""
 
-ATTR_WEATHERBIT_AQI = "aqi"
-ATTR_WEATHERBIT_ALERTS = "alerts"
-ATTR_WEATHERBIT_CLOUDINESS = "cloudiness"
-ATTR_WEATHERBIT_IS_NIGHT = "is_night"
-ATTR_WEATHERBIT_WIND_GUST = "wind_gust"
-ATTR_WEATHERBIT_PRECIPITATION = "precipitation"
-ATTR_WEATHERBIT_SNOW = "snow"
-ATTR_WEATHERBIT_UVI = "uv_index"
-ATTR_WEATHERBIT_UPDATED = "updated"
-ATTR_WEATHERBIT_FCST_POP = "precip_prob"
-ATTR_WEATHERBIT_WEATHER_TEXT = "weather_text"
-ATTR_WEATHERBIT_WEATHER_ICON = "weather_icon"
-ATTR_WEATHERBIT_ALT_CONDITION = "alt_condition"
+ATTR_ALERTS = "alerts"
+ATTR_ALERT_DESCRIPTION_EN = "description_english"
+ATTR_ALERT_DESCRIPTION_LOC = "description_local"
+ATTR_ALERT_EFFECTIVE = "effective"
+ATTR_ALERT_ENDS = "ends"
+ATTR_ALERT_EXPIRES = "expires"
+ATTR_ALERT_ONSET = "onset"
+ATTR_ALERT_REGIONS = "regions"
+ATTR_ALERT_SEVERITY = "severity"
+ATTR_ALERT_TITLE = "title"
+ATTR_ALERT_URI = "uri"
+ATTR_AQI_LEVEL = "aqi_level"
 
 CONF_INTERVAL_SENSORS = "update_interval"
 CONF_INTERVAL_FORECAST = "forecast_interval"
@@ -31,30 +30,8 @@ DEFAULT_FORECAST_LANGUAGE = "en"
 
 DOMAIN = "weatherbit"
 
-DEVICE_CLASS_LOCAL_ALERTS = "alerts"
 DEVICE_CLASS_LOCAL_BEAUFORT = "beaufort"
 DEVICE_CLASS_LOCAL_WIND_CARDINAL = "wind_cardinal"
-
-DEVICE_TYPE_TEMPERATURE = "temperature"
-DEVICE_TYPE_WIND = "wind"
-DEVICE_TYPE_RAIN = "rain"
-DEVICE_TYPE_SNOW = "snow"
-DEVICE_TYPE_PRESSURE = "pressure"
-DEVICE_TYPE_HUMIDITY = "humidity"
-DEVICE_TYPE_WEATHER = "weather"
-DEVICE_TYPE_DISTANCE = "distance"
-
-TYPE_SENSOR = "sensor"
-TYPE_FORECAST = "forecast"
-TYPE_ALERT = "alert"
-
-UNIT_WIND_MS = "m/s"
-UNIT_WIND_KMH = "km/h"
-UNIT_WIND_KNOT = "knot"
-WIND_UNITS = [
-    UNIT_WIND_MS,
-    UNIT_WIND_KMH,
-]
 
 WEATHERBIT_API_VERSION = "2.0"
 WEATHERBIT_PLATFORMS = [
