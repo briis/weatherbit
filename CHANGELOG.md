@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.0] - Unrealeased
+## [1.0.0] - Unreleased
 
 This release contains **breaking changes** and you will have to re-define most of your settings in the UI and in automations after installation.
 
@@ -14,6 +14,7 @@ Due to the many changes and entities that have been removed and replaced, we rec
 
 ### Changes
 - **BREAKING CHANGE** This is basically a completely new Integration, as all code has been rewritten from the beginning. This goes for the Integration itself, but also for the module `pyweatherbitdata` that this integration uses for communincating with the WeatherBit API. This is done to make the Integration compliant with Home Assistant coding practices and to ensure it is much easier to maintain going forward. As a consequence of that almost all sensors have a new Name and a new Unique ID's, which is why a removal and re-installation is the best option when upgrading to this version. You will also have to change the sensor  and weather entity names in the UI and in Automations that are based on this Integration.
+- **Alerts** are now always pulled from Weatherbit, as I found a way to pull that data together with the Current observation data, so it is only 1 call to Weatherbit
 
 ### Added
-- Frontend Translations are now in place for non-standard text based sensors like Beaufort Description and Wind Cardinals. This means that the state of the sensor will always be the same, independend of the UI Language, which makes it easier to make automations that go across UI languages.
+- Frontend Translations are now in place for non-standard text based sensors like Beaufort Description, UV Description and Wind Cardinals. This means that the state of the sensor will always be the same, independend of the UI Language, which makes it easier to make automations that go across UI languages. Please see the README file, if you want to translate to your local language.
