@@ -23,7 +23,6 @@ from homeassistant.helpers.typing import StateType
 from pyweatherbitdata.data import AlertDescription
 
 from .const import (
-    ATTR_ALERTS,
     ATTR_ALERT_DESCRIPTION_EN,
     ATTR_ALERT_DESCRIPTION_LOC,
     ATTR_ALERT_EFFECTIVE,
@@ -34,10 +33,12 @@ from .const import (
     ATTR_ALERT_SEVERITY,
     ATTR_ALERT_TITLE,
     ATTR_ALERT_URI,
+    ATTR_ALERTS,
     ATTR_AQI_LEVEL,
-    DOMAIN,
-    DEVICE_CLASS_LOCAL_WIND_CARDINAL,
     DEVICE_CLASS_LOCAL_BEAUFORT,
+    DEVICE_CLASS_LOCAL_UV_DESCRIPTION,
+    DEVICE_CLASS_LOCAL_WIND_CARDINAL,
+    DOMAIN,
 )
 from .entity import WeatherbitEntity
 from .models import WeatherBitEntryData
@@ -212,6 +213,14 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         icon="mdi:weather-sunny-alert",
         native_unit_of_measurement="UVI",
         state_class=STATE_CLASS_MEASUREMENT,
+        unit_type="none",
+        extra_attributes=False,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="uv_description",
+        name="UV Description",
+        icon="mdi:weather-sunny-alert",
+        device_class=DEVICE_CLASS_LOCAL_UV_DESCRIPTION,
         unit_type="none",
         extra_attributes=False,
     ),

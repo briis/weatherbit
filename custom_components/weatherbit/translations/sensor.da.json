@@ -32,6 +32,14 @@
             "wnw": "VNV",
             "nw": "NV",
             "nnw": "NNV"
+        },
+        "uv_description": {
+            "extreme": "Ekstrem høj",
+            "very-high": "Meget høj",
+            "high": "Høj",
+            "moderate": "Moderat",
+            "low": "Lav",
+            "none": "Ingen lys"
         }
     }
 }

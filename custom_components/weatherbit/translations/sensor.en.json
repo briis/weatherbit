@@ -32,6 +32,14 @@
             "wnw": "WNW",
             "nw": "NW",
             "nnw": "NNW"
+        },
+        "uv_description": {
+            "extreme": "Extreme",
+            "very-high": "Very High",
+            "high": "High",
+            "moderate": "Moderate",
+            "low": "Low",
+            "none": "No Light"
         }
     }
 }

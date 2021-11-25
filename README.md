@@ -3,11 +3,13 @@
 
 The weatherbit integration adds support for the [weatherbit.io](https://www.weatherbit.io/) web service as a source for meteorological data for your location.
 
+The integration only supports the [Free Tier API](https://www.weatherbit.io/pricing) from Weatherbit and as such is limited in what data we can bring. The *Free Tier* has a maximum of 500 calls per day.
+
 There is currently support for the following device types within Home Assistant:
 * Weather
+  * One Weather Entity will be created showing Day Based forecast for the next 16 days
 * Sensor
-
-There is only support for *daily* forecasts, as the hourly forecast requires a paid API Key.
+  * A whole range of individual sensors will be available. for a complete list of the sensors, see the list below.
 
 ## Installation
 
@@ -23,159 +25,110 @@ Then, drop the following files into that folder:
 
 ```yaml
 __init__.py
-manifest.json
-weather.py
-sensor.py
-entity.py
 config_flow.py
 const.py
-string.json
+entity.py
+manifest.json
+models.py
+sensor.py
+weather.py
 translation (Directory with all files)
 ```
 ## Configuration
-The Weatherbit weather service is free under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode). Weather data will be pulled once every 30 minutes.
+The Weatherbit weather service is free under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
-To add Weatherbit weather forecast to your installation, go to the Integrations page inside the configuration panel and add a location by providing the API Key for Weatherbit and longitude/latitude of your location.
+To add Weatherbit to your installation, do the following:
+- Go to *Configuration* and *Integrations*
+- Click the `+ ADD INTEGRATION` button in the lower right corner.
+- Search for Weatherbit and click the integration.
+- When loaded, there will be a configuration box, where you have to enter your *API Key* and *Latitude, Longitude* to get access to your data. When entered click *Submit* and the Integration will load all the entities. Latitude and Longitude are pre-filled with the location you entered in Home Assistant.
 
-If the location is configured in Home Assistant, it will be selected as the default location. After that, you can add additional locations.
+If you want to change the update frequencies for the sensor data and forecast data, or select a different language for the Forecast Text, this can be done by clicking `CONFIGURE` in the lower left corner of the Weatherbit integration..
 
-During setup you will have the option of installing Individual sensors for each of the *Current Day* values plus the next seven days of Forecast. This will be setup by default, but you can opt not to install them by deselecting the checkbox. If you deselect, and later want the sensors installed, you will have to remove the Integration and then set it up again.
+You can configure more than 1 instance of the Integration by using a different Latitude/Longitude. Just remember to adjust the update frequencies due to the limits on the Free Tier.
 
-You will also have the option of adding *Weather Alerts* for your location. It is de-selected by default, but if you mark the box, an additional sensor will be created for Weather Alerts, showing the number of Alerts in the State, and the details for these alerts in the attributes. If you want to add or remove this sensor, delete the Integrations and re-add it to the system. For a very basic example of using the alerts in Lovelace, I modified some code from @eggman and you can find the [example here](https://github.com/briis/weatherbit/blob/master/weather_alert_markdown.yaml)
-
-The units used are defined by the Unit System set in the *General* section of the *Configuration* page. If you change the unit system here, you will have to restart Home Assistent for this Integration to reflect the changes.
-
-**You can only add locations through the integrations page, not in configuration files.**
-
-### Remove Sensors that are not needed
-The Integration creates a significant amount of sensors, so if there are any of these you don't need, and want to clean-up your installation, you can disable the sensors, so that they are not created in Home Assistant.
-
-In order to do that:
-* Go to the *Configuration* tab, select *Integrations*
-* Find the *Weatherbit* Integration. Now click on *x entities* where x shows the number of entities created for Weatherbit.
-* Select the sensors you don't need by marking the box to the left.
-* Once you are done, click *DISABLE SELECTED* on the top right, and the sensors will be removed and not enabled on next restart.
-
-Should you want them back, you can click on the *Filter* symbol on the top right, and select *Show disabled entities* and you can now re-add them again.
-
-## API Key for Weatherbit
+### API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
-This key allows you to make 500 calls pr. day, and as this Integration uses 4 calls per hour (96 pr day) with the default update interval, and with that, you can add a maximum of 5 locations to your setup, without exceeding the limit per day.
-If you activate the *Weather Alerts* that will add another 2 calls per hour with the default settings.
+This key allows you to make 500 calls pr. day. With the default update frequencies this means that you have used 336 calls per day. So if you want to have more than 1 location, you will need to make less frequent updates per location.
 
-**API KEY ESTIMATOR**<br>
-* **Forecast** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
-* **Current Data** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
-* **Weather Alerts** 1 call pr.cycle, so default 2 per hour with a 30 min update interval.
+### Configuration Variables
+* `API Key`: (required) A Personal API Key retrieved from WeatherBit (See above).
+* `Latitude`: (required) Latitude of the location needing data from. (Default Latitude from Home Assistant).
+* `Longitude`: (required) Longitude of the location needing data from. (Default Longitude from Home Assistant).
+* `Update Interval`: (optional) Interval in minutes between sensor updates (Default 5 min).
+* `Forecast Interval`: (optional) Interval between in minutes forecast updates (Default 30 min).
+* `Forecast Language`: (optional) The language for the forecast text strings returned from Weatherbit. (Default English).
 
-If you set Forecast Update Interval to every 60 min, and Current Data Update Interval to every 10 min, and activate the Weather Alerts, the calculation would look like the following:<br>
+## Available Sensors
 
-* *Forecast* 1 * 60/60min * 24hrs = 24 calls per day
-* *Current Data* 1 * 60/10min * 24hrs = 144 calls per day
-* *Weather Alerts* 1 * 60/60min * 24hrs = 24 calls per day
-* **Total**: 192 calls per day. So with this setup, you can have 2 locations in total configured.
+Here is the list of sensors that the program generates. Calculated Sensor means, if No, then data comes directly from the Weatherbit, if yes, it is a sensor that is derived from some of the other sensors.
 
-### CONFIGURATION VARIABLES
-**API Key**<br>
-&nbsp;&nbsp;*(string)(Required)*<br>
-&nbsp;&nbsp;Specify your Weatherbit API Key.
+All entities are prefixed with `weatherbit_` and names are prefixed with `Weatherbit`
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;None
+| Sensor ID   | Name   | Description   | Calculated Sensor   |
+| --- | --- | --- | --- |
+| air_quality_index | Air Quality Index | Air Quality Index [US - EPA standard 0 - +500]| No |
+| air_temperature | Air Temperature | Outside Temperature | No |
+| apparent_temperature | Apparent Temperature | The apparent temperature, a mix of Heat Index and Wind Chill | No |
+| beaufort | Beaufort Scale | Beaufort scale is an empirical measure that relates wind speed to observed conditions at sea or on land | Yes ||
+| beaufort_description | Beaufort Description | A descriptive text for the current Beaufort level. | Yes ||
+| cloud_coverage | Cloud Coverage | Cloud coverage (%). | No |
+| dew_point | Dew Point | Dewpoint in degrees | No |
+| precipitation | Rain Rate | How much is it raining right now | No |
+| relative_humidity | Humidity | Relative Humidity | No |
+| sealevel_pressure | Sea Level Pressure | Preasure measurement at Sea Level | No |
+| snow | Snow Rate | How much is it snowing right now | No |
+| solar_radiation | Solar Radiation | Electromagnetic radiation emitted by the sun | No |
+| station_pressure | Station Pressure | Pressure measurement where the station is located | No |
+| uv_index | UV Index | The UV index | No |
+| uv_description | UV Description | A descriptive text for the current UV index | Yes |
+| visibility | Visibility | Distance to the horizon | No |
+| weather_alerts | Weather Alerts | Number of Alerts for the location. More details are found in the Attributes of that sensor if there are any alerts. | No |
+| weather_description | Current Condition | The current condition in the selected Forecast Language | No |
+| wind_cardinal | Wind Cardinal | Current measured Wind bearing as text | Yes |
+| wind_direction | Wind Direction | Current measured Wind bearing in degrees | No |
+| wind_speed | Wind Speed | Current measured Wind Speed in Home Assistant units | No |
+| wind_speed_km_h | Wind Speed (km/h) | Current measured Wind Speed in km/h | No |
+| wind_speed_knots | Wind Speed (knots) | Current measured Wind Speed in knots | No |
 
-**latitude**<br>
-&nbsp;&nbsp;*(float)(Required)*<br>
-&nbsp;&nbsp;Manually specify latitude.
+## Available Weather Entities
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;Provided by Home Assistant configuration
+Here is the list of Weather Entities that the program generates. With the exception of the condition state and the icon, the values for the current condition are equal to the Sensor values, so the Weather entity displayes realtime values and the forecast for either the next days or the next hours. Both entities are installed.
 
-**longitude**<br>
-&nbsp;&nbsp;*(float)(Required)*.<br>
-&nbsp;&nbsp;Manually specify longitude.
+All entities are prefixed with `weatherbit_` and names are prefixed with `Weatherbit`
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;Provided by Home Assistant configuration
+| Sensor ID   | Name   | Description   |
+| --- | --- | --- |
+| day_based_forecast | Day Based Forecast | A weather entity with Forecast for today and the next 15 days |
 
-**Wind Unit**<br>
-&nbsp;&nbsp;*(string)(Optional)*.<br>
-&nbsp;&nbsp;Select the Wind Unit, if Home Assistant is set to the Metric Unit System. Possible values are: m/s and km/h. If Unit System is Imperial, this will always be *mph (Miles per Hour)*
+## Enable Debug Logging
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;m/s (Meters per second)
+If logs are needed for debugging or reporting an issue, use the following configuration.yaml:
 
-**Update Interval - Current Data**<br>
-&nbsp;&nbsp;*(int)(Optional)*.<br>
-&nbsp;&nbsp;Specify the time in minutes for the Current Data being updated. Value between 4 and 60 minutes. If you set it in the low end, be carefull not to run over your daily limit of 500 calls.
+```yaml
+logger:
+  default: error
+  logs:
+    custom_components.weatherbit: debug
+```
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;30 minutes
+## Contribute to the Project and developing with a Devcontainer
 
-**Update Interval - Forecast Data**<br>
-&nbsp;&nbsp;*(int)(Optional)*.<br>
-&nbsp;&nbsp;Specify the time in minutes for the Forecast Data being updated. Value between 30 and 120 minutes.
+### Integration
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;30 minutes
+1. Fork and clone the repository.
+2. Open in VSCode and choose to open in devcontainer. Must have VSCode devcontainer prerequisites.
+3. Run the command container start from VSCode terminal
+4. A fresh Home Assistant test instance will install and will eventually be running on port 9126 with this integration running
+5. When the container is running, go to http://localhost:9126 and the add WeatherFlow Weather from the Integration Page.
 
-**Forecast Language**<br>
-&nbsp;&nbsp;*(string)(Optional)*.<br>
-&nbsp;&nbsp;Specify the language that Weatherbit should return the Forecast strings in. Se list of supported languages below.
+### Frontend
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;en (English)
+There are some sensors in this integration that provides a text as state which is not covered by the core Frontend translation. Example: `sensor.weatherbit_beaufort_description`, `sensor.weatherbit_uv_description` and `sensor.weatherbit_wind_cardinal`.
 
-**Add Sensors**<br>
-&nbsp;&nbsp;*(bool)Optional)*.<br>
-&nbsp;&nbsp;Deselect this checkbox of you don't want the sensors added to Home Assistant.
+As default the text in the Frontend is displayed in english if your language is not present in this integration, but if you want to help translate these texts in to a new language, please do the following:
+- Go to the `translations` directory under `custom_components/weatherbit` and copy the file `sensor.en.json` to `sensor.YOUR_LANGUAGE_CODE.json` in a directory on your computer.
+- Edit the file and change all the descriptions to your language.
+- Make a Pull request in this Github and attach your new file.
 
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;True
-
-**Activate Alerts**<br>
-&nbsp;&nbsp;*(bool)Optional)*.<br>
-&nbsp;&nbsp;Select this checkbox of you want the Weather Alerts sensor added to Home Assistant.
-
-&nbsp;&nbsp;*Default value:*<br>
-&nbsp;&nbsp;False
-
-### Supported Forecast Languages
-
-Here is the list of languages that Weatherbit can return Forecast strings in:
-* en - English
-* ar - Arabic
-* az - Azerbaijani
-* be - Belarusian
-* bg - Bulgarian
-* bs - Bosnian
-* ca - Catalan
-* cz - Czech
-* da - Danish
-* de - German
-* fi - Finnish
-* fr - French
-* el - Greek
-* es - Spanish
-* et - Estonian
-* hr - Croation
-* hu - Hungarian
-* id - Indonesian
-* it - Italian
-* is - Icelandic
-* iw - Hebrew
-* kw - Cornish
-* lt - Lithuanian
-* nb - Norwegian Bokmål
-* nl - Dutch
-* pl - Polish
-* pt - Portuguese
-* ro - Romanian
-* ru - Russian
-* sk - Slovak
-* sl - Slovenian
-* sr - Serbian
-* sv - Swedish
-* tr - Turkish
-* uk - Ukrainian
-* zh - Chinese (Simplified)
-* zh-tw - Chinese (Traditional)
+The same procedure applies for the Configuration flow, follow the above procedure, just copy `en.json` to `YOUR_LANGUAGE_CODE.json`.
