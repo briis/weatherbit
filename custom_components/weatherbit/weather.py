@@ -40,7 +40,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Add a weather entity from a config_entry."""
-    entry_data: WeatherbitWeatherEntity = hass.data[DOMAIN][entry.entry_id]
+    entry_data: WeatherBitEntryData = hass.data[DOMAIN][entry.entry_id]
     weatherbitapi = entry_data.weatherbitapi
     coordinator = entry_data.coordinator
     forecast_coordinator = entry_data.forecast_coordinator

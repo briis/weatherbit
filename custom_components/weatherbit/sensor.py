@@ -176,13 +176,6 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         extra_attributes=False,
     ),
     WeatherBitSensorEntityDescription(
-        key="weather_icon",
-        name="Icon Code",
-        icon="mdi:simple-icons",
-        unit_type="none",
-        extra_attributes=False,
-    ),
-    WeatherBitSensorEntityDescription(
         key="weather_text",
         name="Weather Description",
         icon="mdi:text-short",
