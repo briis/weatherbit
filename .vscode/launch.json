@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Debug Unifi Protect",
+            "name": "Python: Debug WeatherBit",
             "type": "python",
             "request": "attach",
             "justMyCode": false,
