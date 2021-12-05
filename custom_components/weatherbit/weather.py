@@ -16,8 +16,16 @@ from homeassistant.components.weather import (
     WeatherEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import TEMP_CELSIUS
+from homeassistant.const import (
+    LENGTH_KILOMETERS,
+    LENGTH_MILLIMETERS,
+    PRESSURE_HPA,
+    PRESSURE_INHG,
+    SPEED_METERS_PER_SECOND,
+    TEMP_CELSIUS,
+)
 from homeassistant.core import HomeAssistant
+from homeassistant.util.pressure import convert as convert_pressure
 from pyweatherbitdata.data import ForecastDetailDescription
 
 from .const import DOMAIN
@@ -102,7 +110,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def temperature(self):
         """Return the temperature."""
-        return self.coordinator.data.temp
+        return self.forecast_coordinator.data.temp
 
     @property
     def temperature_unit(self):
@@ -112,33 +120,46 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def humidity(self):
         """Return the humidity."""
-        return self.coordinator.data.humidity
+        return self.forecast_coordinator.data.humidity
+
+    @property
+    def precipitation_unit(self) -> str | None:
+        return LENGTH_MILLIMETERS
 
     @property
     def pressure(self):
         """Return the pressure."""
-        return self.coordinator.data.slp
+        pressure_hpa = self.forecast_coordinator.data.slp
+        if self._is_metric or pressure_hpa is None:
+            return pressure_hpa
+
+        return round(convert_pressure(pressure_hpa, PRESSURE_HPA, PRESSURE_INHG), 2)
 
     @property
     def wind_speed(self):
         """Return the wind speed."""
-        if self.coordinator.data.wind_spd is None:
+        if self.forecast_coordinator.data.wind_spd is None:
             return None
 
-        if self._is_metric:
-            return int(round(self.coordinator.data.wind_spd * 3.6))
+        return self.forecast_coordinator.data.wind_spd
 
-        return int(round(self.coordinator.data.wind_spd))
+    @property
+    def wind_speed_unit(self) -> str | None:
+        return SPEED_METERS_PER_SECOND
 
     @property
     def wind_bearing(self):
         """Return the wind bearing."""
-        return self.coordinator.data.wind_dir
+        return self.forecast_coordinator.data.wind_dir
 
     @property
     def visibility(self):
         """Return the visibility."""
-        return self.coordinator.data.vis
+        return self.forecast_coordinator.data.vis
+
+    @property
+    def visibility_unit(self) -> str | None:
+        return LENGTH_KILOMETERS
 
     @property
     def ozone(self):

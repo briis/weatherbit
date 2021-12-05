@@ -79,6 +79,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         entry.data[CONF_LONGITUDE],
         units=unit_system,
         language=entry.options[CONF_FORECAST_LANGUAGE],
+        homeassistant=True,
         session=session,
     )
 
