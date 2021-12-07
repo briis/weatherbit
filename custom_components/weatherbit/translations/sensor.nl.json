@@ -32,6 +32,14 @@
             "wnw": "WNW",
             "nw": "NW",
             "nnw": "NNW"
+        },
+        "uv_description": {
+            "extreme": "Extreem",
+            "very-high": "Zeer sterk",
+            "high": "Sterk",
+            "moderate": "Matig",
+            "low": "Zwak",
+            "none": "Geen"
         }
     }
 }
