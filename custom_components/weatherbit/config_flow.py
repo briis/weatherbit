@@ -130,19 +130,19 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 {
                     vol.Optional(
                         CONF_INTERVAL_SENSORS,
-                        default=self.config_entry.data.get(
+                        default=self.config_entry.options.get(
                             CONF_INTERVAL_SENSORS, DEFAULT_INTERVAL_SENSORS
                         ),
                     ): vol.All(vol.Coerce(int), vol.Range(min=4, max=30)),
                     vol.Optional(
                         CONF_INTERVAL_FORECAST,
-                        default=self.config_entry.data.get(
+                        default=self.config_entry.options.get(
                             CONF_INTERVAL_FORECAST, DEFAULT_INTERVAL_FORECAST
                         ),
                     ): vol.All(vol.Coerce(int), vol.Range(min=15, max=120)),
                     vol.Optional(
                         CONF_FORECAST_LANGUAGE,
-                        default=self.config_entry.data.get(
+                        default=self.config_entry.options.get(
                             CONF_FORECAST_LANGUAGE, DEFAULT_FORECAST_LANGUAGE
                         ),
                     ): vol.In(VALID_LANGUAGES),
