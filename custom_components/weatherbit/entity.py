@@ -7,28 +7,26 @@ import homeassistant.helpers.device_registry as dr
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.entity import DeviceInfo, Entity
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DEFAULT_ATTRIBUTION, DEFAULT_BRAND, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class WeatherbitEntity(CoordinatorEntity, Entity):
+class WeatherbitEntity(Entity):
     """Base class for Weatherbit Entities."""
 
     def __init__(
         self,
         weatherbitapi,
-        coordinator,
-        forecast_coordinator,
+        coordinator: DataUpdateCoordinator,
+        forecast_coordinator: DataUpdateCoordinator,
         station_data,
         description,
         entries: ConfigEntry,
     ):
         """Initialize the entity."""
-        super().__init__(coordinator)
-
         if description:
             self.entity_description = description
 
@@ -52,3 +50,13 @@ class WeatherbitEntity(CoordinatorEntity, Entity):
         return {
             ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
         }
+
+    async def async_added_to_hass(self):
+        """When entity is added to hass."""
+        self.async_on_remove(
+            self.coordinator.async_add_listener(self.async_write_ha_state)
+        )
+
+        self.async_on_remove(
+            self.forecast_coordinator.async_add_listener(self.async_write_ha_state)
+        )
