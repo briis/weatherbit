@@ -8,8 +8,8 @@
         "step": {
             "user": {
                 "data": {
-                    "latitude": "Latitude",
-                    "longitude": "Longitude",
+                    "latitude": "Breddegrad",
+                    "longitude": "Længdegrad",
                     "api_key": "Weatherbit API nøgle"
                 },
                 "title": "Konfigurer en WeatherBit placering"
