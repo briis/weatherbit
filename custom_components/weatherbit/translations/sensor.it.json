@@ -32,6 +32,14 @@
             "wnw": "WNW",
             "nw": "NW",
             "nnw": "NNW"
+        },
+        "uv_description": {
+            "extreme": "Estremo",
+            "very-high": "Molto Elevato",
+            "high": "Elevato",
+            "moderate": "Moderato",
+            "low": "Basso",
+            "none": "Nessuno"
         }
     }
 }
