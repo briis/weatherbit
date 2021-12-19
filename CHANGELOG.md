@@ -18,7 +18,7 @@ Due to the many changes and entities that have been removed and replaced, we rec
 
 - Upgrade the Integration files, either through HACS (Recommended) or by copying the files manually to your custom_components/weatherbit directory.
 - Restart Home Assistant
-- Remove the Meteobridge Integration by going to the Integrations page, click the 3 dots in the lower right corner of the Meteobridge Integration and select Delete
+- Remove the Weatherbit Integration by going to the Integrations page, click the 3 dots in the lower right corner of the Weatherbit Integration and select Delete
 - While still on this page, click the + ADD INTEGRATION button in the lower right corner, search for WeatherBit, and start the installation, supplying your credentials.
 
 ### Changes
