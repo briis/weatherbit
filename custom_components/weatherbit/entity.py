@@ -1,17 +1,15 @@
-"""Base Entity for Weatherbit."""
-import logging
-from homeassistant.helpers.entity import Entity
-import homeassistant.helpers.device_registry as dr
+"""Shared Entity definition for WeatherFlow Integration."""
+from __future__ import annotations
 
-from homeassistant.const import (
-    CONF_LATITUDE,
-    CONF_LONGITUDE,
-)
-from .const import (
-    DOMAIN,
-    DEFAULT_BRAND,
-    DEVICE_TYPE_WEATHER,
-)
+import logging
+
+import homeassistant.helpers.device_registry as dr
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import ATTR_ATTRIBUTION
+from homeassistant.helpers.entity import DeviceInfo, Entity
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+
+from .const import DEFAULT_ATTRIBUTION, DEFAULT_BRAND, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -20,76 +18,45 @@ class WeatherbitEntity(Entity):
     """Base class for Weatherbit Entities."""
 
     def __init__(
-        self, fcst_coordinator, cur_coordinator, alert_coordinator, entries, entity
+        self,
+        weatherbitapi,
+        coordinator: DataUpdateCoordinator,
+        forecast_coordinator: DataUpdateCoordinator,
+        station_data,
+        description,
+        entries: ConfigEntry,
     ):
-        """Initialize the Weatherbit Entity."""
-        super().__init__()
-        self.fcst_coordinator = fcst_coordinator
-        self.cur_coordinator = cur_coordinator
-        self.alert_coordinator = alert_coordinator
-        self.entries = entries
-        self._entity = entity
-        self._device_key = (
-            f"{self.entries[CONF_LATITUDE]}_{self.entries[CONF_LONGITUDE]}"
+        """Initialize the entity."""
+        if description:
+            self.entity_description = description
+
+        self.weatherbitapi = weatherbitapi
+        self.coordinator = coordinator
+        self.forecast_coordinator = forecast_coordinator
+        self.station_data = station_data
+        self.entry: ConfigEntry = entries
+        self._attr_available = self.coordinator.last_update_success
+        self._attr_unique_id = f"{description.key}_{self.station_data.key}"
+        self._attr_device_info = DeviceInfo(
+            manufacturer=DEFAULT_BRAND,
+            via_device=(DOMAIN, self.entry.unique_id),
+            connections={(dr.CONNECTION_NETWORK_MAC, self.entry.unique_id)},
+            configuration_url="https://www.weatherbit.io/",
         )
-        if self._entity == DEVICE_TYPE_WEATHER:
-            self._unique_id = self._device_key
-        else:
-            self._unique_id = f"{self._device_key}_{self._entity}"
 
     @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return self._unique_id
-
-    @property
-    def _forecast(self):
-        """Return Forecast Data Array."""
-        return self.fcst_coordinator.data[0]
-
-    @property
-    def _current(self):
-        """Return Current Data."""
-        if self.cur_coordinator.data[0] is None:
-            _LOGGER.warning(
-                "Weatherbit did not supply data in the last pull request. Retrying on the next scheduled interval."
-            )
-        return self.cur_coordinator.data[0]
-
-    @property
-    def _alerts(self):
-        """Return Current Data."""
-        if self.alert_coordinator is not None:
-            return self.alert_coordinator.data[0]
-
-    @property
-    def _latitude(self):
-        """Return Latitude."""
-        return self.entries[CONF_LATITUDE]
-
-    @property
-    def device_info(self):
+    def extra_state_attributes(self):
+        """Return common attributes"""
         return {
-            "connections": {(dr.CONNECTION_NETWORK_MAC, self._device_key)},
-            "manufacturer": DEFAULT_BRAND,
-            "model": "Weatherbit.io API",
-            "via_device": (DOMAIN, self._device_key),
+            ATTR_ATTRIBUTION: DEFAULT_ATTRIBUTION,
         }
-
-    @property
-    def available(self):
-        """Return if entity is available."""
-        return self.cur_coordinator.last_update_success
 
     async def async_added_to_hass(self):
         """When entity is added to hass."""
         self.async_on_remove(
-            self.cur_coordinator.async_add_listener(self.async_write_ha_state)
+            self.coordinator.async_add_listener(self.async_write_ha_state)
         )
+
         self.async_on_remove(
-            self.fcst_coordinator.async_add_listener(self.async_write_ha_state)
+            self.forecast_coordinator.async_add_listener(self.async_write_ha_state)
         )
-        if self.alert_coordinator is not None:
-            self.async_on_remove(
-                self.alert_coordinator.async_add_listener(self.async_write_ha_state)
-            )

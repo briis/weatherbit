@@ -1,7 +1,13 @@
 default_config:
-cloud:
+
+debugpy:
+  start: false
+
+http:
+  server_port: 9127
 
 logger:
-  default: error
+  default: warning
   logs:
+    pyweatherbitdata: debug
     custom_components.weatherbit: debug

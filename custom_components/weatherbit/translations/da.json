@@ -2,23 +2,17 @@
     "config": {
         "error": {
             "name_exists": "Placering allerede brugt. Vælg andre koordinator.",
-            "connection_error": "Kunne ikke forbinde til Weatherbit. Kontroller API nøglen."
+            "connection_error": "Noget gik galt under forsøget med at kontaket WeatherBit.",
+            "invalid_api_key": "WeatherBit API nøglen er ikke gyldig."
         },
         "step": {
             "user": {
                 "data": {
-                    "wind_unit": "Enhed for Wind (Kun hvis enheds system er Metrisk)",
-                    "add_alerts": "Aktivér Vejr Varsler",
-                    "add_sensors": "Installer individuelle sensorer",
-                    "cur_update_interval": "Aktuelle Data opdaterings interval (Minutter)",
-                    "fcs_update_interval": "Forecast Data opdaterings interval (Minutter)",
-                    "fcst_language": "Sprog for Vejrudsigt",
-                    "latitude": "Latitude",
-                    "longitude": "Longitude",
-                    "api_key": "Weatherbit API nøgle",
-                    "name": "Navn"
+                    "latitude": "Breddegrad",
+                    "longitude": "Længdegrad",
+                    "api_key": "Weatherbit API nøgle"
                 },
-                "title": "Placering for Weatherbit Data"
+                "title": "Konfigurer en WeatherBit placering"
             }
         }
     },
@@ -26,12 +20,9 @@
         "step": {
             "init": {
                 "data": {
-                    "wind_unit": "Enhed for Wind (Kun hvis enheds system er Metrisk)",
-                    "add_alerts": "Aktivér Vejr Varsler",
-                    "add_sensors": "Installer individuelle sensorer",
-                    "fcst_language": "Sprog for Vejrudsigt",
-                    "cur_update_interval": "Aktuelle Data opdaterings interval (Minutter)",
-                    "fcs_update_interval": "Forecast Data opdaterings interval (Minutter)"
+                    "update_interval": "Interval i minutter mellem sensor opdateringer (Standard 5 min)",
+                    "forecast_interval": "Interval i minutter mellem forecast opdateringer (Standard 30 min)",
+                    "forecast_language": "Sprog for Vejrudsigt"
                 }
             }
         }

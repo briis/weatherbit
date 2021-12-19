@@ -2,23 +2,17 @@
     "config": {
         "error": {
             "name_exists": "Location already setup. Choose other coordinates.",
-            "connection_error": "Could not connect to Weatherbit. Check API Key."
+            "connection_error": "Something went wrong when trying to connect to WeatherBit.",
+            "invalid_api_key": "The WeatherBit API Key is invalid."
         },
         "step": {
             "user": {
                 "data": {
-                    "wind_unit": "Wind Unit (Only applies if Unit System is Metric)",
-                    "add_alerts": "Activate Severe Weather Alerts",
-                    "add_sensors": "Install individual sensors",
-                    "cur_update_interval": "Current Data Update Interval (Minutes)",
-                    "fcs_update_interval": "Forecast Data Update Interval (Minutes)",
-                    "fcst_language": "Forecast Language",
                     "latitude": "Latitude",
                     "longitude": "Longitude",
-                    "api_key": "Weatherbit API Key",
-                    "name": "Name"
+                    "api_key": "Weatherbit API Key"
                 },
-                "title": "Location for Weatherbit Data"
+                "title": "Setup a WeatherBit location"
             }
         }
     },
@@ -26,12 +20,9 @@
         "step": {
             "init": {
                 "data": {
-                    "wind_unit": "Wind Unit (Only applies if Unit System is Metric)",
-                    "add_alerts": "Activate Severe Weather Alerts",
-                    "add_sensors": "Install individual sensors",
-                    "fcst_language": "Forecast Language",
-                    "cur_update_interval": "Current Data Update Interval (Minutes)",
-                    "fcs_update_interval": "Forecast Data Update Interval (Minutes)"
+                    "update_interval": "Interval in minutes between sensor updates (Default 5 min)",
+                    "forecast_interval": "Interval between in minutes forecast updates (Default 30 min)",
+                    "forecast_language": "Forecast Language"
                 }
             }
         }
