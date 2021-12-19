@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.0-beta.2] - Unreleased
+
+Please read the full [CHANGE LOG](https://github.com/briis/weatherbit/blob/master/CHANGELOG.md) before upgrading from V0.34.4, as this version contains many breaking changes.
+
+### Fixed
+
+- Dutch translation for Sensor UI Values updated. Thanks to @erik7
+
+
 ## [1.0.0-beta.1] - 2021-12-19
 
 This release contains **breaking changes** and you will have to re-define most of your settings in the UI and in automations after installation.
