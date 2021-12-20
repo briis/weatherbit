@@ -6,6 +6,7 @@ Please read the full [CHANGE LOG](https://github.com/briis/weatherbit/blob/maste
 
 ### Fixed
 
+- Dutch translation for Config Flow added. Thanks to @erik7
 - Dutch translation for Sensor UI Values updated. Thanks to @erik7
 
 
