@@ -37,7 +37,7 @@ _WEATHER_DAILY = "weather_daily"
 WEATHER_TYPES: tuple[WeatherEntityDescription, ...] = (
     WeatherEntityDescription(
         key=_WEATHER_DAILY,
-        name="Day based Forecast",
+        name="Weatherbit",
     ),
 )
 
@@ -100,7 +100,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         )
         self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
         self._is_metric = is_metric
-        self._attr_name = f"{DOMAIN.capitalize()} {self.entity_description.name}"
+        self._attr_name = f"{self.entity_description.name}"
 
     @property
     def condition(self):
