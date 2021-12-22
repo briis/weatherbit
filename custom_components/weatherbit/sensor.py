@@ -20,8 +20,16 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
-from pyweatherbitdata.data import AlertDescription
-
+from homeassistant.components.weather import (
+    ATTR_FORECAST_PRECIPITATION,
+    ATTR_FORECAST_PRECIPITATION_PROBABILITY,
+    ATTR_FORECAST_TEMP,
+    ATTR_FORECAST_TEMP_LOW,
+    ATTR_FORECAST_TIME,
+    ATTR_FORECAST_WIND_BEARING,
+    ATTR_FORECAST_WIND_SPEED,
+)
+from pyweatherbitdata.data import AlertDescription, ForecastDetailDescription
 from .const import (
     ATTR_ALERT_DESCRIPTION_EN,
     ATTR_ALERT_DESCRIPTION_LOC,
@@ -35,6 +43,9 @@ from .const import (
     ATTR_ALERT_URI,
     ATTR_ALERTS,
     ATTR_AQI_LEVEL,
+    ATTR_FORECAST_CLOUDINESS,
+    ATTR_FORECAST_SNOW,
+    ATTR_FORECAST_WEATHER_TEXT,
     DEVICE_CLASS_LOCAL_BEAUFORT,
     DEVICE_CLASS_LOCAL_UV_DESCRIPTION,
     DEVICE_CLASS_LOCAL_WIND_CARDINAL,
@@ -51,13 +62,15 @@ _KEY_AQI = "aqi"
 class WeatherBitRequiredKeysMixin:
     """Mixin for required keys."""
 
-    unit_type: str
-    extra_attributes: bool
+    unit_type: str | None = None
+    extra_attributes: bool | None = None
+    day_index: int | None = None
+    is_forecast_item: bool | None = False
 
 
 @dataclass
 class WeatherBitSensorEntityDescription(
-    SensorEntityDescription, WeatherBitRequiredKeysMixin
+    WeatherBitRequiredKeysMixin, SensorEntityDescription
 ):
     """Describes WeatherBit Sensor entity."""
 
@@ -255,7 +268,56 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         name="Weather Alerts",
         icon="mdi:alert",
         unit_type="none",
-        extra_attributes=True,
+        extra_attributes=False,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_1",
+        name="Forecast Day 1",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=0,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_2",
+        name="Forecast Day 2",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=1,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_3",
+        name="Forecast Day 3",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=2,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_4",
+        name="Forecast Day 4",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=3,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_5",
+        name="Forecast Day 5",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=4,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_6",
+        name="Forecast Day 6",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=5,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="forecast_day_7",
+        name="Forecast Day 7",
+        unit_type="none",
+        is_forecast_item=True,
+        day_index=6,
     ),
 )
 
@@ -318,7 +380,11 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
             entries,
         )
         self.unit_descriptions = unit_descriptions
-
+        if self.entity_description.is_forecast_item:
+            self.forecast_data = getattr(self.forecast_coordinator.data, "forecast")
+            self.day_data: ForecastDetailDescription = self.forecast_data[
+                description.day_index
+            ]
         self._attr_name = f"{DOMAIN.capitalize()} {self.entity_description.name}"
         if self.entity_description.native_unit_of_measurement is None:
             self._attr_native_unit_of_measurement = unit_descriptions[
@@ -332,11 +398,28 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
         if self.entity_description.key == _KEY_ALERTS:
             return getattr(self.coordinator.data, "alert_count")
 
+        if self.entity_description.is_forecast_item:
+            self.forecast_data = getattr(self.forecast_coordinator.data, "forecast")
+            self.day_data = self.forecast_data[self.entity_description.day_index]
+            return self.day_data.condition
+
         return (
             getattr(self.coordinator.data, self.entity_description.key)
             if self.coordinator.data
             else None
         )
+
+    @property
+    def icon(self):
+        """Return icon for the sensor."""
+        if self.entity_description.is_forecast_item:
+            icon = (
+                "partly-cloudy"
+                if self.day_data.condition == "partlycloudy"
+                else self.day_data.condition
+            )
+            return f"mdi:weather-{icon}"
+        return self.entity_description.icon
 
     @property
     def extra_state_attributes(self):
@@ -367,6 +450,26 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
             return {
                 **super().extra_state_attributes,
                 ATTR_ALERTS: data,
+            }
+        if self.entity_description.is_forecast_item:
+            wind_spd = (
+                self.day_data.wind_spd
+                if not self.hass.config.units.is_metric
+                else round(self.day_data.wind_spd * 3.6, 1)
+            )
+
+            return {
+                **super().extra_state_attributes,
+                ATTR_FORECAST_TIME: self.day_data.utc_time,
+                ATTR_FORECAST_TEMP: self.day_data.max_temp,
+                ATTR_FORECAST_TEMP_LOW: self.day_data.min_temp,
+                ATTR_FORECAST_PRECIPITATION: self.day_data.precip,
+                ATTR_FORECAST_PRECIPITATION_PROBABILITY: self.day_data.pop,
+                ATTR_FORECAST_SNOW: self.day_data.snow,
+                ATTR_FORECAST_CLOUDINESS: self.day_data.clouds,
+                ATTR_FORECAST_WEATHER_TEXT: self.day_data.weather_text,
+                ATTR_FORECAST_WIND_SPEED: wind_spd,
+                ATTR_FORECAST_WIND_BEARING: self.day_data.wind_dir,
             }
         if self.entity_description.key == _KEY_AQI:
             return {
