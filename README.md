@@ -74,6 +74,7 @@ All entities are prefixed with `weatherbit_` and names are prefixed with `Weathe
 | beaufort_description | Beaufort Description | A descriptive text for the current Beaufort level. | Yes ||
 | cloud_coverage | Cloud Coverage | Cloud coverage (%). | No |
 | dew_point | Dew Point | Dewpoint in degrees | No |
+| forecast_day_1..7 | Forecast Day 1..7 | Seven sensors holding the Forecast for the next 7 days. Details for the day is in the attributes | No |
 | precipitation | Rain Rate | How much is it raining right now | No |
 | relative_humidity | Humidity | Relative Humidity | No |
 | sealevel_pressure | Sea Level Pressure | Preasure measurement at Sea Level | No |
@@ -95,11 +96,9 @@ All entities are prefixed with `weatherbit_` and names are prefixed with `Weathe
 
 Here is the list of Weather Entities that the program generates. With the exception of the condition state and the icon, the values for the current condition are equal to the Sensor values, so the Weather entity displayes realtime values and the forecast for either the next days or the next hours. Both entities are installed.
 
-All entities are prefixed with `weatherbit_` and names are prefixed with `Weatherbit`
-
 | Sensor ID   | Name   | Description   |
 | --- | --- | --- |
-| day_based_forecast | Day Based Forecast | A weather entity with Forecast for today and the next 15 days |
+| weatherbit | Weatherbit | A weather entity with Forecast for today and the next 15 days |
 
 ## Enable Debug Logging
 
