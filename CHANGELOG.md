@@ -2,6 +2,8 @@
 
 ## [1.0.1] - Unreleased
 
+### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
+
 ### Added
 
 - Issue #43. Added the `forecast_day_X` sensors back as per request. Changed the naming of some of the attributes to be in line with Home Assistant standards.
