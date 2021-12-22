@@ -4,7 +4,7 @@
 
 ### Added
 
-- Issue #43. Added the `forecast_day_X` sensors back as per request.
+- Issue #43. Added the `forecast_day_X` sensors back as per request. Changed the naming of some of the attributes to be in line with Home Assistant standards.
 
 ### Changed
 
