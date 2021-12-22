@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.0.1] - Unreleased
+
+### Added
+
+- Issue #43. Added the `forecast_day_X` sensors back as per request.
+
+### Changed
+
+- Issue #44. **BREAKING CHANGE** Changed the name of the weather entity to `weather.weatherbit` as the previous chosen name was too long. You must update the UI if you already palced the new Weather Entity, and also delete the old entity as this will still be stuck in HA.
+
+
 ## [1.0.0] - 2021-12-22
 
 ## This release contains breaking changes and you will have to re-define most of your settings in the UI and in automations after installation.
