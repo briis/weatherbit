@@ -8,7 +8,7 @@
 
 ### Changed
 
-- Issue #44. **BREAKING CHANGE** Changed the name of the weather entity to `weather.weatherbit` as the previous chosen name was too long. You must update the UI if you already palced the new Weather Entity, and also delete the old entity as this will still be stuck in HA.
+- Issue #44. **BREAKING CHANGE** Changed the name of the weather entity to `weather.weatherbit` and the Friendly Name to `Weatherbit` as the previous chosen name was too long. The entity name might stay unchanged, but for some installations it will not, so you might have to update the UI.
 
 
 ## [1.0.0] - 2021-12-22
