@@ -100,7 +100,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         )
         self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
         self._is_metric = is_metric
-        self._attr_name = f"{self.entity_description.name}"
+        self._attr_name = self.entity_description.name
 
     @property
     def condition(self):
