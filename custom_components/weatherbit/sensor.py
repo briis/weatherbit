@@ -23,7 +23,6 @@ from homeassistant.helpers.typing import StateType
 from homeassistant.util.distance import (
     convert as dist_convert,
     LENGTH_MILLIMETERS,
-    LENGTH_CENTIMETERS,
     LENGTH_INCHES,
 )
 from homeassistant.util.speed import (
