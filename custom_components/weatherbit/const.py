@@ -1,6 +1,7 @@
 """Constants in weatherbit component."""
 
 ATTR_ALERTS = "alerts"
+ATTR_ALERTS_CITY_NAME = "city_name"
 ATTR_ALERT_DESCRIPTION_EN = "description_english"
 ATTR_ALERT_DESCRIPTION_LOC = "description_local"
 ATTR_ALERT_EFFECTIVE = "effective"

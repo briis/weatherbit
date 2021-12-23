@@ -31,6 +31,7 @@ from homeassistant.components.weather import (
 )
 from pyweatherbitdata.data import AlertDescription, ForecastDetailDescription
 from .const import (
+    ATTR_ALERTS_CITY_NAME,
     ATTR_ALERT_DESCRIPTION_EN,
     ATTR_ALERT_DESCRIPTION_LOC,
     ATTR_ALERT_EFFECTIVE,
@@ -268,7 +269,7 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         name="Weather Alerts",
         icon="mdi:alert",
         unit_type="none",
-        extra_attributes=False,
+        extra_attributes=True,
     ),
     WeatherBitSensorEntityDescription(
         key="forecast_day_1",
@@ -441,6 +442,7 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
                         ATTR_ALERT_ENDS: item.ends_utc,
                         ATTR_ALERT_EXPIRES: item.expires_utc,
                         ATTR_ALERT_URI: item.uri,
+                        ATTR_ALERTS_CITY_NAME: item.city_name,
                         ATTR_ALERT_REGIONS: item.regions,
                         ATTR_ALERT_DESCRIPTION_EN: item.en_description,
                         ATTR_ALERT_DESCRIPTION_LOC: item.loc_description,
