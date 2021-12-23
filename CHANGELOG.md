@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.2] - Unreleased
+
+### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
+
+### Fixed
+
+- Issue #46. Values for the `forecast_day_X` attributes, were not correct if unit system equals Imperial.
+
+
 ## [1.0.1] - 2021-12-23
 
 ### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
