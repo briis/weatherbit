@@ -1,16 +1,21 @@
 # Change Log
 
-## [1.0.1] - Unreleased
+## [1.0.1] - 2021-12-23
 
 ### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
 
 ### Added
 
 - Issue #43. Added the `forecast_day_X` sensors back as per request. Changed the naming of some of the attributes to be in line with Home Assistant standards.
+- Issue #45. City Name is now part of the Attributes for Alerts.
 
 ### Changed
 
 - Issue #44. **BREAKING CHANGE** Changed the name of the weather entity to `weather.weatherbit` and the Friendly Name to `Weatherbit` as the previous chosen name was too long. The entity name might stay unchanged, but for some installations it will not, so you might have to update the UI.
+
+### Fixed
+
+- Changed the formula to extract English and Local Language text from the Alerts, to ensure they were in the right order every time.
 
 
 ## [1.0.0] - 2021-12-22
