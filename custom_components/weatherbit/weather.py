@@ -105,12 +105,12 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def condition(self):
         """Return the current condition."""
-        return self.forecast_coordinator.data.condition
+        return getattr(self.forecast_coordinator.data, "condition")
 
     @property
     def temperature(self):
         """Return the temperature."""
-        return self.forecast_coordinator.data.temp
+        return getattr(self.forecast_coordinator.data, "temp")
 
     @property
     def temperature_unit(self):
@@ -120,7 +120,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def humidity(self):
         """Return the humidity."""
-        return self.forecast_coordinator.data.humidity
+        return getattr(self.forecast_coordinator.data, "humidity")
 
     @property
     def precipitation_unit(self) -> str | None:
@@ -129,7 +129,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def pressure(self):
         """Return the pressure."""
-        pressure_hpa = self.forecast_coordinator.data.slp
+        pressure_hpa = getattr(self.forecast_coordinator.data, "slp")
         if self._is_metric or pressure_hpa is None:
             return pressure_hpa
 
@@ -138,10 +138,10 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def wind_speed(self):
         """Return the wind speed."""
-        if self.forecast_coordinator.data.wind_spd is None:
+        if getattr(self.forecast_coordinator.data, "wind_spd") is None:
             return None
 
-        return self.forecast_coordinator.data.wind_spd
+        return getattr(self.forecast_coordinator.data, "wind_spd")
 
     @property
     def wind_speed_unit(self) -> str | None:
@@ -150,12 +150,12 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def wind_bearing(self):
         """Return the wind bearing."""
-        return self.forecast_coordinator.data.wind_dir
+        return getattr(self.forecast_coordinator.data, "wind_dir")
 
     @property
     def visibility(self):
         """Return the visibility."""
-        return self.forecast_coordinator.data.vis
+        return getattr(self.forecast_coordinator.data, "vis")
 
     @property
     def visibility_unit(self) -> str | None:
@@ -164,7 +164,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def ozone(self):
         """Return the ozone."""
-        return self.forecast_coordinator.data.ozone
+        return getattr(self.forecast_coordinator.data, "ozone")
 
     @property
     def forecast(self):
