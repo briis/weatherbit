@@ -20,6 +20,19 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
+from homeassistant.util.distance import (
+    convert as dist_convert,
+    LENGTH_MILLIMETERS,
+    LENGTH_CENTIMETERS,
+    LENGTH_INCHES,
+)
+from homeassistant.util.speed import (
+    convert as wind_convert,
+    SPEED_METERS_PER_SECOND,
+    SPEED_KILOMETERS_PER_HOUR,
+    SPEED_MILES_PER_HOUR,
+)
+from homeassistant.util.temperature import celsius_to_fahrenheit
 from homeassistant.components.weather import (
     ATTR_FORECAST_PRECIPITATION,
     ATTR_FORECAST_PRECIPITATION_PROBABILITY,
@@ -454,23 +467,52 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
                 ATTR_ALERTS: data,
             }
         if self.entity_description.is_forecast_item:
-            wind_spd = (
-                self.day_data.wind_spd
+            _wind_spd = (
+                wind_convert(
+                    self.day_data.wind_spd,
+                    SPEED_METERS_PER_SECOND,
+                    SPEED_MILES_PER_HOUR,
+                )
                 if not self.hass.config.units.is_metric
-                else round(self.day_data.wind_spd * 3.6, 1)
+                else wind_convert(
+                    self.day_data.wind_spd,
+                    SPEED_METERS_PER_SECOND,
+                    SPEED_KILOMETERS_PER_HOUR,
+                )
             )
-
+            _temp = (
+                self.day_data.max_temp
+                if self.hass.config.units.is_metric
+                else celsius_to_fahrenheit(self.day_data.max_temp)
+            )
+            _temp_low = (
+                self.day_data.min_temp
+                if self.hass.config.units.is_metric
+                else celsius_to_fahrenheit(self.day_data.min_temp)
+            )
+            _precip = (
+                self.day_data.precip
+                if self.hass.config.units.is_metric
+                else dist_convert(
+                    self.day_data.precip, LENGTH_MILLIMETERS, LENGTH_INCHES
+                )
+            )
+            _snow = (
+                self.day_data.snow
+                if self.hass.config.units.is_metric
+                else dist_convert(self.day_data.snow, LENGTH_MILLIMETERS, LENGTH_INCHES)
+            )
             return {
                 **super().extra_state_attributes,
                 ATTR_FORECAST_TIME: self.day_data.utc_time,
-                ATTR_FORECAST_TEMP: self.day_data.max_temp,
-                ATTR_FORECAST_TEMP_LOW: self.day_data.min_temp,
-                ATTR_FORECAST_PRECIPITATION: self.day_data.precip,
+                ATTR_FORECAST_TEMP: _temp,
+                ATTR_FORECAST_TEMP_LOW: _temp_low,
+                ATTR_FORECAST_PRECIPITATION: round(_precip, 3),
                 ATTR_FORECAST_PRECIPITATION_PROBABILITY: self.day_data.pop,
-                ATTR_FORECAST_SNOW: self.day_data.snow,
+                ATTR_FORECAST_SNOW: round(_snow, 3),
                 ATTR_FORECAST_CLOUDINESS: self.day_data.clouds,
                 ATTR_FORECAST_WEATHER_TEXT: self.day_data.weather_text,
-                ATTR_FORECAST_WIND_SPEED: wind_spd,
+                ATTR_FORECAST_WIND_SPEED: round(_wind_spd, 2),
                 ATTR_FORECAST_WIND_BEARING: self.day_data.wind_dir,
             }
         if self.entity_description.key == _KEY_AQI:
