@@ -8,6 +8,10 @@
 
 - Issue #46. Values for the `forecast_day_X` attributes, were not correct if unit system equals Imperial.
 
+### Changed
+
+- Polish Sensor string updated. Thank you to @nepozs
+
 
 ## [1.0.1] - 2021-12-23
 
