@@ -28,7 +28,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.util.pressure import convert as convert_pressure
 from pyweatherbitdata.data import ForecastDetailDescription
 
-from .const import DOMAIN
+from .const import ATTR_ALT_CONDITION, DOMAIN
 from .entity import WeatherbitEntity
 from .models import WeatherBitEntryData
 
@@ -165,6 +165,16 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     def ozone(self):
         """Return the ozone."""
         return getattr(self.forecast_coordinator.data, "ozone")
+
+    @property
+    def extra_state_attributes(self):
+        """Return extra state attributes"""
+        return {
+            **super().extra_state_attributes,
+            ATTR_ALT_CONDITION: getattr(
+                self.forecast_coordinator.data, "alt_condition"
+            ),
+        }
 
     @property
     def forecast(self):
