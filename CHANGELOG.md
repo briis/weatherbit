@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.2] - Unreleased
+## [1.0.2] - 2021-12-24
 
 ### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
 
