@@ -12,6 +12,10 @@
 
 - Polish Sensor string updated. Thank you to @nepozs
 
+### Added
+
+- Issue #47. Adding `alt_condition` as attribute to Weather entity. This attribute holds alternative conditions if it is night.
+
 
 ## [1.0.1] - 2021-12-23
 
