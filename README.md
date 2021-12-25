@@ -75,6 +75,7 @@ All entities are prefixed with `weatherbit_` and names are prefixed with `Weathe
 | cloud_coverage | Cloud Coverage | Cloud coverage (%). | No |
 | dew_point | Dew Point | Dewpoint in degrees | No |
 | forecast_day_1..7 | Forecast Day 1..7 | Seven sensors holding the Forecast for the next 7 days. Details for the day is in the attributes | No |
+| observation_time | Observation Time | Last update of the data from the station. | No |
 | precipitation | Rain Rate | How much is it raining right now | No |
 | relative_humidity | Humidity | Relative Humidity | No |
 | sealevel_pressure | Sea Level Pressure | Preasure measurement at Sea Level | No |
