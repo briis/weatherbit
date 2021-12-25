@@ -16,6 +16,7 @@ from homeassistant.const import (
     DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_PRESSURE,
     DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_TIMESTAMP,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
@@ -265,6 +266,14 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         icon="mdi:windsock",
         native_unit_of_measurement="Bft",
         state_class=STATE_CLASS_MEASUREMENT,
+        unit_type="none",
+        extra_attributes=False,
+    ),
+    WeatherBitSensorEntityDescription(
+        key="observation_time",
+        name="Observation Time",
+        icon="mdi:clock",
+        device_class=DEVICE_CLASS_TIMESTAMP,
         unit_type="none",
         extra_attributes=False,
     ),
