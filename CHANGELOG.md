@@ -6,7 +6,7 @@
 
 ### Added
 
-- New sensor called `observation_time` added. Holds the Last observation time.
+- New sensor called `observation_time` added. Holds the last update time of the data from the station.
 
 
 ## [1.0.2] - 2021-12-24
