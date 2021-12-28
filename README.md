@@ -97,6 +97,8 @@ All entities are prefixed with `weatherbit_` and names are prefixed with `Weathe
 
 Here is the list of Weather Entities that the program generates. With the exception of the condition state and the icon, the values for the current condition are equal to the Sensor values, so the Weather entity displayes realtime values and the forecast for either the next days or the next hours. Both entities are installed.
 
+**Note** There has been some recent changes in the units chosen for the Weather Entity, especially for metric users. Pressure units now default to `Pa` so you will see a value of 100.000 for a hPa/Mb value of 1000. Also Wind Speed is now reported as m/s, where it was previously km/h. This is outside the influence of this Integration.
+
 | Sensor ID   | Name   | Description   |
 | --- | --- | --- |
 | weatherbit | Weatherbit | A weather entity with Forecast for today and the next 15 days |
