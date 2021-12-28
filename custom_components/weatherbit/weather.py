@@ -25,7 +25,6 @@ from homeassistant.const import (
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.util.pressure import convert as convert_pressure
 from pyweatherbitdata.data import ForecastDetailDescription
 
 from .const import ATTR_ALT_CONDITION, DOMAIN
@@ -64,7 +63,6 @@ async def async_setup_entry(
                 station_data,
                 description,
                 entry,
-                hass.config.units.is_metric,
             )
         )
 
@@ -79,6 +77,10 @@ async def async_setup_entry(
 class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     """A WeatherBit weather entity."""
 
+    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-arguments
+    # Seven is reasonable in this case.
+
     def __init__(
         self,
         weatherbitapi,
@@ -87,7 +89,6 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         station_data,
         description,
         entries: ConfigEntry,
-        is_metric: bool,
     ):
         """Initialize an WeatherBit Weather Entity."""
         super().__init__(
@@ -99,7 +100,6 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
             entries,
         )
         self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
-        self._is_metric = is_metric
         self._attr_name = self.entity_description.name
         self._attr_precipitation_unit = LENGTH_MILLIMETERS
         self._attr_precision = PRECISION_TENTHS
@@ -186,3 +186,4 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
                     }
                 )
             return data
+        return data
