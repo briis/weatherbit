@@ -19,8 +19,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     LENGTH_KILOMETERS,
     LENGTH_MILLIMETERS,
+    PRECISION_TENTHS,
     PRESSURE_HPA,
-    PRESSURE_INHG,
     SPEED_METERS_PER_SECOND,
     TEMP_CELSIUS,
 )
@@ -101,6 +101,12 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
         self._is_metric = is_metric
         self._attr_name = self.entity_description.name
+        self._attr_precipitation_unit = LENGTH_MILLIMETERS
+        self._attr_precision = PRECISION_TENTHS
+        self._attr_pressure_unit = PRESSURE_HPA
+        self._attr_temperature_unit = TEMP_CELSIUS
+        self._attr_visibility_unit = LENGTH_KILOMETERS
+        self._attr_wind_speed_unit = SPEED_METERS_PER_SECOND
 
     @property
     def condition(self):
@@ -110,56 +116,38 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def temperature(self):
         """Return the temperature."""
-        return getattr(self.forecast_coordinator.data, "temp")
-
-    @property
-    def temperature_unit(self):
-        """Return the unit of measurement."""
-        return TEMP_CELSIUS
+        return getattr(self.coordinator.data, "temp")
 
     @property
     def humidity(self):
         """Return the humidity."""
-        return getattr(self.forecast_coordinator.data, "humidity")
-
-    @property
-    def precipitation_unit(self) -> str | None:
-        return LENGTH_MILLIMETERS
+        return getattr(self.coordinator.data, "humidity")
 
     @property
     def pressure(self):
         """Return the pressure."""
-        pressure_hpa = getattr(self.forecast_coordinator.data, "slp")
-        if self._is_metric or pressure_hpa is None:
-            return pressure_hpa
+        if getattr(self.coordinator.data, "slp") is None:
+            return None
 
-        return round(convert_pressure(pressure_hpa, PRESSURE_HPA, PRESSURE_INHG), 2)
+        return getattr(self.coordinator.data, "slp")
 
     @property
     def wind_speed(self):
         """Return the wind speed."""
-        if getattr(self.forecast_coordinator.data, "wind_spd") is None:
+        if getattr(self.coordinator.data, "wind_spd") is None:
             return None
 
-        return getattr(self.forecast_coordinator.data, "wind_spd")
-
-    @property
-    def wind_speed_unit(self) -> str | None:
-        return SPEED_METERS_PER_SECOND
+        return getattr(self.coordinator.data, "wind_spd")
 
     @property
     def wind_bearing(self):
         """Return the wind bearing."""
-        return getattr(self.forecast_coordinator.data, "wind_dir")
+        return getattr(self.coordinator.data, "wind_dir")
 
     @property
     def visibility(self):
         """Return the visibility."""
         return getattr(self.forecast_coordinator.data, "vis")
-
-    @property
-    def visibility_unit(self) -> str | None:
-        return LENGTH_KILOMETERS
 
     @property
     def ozone(self):
