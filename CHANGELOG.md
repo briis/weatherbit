@@ -1,6 +1,13 @@
 # Change Log
 
-## [1.0.3] - Unreleased
+## [1.0.4] - Unreleased
+
+### Changed
+
+- Issue [#50](https://github.com/briis/weatherbit/issues/50) Changed the weather entity to use data from the current dataset, so that sensors and the weather entity are in sync on relevant data points.
+
+
+## [1.0.3] - 2021-12-26
 
 ### If you are currently running a version smaller than 1.0.0, then please read the release notes for V1.0.0 before you upgrade
 
