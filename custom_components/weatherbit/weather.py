@@ -17,11 +17,8 @@ from homeassistant.components.weather import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    LENGTH_KILOMETERS,
     LENGTH_MILLIMETERS,
     PRECISION_TENTHS,
-    PRESSURE_HPA,
-    SPEED_METERS_PER_SECOND,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
@@ -103,10 +100,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         self._attr_name = self.entity_description.name
         self._attr_precipitation_unit = LENGTH_MILLIMETERS
         self._attr_precision = PRECISION_TENTHS
-        self._attr_pressure_unit = PRESSURE_HPA
         self._attr_temperature_unit = TEMP_CELSIUS
-        self._attr_visibility_unit = LENGTH_KILOMETERS
-        self._attr_wind_speed_unit = SPEED_METERS_PER_SECOND
 
     @property
     def condition(self):
@@ -147,7 +141,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     @property
     def visibility(self):
         """Return the visibility."""
-        return getattr(self.forecast_coordinator.data, "vis")
+        return getattr(self.coordinator.data, "vis")
 
     @property
     def ozone(self):
