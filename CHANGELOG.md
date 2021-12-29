@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.5] - 2021-12-29
+
+### Fixed
+
+- Issue [#50](https://github.com/briis/weatherbit/issues/50) Fixed pressure and visibility values not being correct. **Please note** that when clicking on a weather card, the units for pressure will be reported as `psi` if imperial units or else as `pa`. The values however are in `inHg` and `hPa`. Not sure why this was changed on the Weather Entity.
+
+
 ## [1.0.4] - 2021-12-28
 
 ### Changed
