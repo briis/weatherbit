@@ -4,7 +4,7 @@
 
 ### Fixed
 
-- Fixing forecast date not in right format. Needs be a UTC time *string* and not DateTime object.
+- Fixing forecast date not in right format. Date needs to be a UTC time *string* and not DateTime object.
 
 
 ## [1.0.5] - 2021-12-29
