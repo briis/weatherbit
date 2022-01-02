@@ -12,6 +12,7 @@ from homeassistant.components.weather import (
     ATTR_FORECAST_TIME,
     ATTR_FORECAST_WIND_BEARING,
     ATTR_FORECAST_WIND_SPEED,
+    Forecast,
     WeatherEntity,
     WeatherEntityDescription,
 )
@@ -159,9 +160,9 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         }
 
     @property
-    def forecast(self):
+    def forecast(self) -> list[Forecast] | None:
         """Return the forecast array."""
-        data = []
+        data: list[Forecast] = []
         if self.daily_forecast:
             forecast_data: ForecastDetailDescription = (
                 self.forecast_coordinator.data.forecast
