@@ -1,9 +1,10 @@
 # Change Log
 
-## [1.0.6] - Unreleased
+## [1.0.6] - 2022-01-05
 
 ### Fixed
 
+- **BREAKING CHANGE** [#52](https://github.com/briis/weatherbit/issues/52) Changed Unique ID to use the supplied Latitude and Longitude. The previous value could sometimes change when many stations in close proximity, creating double entries. This unfortunately means that all entities will get a new unique id, and will there be double in the system. I recommand to simply delete the Integration and add it again, and all the names should stay the same as before.
 - Fixing forecast date not in right format. Date needs to be a UTC time *string* and not DateTime object.
 
 
