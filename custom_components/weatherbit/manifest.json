@@ -6,7 +6,7 @@
     "issue_tracker": "https://github.com/briis/weatherbit/issues",
     "version": "1.0.6",
     "requirements": [
-      "pyweatherbitdata==1.0.8"
+      "pyweatherbitdata==1.0.9"
     ],
     "codeowners": [
       "@briis"

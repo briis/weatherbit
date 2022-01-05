@@ -72,7 +72,7 @@ class WeatherBitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             errors["base"] = "connection_error"
             return await self._show_setup_form(errors)
 
-        unique_id = str(station_data.key)
+        unique_id = f"{station_data.latitude}_{station_data.longitude}"
 
         await self.async_set_unique_id(unique_id)
         self._abort_if_unique_id_configured()
