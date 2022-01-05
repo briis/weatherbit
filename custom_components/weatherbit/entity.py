@@ -41,7 +41,7 @@ class WeatherbitEntity(Entity):
         self.station_data = station_data
         self.entry: ConfigEntry = entries
         self._attr_available = self.coordinator.last_update_success
-        self._attr_unique_id = f"{self.station_data.latitude}_{self.station_data.longitude}_{self.entity_description.key}"
+        self._attr_unique_id = f"{self.entry.unique_id}_{self.entity_description.key}"
         self._attr_device_info = DeviceInfo(
             manufacturer=DEFAULT_BRAND,
             via_device=(DOMAIN, self.entry.unique_id),
