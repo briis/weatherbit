@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.7] - Unrealeased
+
+### Fixed
+
+- Issue [#56](https://github.com/briis/weatherbit/issues/56) Polish language was falling back to English if HA Locale was not set correctly. Thanks to @andilge for spotting and fixing this.
+
+
 ## [1.0.6] - 2022-01-05
 
 ### Fixed
