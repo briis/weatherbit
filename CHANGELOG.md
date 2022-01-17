@@ -5,7 +5,7 @@
 ### Fixed
 
 - Issue [#56](https://github.com/briis/weatherbit/issues/56) Polish language was falling back to English if HA Locale was not set correctly. Thanks to @andilge for spotting and fixing this.
-
+- Issue [#53](https://github.com/briis/weatherbit/issues/53) Ensure humidity sensor is always reported as integer, without decimals.
 
 ## [1.0.6] - 2022-01-05
 
