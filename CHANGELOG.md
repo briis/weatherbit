@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.8] - Unreleased
+
+### Changed
+
+- German translation for Config Flow and Sensor State update. Thank you @andilge for updating this.
+
+
 ## [1.0.7] - 2022-01-21
 
 ### Fixed
