@@ -6,6 +6,10 @@
 
 - German translation for Config Flow and Sensor State update. Thank you @andilge for updating this.
 
+### Fixed
+
+- Issue [#60](https://github.com/briis/weatherbit/issues/60) `observation_time` will now display a Local Date Time string.
+
 
 ## [1.0.7] - 2022-01-21
 
