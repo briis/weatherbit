@@ -16,11 +16,11 @@ from homeassistant.const import (
     DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_PRESSURE,
     DEVICE_CLASS_TEMPERATURE,
-    DEVICE_CLASS_TIMESTAMP,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
+from homeassistant.util.dt import as_local
 from homeassistant.util.distance import (
     convert as dist_convert,
     LENGTH_MILLIMETERS,
@@ -70,6 +70,7 @@ from .models import WeatherBitEntryData
 
 _KEY_ALERTS = "alerts"
 _KEY_AQI = "aqi"
+_KEY_OBS_TIME = "observation_time"
 
 
 @dataclass
@@ -273,7 +274,6 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         key="observation_time",
         name="Observation Time",
         icon="mdi:clock",
-        device_class=DEVICE_CLASS_TIMESTAMP,
         unit_type="none",
         extra_attributes=False,
     ),
@@ -418,7 +418,10 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
         """Return the state of the sensor."""
 
         if self.entity_description.key == _KEY_ALERTS:
-            return getattr(self.coordinator.data, "alert_count")
+            return getattr(self.coordinator.data, _KEY_ALERTS)
+
+        if self.entity_description.key == _KEY_OBS_TIME:
+            return as_local(getattr(self.coordinator.data, _KEY_OBS_TIME))
 
         if self.entity_description.is_forecast_item:
             self.forecast_data = getattr(self.forecast_coordinator.data, "forecast")
