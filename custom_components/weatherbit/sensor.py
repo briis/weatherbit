@@ -20,7 +20,6 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
-from homeassistant.util.dt import as_local
 from homeassistant.util.distance import (
     convert as dist_convert,
     LENGTH_MILLIMETERS,
@@ -70,7 +69,6 @@ from .models import WeatherBitEntryData
 
 _KEY_ALERTS = "alerts"
 _KEY_AQI = "aqi"
-_KEY_OBS_TIME = "observation_time"
 
 
 @dataclass
@@ -419,9 +417,6 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
 
         if self.entity_description.key == _KEY_ALERTS:
             return getattr(self.coordinator.data, "alert_count")
-
-        if self.entity_description.key == _KEY_OBS_TIME:
-            return as_local(getattr(self.coordinator.data, _KEY_OBS_TIME))
 
         if self.entity_description.is_forecast_item:
             self.forecast_data = getattr(self.forecast_coordinator.data, "forecast")
