@@ -418,7 +418,7 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
         """Return the state of the sensor."""
 
         if self.entity_description.key == _KEY_ALERTS:
-            return getattr(self.coordinator.data, _KEY_ALERTS)
+            return getattr(self.coordinator.data, "alert_count")
 
         if self.entity_description.key == _KEY_OBS_TIME:
             return as_local(getattr(self.coordinator.data, _KEY_OBS_TIME))
