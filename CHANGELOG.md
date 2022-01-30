@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.9] - Unreleased
+
+### Changed
+
+- Reverting `observation_time` back to a Timestamp device class, but keeping the fix from 1.0.8 with the Timezone.
+
+
 ## [1.0.8] - 2022-01-29
 
 ### Changed
