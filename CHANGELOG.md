@@ -6,6 +6,10 @@
 
 - Reverting `observation_time` back to a Timestamp device class, but keeping the fix from 1.0.8 with the Timezone.
 
+### Fixed
+
+- Issue [#55](https://github.com/briis/weatherbit/issues/55). Sometimes Weatherbit will deliver the samme alerts message twice. There is now a filter that takes out these double alerts and only displays it once.
+
 
 ## [1.0.8] - 2022-01-29
 
