@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.9] - Unreleased
+## [1.0.9-beta.1] - 2022-04-17
 
 ### Changed
 
@@ -9,7 +9,7 @@
 ### Fixed
 
 - Issue [#55](https://github.com/briis/weatherbit/issues/55). Sometimes Weatherbit will deliver the samme alerts message twice. There is now a filter that takes out these double alerts and only displays it once.
-
+- Issue [[#62](https://github.com/briis/weatherbit/issues/62)] and issue [#64](https://github.com/briis/weatherbit/issues/64) This is a potential fix, needs feedback from users before publicly released.
 
 ## [1.0.8] - 2022-01-29
 
