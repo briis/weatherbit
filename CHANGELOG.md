@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.10] - Not released yet
+
+### Fixed
+- Issue [#67](https://github.com/briis/weatherbit/issues/67). Deprecreated function as of HA V2022.6.
+
+
 ## [1.0.9] - 2022-04-19
 
 ### Changed
