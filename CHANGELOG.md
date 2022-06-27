@@ -1,10 +1,10 @@
 # Change Log
 
-## [1.0.11] - NOT RELEASED YET
+## [1.0.11] - 2022-06-27
 
 ### Fixed
 
-- Issue [#70](https://github.com/briis/weatherbit/issues/70) Fixing deprecation warning on the Weather Entity.
+- Issue [#70](https://github.com/briis/weatherbit/issues/70) Fixing `is overriding deprecated methods on an instance of WeatherEntity` message that will start showing up in the log.
 
 
 ## [1.0.10] - 2022-05-26
