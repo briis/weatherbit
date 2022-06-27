@@ -109,7 +109,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         return getattr(self.forecast_coordinator.data, "condition")
 
     @property
-    def temperature(self):
+    def native_temperature(self):
         """Return the temperature."""
         return getattr(self.coordinator.data, "temp")
 
@@ -119,7 +119,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         return getattr(self.coordinator.data, "humidity")
 
     @property
-    def pressure(self):
+    def native_pressure(self):
         """Return the pressure."""
         if getattr(self.coordinator.data, "slp") is None:
             return None
@@ -127,7 +127,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         return getattr(self.coordinator.data, "slp")
 
     @property
-    def wind_speed(self):
+    def native_wind_speed(self):
         """Return the wind speed."""
         if getattr(self.coordinator.data, "wind_spd") is None:
             return None
@@ -140,7 +140,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         return getattr(self.coordinator.data, "wind_dir")
 
     @property
-    def visibility(self):
+    def native_visibility(self):
         """Return the visibility."""
         return getattr(self.coordinator.data, "vis")
 
