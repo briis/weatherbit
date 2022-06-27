@@ -34,13 +34,13 @@ from homeassistant.util.speed import (
 )
 from homeassistant.util.temperature import celsius_to_fahrenheit
 from homeassistant.components.weather import (
-    ATTR_FORECAST_PRECIPITATION,
+    ATTR_FORECAST_NATIVE_PRECIPITATION,
     ATTR_FORECAST_PRECIPITATION_PROBABILITY,
-    ATTR_FORECAST_TEMP,
-    ATTR_FORECAST_TEMP_LOW,
+    ATTR_FORECAST_NATIVE_TEMP,
+    ATTR_FORECAST_NATIVE_TEMP_LOW,
     ATTR_FORECAST_TIME,
     ATTR_FORECAST_WIND_BEARING,
-    ATTR_FORECAST_WIND_SPEED,
+    ATTR_FORECAST_NATIVE_WIND_SPEED,
 )
 from pyweatherbitdata.data import AlertDescription, ForecastDetailDescription
 from .const import (
@@ -513,14 +513,14 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
             return {
                 **super().extra_state_attributes,
                 ATTR_FORECAST_TIME: self.day_data.utc_time,
-                ATTR_FORECAST_TEMP: _temp,
-                ATTR_FORECAST_TEMP_LOW: _temp_low,
-                ATTR_FORECAST_PRECIPITATION: round(_precip, 3),
+                ATTR_FORECAST_NATIVE_TEMP: _temp,
+                ATTR_FORECAST_NATIVE_TEMP_LOW: _temp_low,
+                ATTR_FORECAST_NATIVE_PRECIPITATION: round(_precip, 3),
                 ATTR_FORECAST_PRECIPITATION_PROBABILITY: self.day_data.pop,
                 ATTR_FORECAST_SNOW: round(_snow, 3),
                 ATTR_FORECAST_CLOUDINESS: self.day_data.clouds,
                 ATTR_FORECAST_WEATHER_TEXT: self.day_data.weather_text,
-                ATTR_FORECAST_WIND_SPEED: round(_wind_spd, 2),
+                ATTR_FORECAST_NATIVE_WIND_SPEED: round(_wind_spd, 2),
                 ATTR_FORECAST_WIND_BEARING: self.day_data.wind_dir,
             }
         if self.entity_description.key == _KEY_AQI:
