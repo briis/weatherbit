@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.11] - NOT RELEASED YET
+
+### Fixed
+
+- Issue [#70](https://github.com/briis/weatherbit/issues/70) Fixing deprecation warning on the Weather Entity.
+
+
 ## [1.0.10] - 2022-05-26
 
 ### Fixed
