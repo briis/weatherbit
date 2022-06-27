@@ -5,13 +5,13 @@ import logging
 
 from homeassistant.components.weather import (
     ATTR_FORECAST_CONDITION,
-    ATTR_FORECAST_PRECIPITATION,
+    ATTR_FORECAST_NATIVE_PRECIPITATION,
     ATTR_FORECAST_PRECIPITATION_PROBABILITY,
-    ATTR_FORECAST_TEMP,
-    ATTR_FORECAST_TEMP_LOW,
+    ATTR_FORECAST_NATIVE_TEMP,
+    ATTR_FORECAST_NATIVE_TEMP_LOW,
     ATTR_FORECAST_TIME,
     ATTR_FORECAST_WIND_BEARING,
-    ATTR_FORECAST_WIND_SPEED,
+    ATTR_FORECAST_NATIVE_WIND_SPEED,
     Forecast,
     WeatherEntity,
     WeatherEntityDescription,
@@ -171,12 +171,12 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
                 data.append(
                     {
                         ATTR_FORECAST_TIME: item.utc_time,
-                        ATTR_FORECAST_TEMP: item.max_temp,
-                        ATTR_FORECAST_TEMP_LOW: item.min_temp,
-                        ATTR_FORECAST_PRECIPITATION: item.precip,
+                        ATTR_FORECAST_NATIVE_TEMP: item.max_temp,
+                        ATTR_FORECAST_NATIVE_TEMP_LOW: item.min_temp,
+                        ATTR_FORECAST_NATIVE_PRECIPITATION: item.precip,
                         ATTR_FORECAST_PRECIPITATION_PROBABILITY: item.pop,
                         ATTR_FORECAST_CONDITION: item.condition,
-                        ATTR_FORECAST_WIND_SPEED: item.wind_spd,
+                        ATTR_FORECAST_NATIVE_WIND_SPEED: item.wind_spd,
                         ATTR_FORECAST_WIND_BEARING: item.wind_dir,
                     }
                 )
