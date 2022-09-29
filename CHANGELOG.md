@@ -7,6 +7,10 @@
 
 - Issue [#76](https://github.com/briis/weatherbit/issues/76) HA 2022.10: Detected integration that uses speed utility
 
+### Changed
+
+- Added Device Class for Wind Speed and Precipitation. This is a new device class introduced with HA 2022.10, that makes it possible to change the unit directly from the UI.
+
 
 ## [1.0.11] - 2022-06-27
 
