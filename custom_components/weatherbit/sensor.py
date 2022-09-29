@@ -1,6 +1,5 @@
 """Weatherbit Sensors for Home Assistant."""
 from __future__ import annotations
-from lib2to3.pytree import convert
 
 import logging
 from dataclasses import dataclass
