@@ -1,5 +1,6 @@
 """Weatherbit Sensors for Home Assistant."""
 from __future__ import annotations
+from lib2to3.pytree import convert
 
 import logging
 from dataclasses import dataclass
@@ -21,13 +22,11 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
-from homeassistant.util.distance import (
-    convert as dist_convert,
+from homeassistant.util.unit_conversion import (
+    SpeedConverter,
+    DistanceConverter,
     LENGTH_MILLIMETERS,
     LENGTH_INCHES,
-)
-from homeassistant.util.speed import (
-    convert as wind_convert,
     SPEED_METERS_PER_SECOND,
     SPEED_KILOMETERS_PER_HOUR,
     SPEED_MILES_PER_HOUR,
@@ -476,13 +475,13 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
             }
         if self.entity_description.is_forecast_item:
             _wind_spd = (
-                wind_convert(
+                SpeedConverter.convert(
                     self.day_data.wind_spd,
                     SPEED_METERS_PER_SECOND,
                     SPEED_MILES_PER_HOUR,
                 )
                 if not self.hass.config.units.is_metric
-                else wind_convert(
+                else SpeedConverter.convert(
                     self.day_data.wind_spd,
                     SPEED_METERS_PER_SECOND,
                     SPEED_KILOMETERS_PER_HOUR,
@@ -501,14 +500,16 @@ class WeatherbitSensor(WeatherbitEntity, SensorEntity):
             _precip = (
                 self.day_data.precip
                 if self.hass.config.units.is_metric
-                else dist_convert(
+                else DistanceConverter.convert(
                     self.day_data.precip, LENGTH_MILLIMETERS, LENGTH_INCHES
                 )
             )
             _snow = (
                 self.day_data.snow
                 if self.hass.config.units.is_metric
-                else dist_convert(self.day_data.snow, LENGTH_MILLIMETERS, LENGTH_INCHES)
+                else DistanceConverter.convert(
+                    self.day_data.snow, LENGTH_MILLIMETERS, LENGTH_INCHES
+                )
             )
             return {
                 **super().extra_state_attributes,
