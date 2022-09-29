@@ -1,5 +1,13 @@
 # Change Log
 
+
+## [1.0.12] - NOT RELEASED
+
+### Fixed
+
+- Issue [#76](https://github.com/briis/weatherbit/issues/76) HA 2022.10: Detected integration that uses speed utility
+
+
 ## [1.0.11] - 2022-06-27
 
 ### Fixed
