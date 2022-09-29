@@ -13,11 +13,6 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     DEGREE,
-    DEVICE_CLASS_AQI,
-    DEVICE_CLASS_HUMIDITY,
-    DEVICE_CLASS_PRESSURE,
-    DEVICE_CLASS_TEMPERATURE,
-    DEVICE_CLASS_TIMESTAMP,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
@@ -259,7 +254,7 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
     WeatherBitSensorEntityDescription(
         key="aqi",
         name="Air Quality Index",
-        device_class=DEVICE_CLASS_AQI,
+        device_class=SensorDeviceClass.AQI,
         native_unit_of_measurement="AQI",
         state_class=STATE_CLASS_MEASUREMENT,
         unit_type="none",
@@ -279,7 +274,7 @@ SENSOR_TYPES: tuple[WeatherBitSensorEntityDescription, ...] = (
         name="Observation Time",
         icon="mdi:clock",
         unit_type="none",
-        device_class=DEVICE_CLASS_TIMESTAMP,
+        device_class=SensorDeviceClass.TIMESTAMP,
         extra_attributes=False,
     ),
     WeatherBitSensorEntityDescription(
