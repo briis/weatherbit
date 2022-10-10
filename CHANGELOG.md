@@ -1,6 +1,12 @@
 # Change Log
 
 
+## [1.0.14] - NOT RELEASED
+
+### Fixed
+
+- Issue [#78](https://github.com/briis/weatherbit/issues/78) Deprecation warning in Logs after 2022.10 upgrade for temperature utility bug
+
 ## [1.0.13] - 2022-10-06
 
 ### Fixed
