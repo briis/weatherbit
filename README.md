@@ -49,14 +49,14 @@ You can configure more than 1 instance of the Integration by using a different L
 
 ### API Key for Weatherbit
 This integration requires an API Key that can be retrieved for free from the Weatherbit Webpage. Please [go here](https://www.weatherbit.io/account/create) to apply for your personal key.
-This key allows you to make 500 calls pr. day. With the default update frequencies this means that you have used 336 calls per day. So if you want to have more than 1 location, you will need to make less frequent updates per location.
+This key allows you to make **50** calls pr. day. With the default update frequencies this means that you have used 48 calls per day. So if you want to have more than 1 location, you will need to make less frequent updates per location.
 
 ### Configuration Variables
 * `API Key`: (required) A Personal API Key retrieved from WeatherBit (See above).
 * `Latitude`: (required) Latitude of the location needing data from. (Default Latitude from Home Assistant).
 * `Longitude`: (required) Longitude of the location needing data from. (Default Longitude from Home Assistant).
-* `Update Interval`: (optional) Interval in minutes between sensor updates (Default 5 min).
-* `Forecast Interval`: (optional) Interval between in minutes forecast updates (Default 30 min).
+* `Update Interval`: (optional) Interval in minutes between sensor updates (Default 60 min).
+* `Forecast Interval`: (optional) Interval between in minutes forecast updates (Default 60 min).
 * `Forecast Language`: (optional) The language for the forecast text strings returned from Weatherbit. (Default English).
 
 ## Available Sensors

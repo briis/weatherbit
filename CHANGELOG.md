@@ -1,11 +1,12 @@
 # Change Log
 
 
-## [1.0.14] - NOT RELEASED
+## [1.0.14] - 2022-10-13
 
 ### Fixed
 
 - Issue [#78](https://github.com/briis/weatherbit/issues/78) Deprecation warning in Logs after 2022.10 upgrade for temperature utility bug
+- Issue [[#73](https://github.com/briis/weatherbit/issues/73)] WeatherBit have reduced the available calls per day on the Free Tier from 500 to only 50 calls per day. This now adjusts the minimum and maximum values for the update frequencies to ensure we don't run over the limit. **IF YOU UPGRADE FROM A PREVIOUS VERSION, YOU WILL HAVE TO ADJUST BOTH SENSOR AND FORECAST FREQUENCY MANUALLY**. Set them both to min 60 min to avoid to many calls.
 
 ## [1.0.13] - 2022-10-06
 
