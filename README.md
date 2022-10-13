@@ -3,7 +3,7 @@
 
 The weatherbit integration adds support for the [weatherbit.io](https://www.weatherbit.io/) web service as a source for meteorological data for your location.
 
-The integration only supports the [Free Tier API](https://www.weatherbit.io/pricing) from Weatherbit and as such is limited in what data we can bring. The *Free Tier* has a maximum of 500 calls per day.
+The integration only supports the [Free Tier API](https://www.weatherbit.io/pricing) from Weatherbit and as such is limited in what data we can bring. The *Free Tier* has a maximum of 50 calls per day.
 
 There is currently support for the following device types within Home Assistant:
 * Weather
