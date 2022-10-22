@@ -3,7 +3,11 @@
 
 ## [1.0.15] - 2022-10-22
 
-### Fixed
+### Changed
+
+- Fixing issue [#73](https://github.com/briis/weatherbit/issues/73) **BREAKING CHANGE** This version now completely removes the Alerts from Weatherbit. As it turned out, event though I only did 1 REST call to Weatherbit to get Current, Forecast and Alert Data, the Alert data counted as an extra call. So by removing this, the Integration is a bit more usefull, after Weatherbit reduced the number of Free Calls per day from 500 down to 50.
+Removing the Alert part is the best option, as this data is available in a few other specialized integrations like [MeteoAlarm](https://www.home-assistant.io/integrations/meteoalarm/).
+
 
 ## [1.0.14] - 2022-10-13
 
