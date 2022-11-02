@@ -1,9 +1,10 @@
 # Change Log
 
 
-## [1.0.16-beta.1] - 2022-10-27
+## [1.0.16-beta.2] - 2022-11-02
 
 - Fixing issue [#81](https://github.com/briis/weatherbit/issues/81) and [#82](https://github.com/briis/weatherbit/issues/82). Needs testing.
+- Fixing wrong constant definitions for Units
 
 ## [1.0.15] - 2022-10-22
 
