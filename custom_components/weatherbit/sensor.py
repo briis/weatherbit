@@ -23,13 +23,6 @@ from homeassistant.util.unit_conversion import (
     SpeedConverter,
     DistanceConverter,
     TemperatureConverter,
-    # LENGTH_MILLIMETERS,
-    # LENGTH_INCHES,
-    # SPEED_METERS_PER_SECOND,
-    # SPEED_KILOMETERS_PER_HOUR,
-    # SPEED_MILES_PER_HOUR,
-    # TEMP_FAHRENHEIT,
-    # TEMP_CELSIUS,
 )
 from homeassistant.util.unit_system import (
     METRIC_SYSTEM,
