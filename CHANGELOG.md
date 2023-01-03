@@ -4,6 +4,10 @@
 
 - Fixing *invalid units* for Wind Speed Knots and km/h plus AQI.
 
+## [1.0.17] - 2022-11-07
+
+- Fixing [#84](https://github.com/briis/weatherbit/issues/84) On sensor.weatherbit_forecast_day_n, the native_temperature and native_templow attributes both have the forecasted high temp values if the system is setup for Imperial Units.
+
 ## [1.0.16] - 2022-11-03
 
 - Fixing issue [#81](https://github.com/briis/weatherbit/issues/81) and [#82](https://github.com/briis/weatherbit/issues/82). Needs testing.
