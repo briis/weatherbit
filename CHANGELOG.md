@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.0.17] - NOT RELEASED YET
+
+- Fixing *invalid units* for Wind Speed Knots and km/h plus AQI.
 
 ## [1.0.16] - 2022-11-03
 
