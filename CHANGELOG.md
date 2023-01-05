@@ -1,8 +1,11 @@
 # Change Log
 
-## [1.0.17] - NOT RELEASED YET
+## [1.0.18] - 2023-01-05
 
 - Fixing *invalid units* for Wind Speed Knots and km/h plus AQI.
+- Issue [#85](https://github.com/briis/weatherbit/issues/85)  Removed all deprecated device classes and implemetend `translation_key` to continue translating certain values in the UI.
+- Cleaned up the code to use the correct Device Classes based on all the new changes in 2023.1
+- Minimum required version from now on is 2023.1.x
 
 ## [1.0.17] - 2022-11-07
 
