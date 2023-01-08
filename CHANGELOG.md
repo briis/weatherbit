@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.0.19] - NOT RELEASED
+
+- Fixing missing translation string in `pl.json`. Thanks you to @nepozs
+
 ## [1.0.18] - 2023-01-05
 
 - Fixing *invalid units* for Wind Speed Knots and km/h plus AQI.
