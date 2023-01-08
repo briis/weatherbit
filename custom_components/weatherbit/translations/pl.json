@@ -3,6 +3,7 @@
         "error": {
             "name_exists": "Lokalizacja jest już skonfigurowana. Wybierz inne współrzędne.",
             "connection_error": "Nie można się połączyć z Weatherbit. Sprawdź klucz API."
+            "invalid_api_key": "Klucz API WeatherBit jest nieprawidłowy."
         },
         "step": {
             "user": {
