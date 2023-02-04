@@ -1,8 +1,9 @@
 # Change Log
 
-## [1.0.19] - NOT RELEASED
+## [1.0.19] - 2023-02-04
 
 - Fixing missing translation string in `pl.json`. Thanks you to @nepozs
+- Fix issue [#87](https://github.com/briis/weatherbit/issues/87) Detected integration that called async_setup_platforms. This call has now been replaced by the proper new function.
 
 ## [1.0.18] - 2023-01-05
 
