@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.0.20] - 2023-05-05
+
+- Fix issue #90 and changed the text in the Config Flow to reflect the new default values for updates
+
 ## [1.0.19] - 2023-02-04
 
 - Fixing missing translation string in `pl.json`. Thanks you to @nepozs
