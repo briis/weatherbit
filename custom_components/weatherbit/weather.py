@@ -3,75 +3,86 @@ from __future__ import annotations
 
 import logging
 
+from types import MappingProxyType
+from typing import TYPE_CHECKING, Any
+
 from homeassistant.components.weather import (
+    DOMAIN as WEATHER_DOMAIN,
     Forecast,
-    WeatherEntity,
+    SingleCoordinatorWeatherEntity,
     WeatherEntityFeature,
-    WeatherEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
+    ATTR_ATTRIBUTION,
+    CONF_LATITUDE,
+    CONF_LONGITUDE,
     PRECISION_TENTHS,
     UnitOfLength,
     UnitOfTemperature,
 )
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.util.unit_system import METRIC_SYSTEM
+from homeassistant.util.dt import utc_from_timestamp
+
+from . import WeatherbitForecastDataUpdateCoordinator
+
 from pyweatherbitdata.data import ForecastDetailDescription
 
-from .const import ATTR_ALT_CONDITION, DOMAIN
-from .entity import WeatherbitEntity
-from .models import WeatherBitEntryData
-
-_WEATHER_DAILY = "weather_daily"
-
-WEATHER_TYPES: tuple[WeatherEntityDescription, ...] = (
-    WeatherEntityDescription(
-        key=_WEATHER_DAILY,
-        name="Weatherbit",
-    ),
-)
+from .const import ATTR_ALT_CONDITION, DEFAULT_ATTRIBUTION, DEFAULT_BRAND, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+    hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Add a weather entity from a config_entry."""
-    entry_data: WeatherBitEntryData = hass.data[DOMAIN][entry.entry_id]
-    weatherbitapi = entry_data.weatherbitapi
-    coordinator = entry_data.coordinator
-    forecast_coordinator = entry_data.forecast_coordinator
-    station_data = entry_data.station_data
 
-    entities = []
-    for description in WEATHER_TYPES:
-        entities.append(
-            WeatherbitWeatherEntity(
-                weatherbitapi,
-                coordinator,
-                forecast_coordinator,
-                station_data,
-                description,
-                entry,
-            )
-        )
+    coordinator: WeatherbitForecastDataUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]
+    entity_registry = er.async_get(hass)
 
-        _LOGGER.debug(
-            "Adding weather entity %s",
-            description.name,
-        )
+    name: str = "weather_daily"
+    is_metric = hass.config.units is METRIC_SYSTEM
+
+    entities = [WeatherbitWeather(coordinator, config_entry.data,
+                                   False, name, is_metric)]
 
     async_add_entities(entities)
 
+    # entry_data: WeatherBitEntryData = hass.data[DOMAIN][config_entry.entry_id]
+    # weatherbitapi = entry_data.weatherbitapi
+    # coordinator: WeatherbitForecastDataUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]
+    # forecast_coordinator = entry_data.forecast_coordinator
+    # station_data = entry_data.station_data
 
-class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
-    """A WeatherBit weather entity."""
+    # entities = [WeatherbitWeather(coordinator, config_entry.data,
+    #                                False, name, is_metric)]
+
+    # async_add_entities(entities)
+
+def _calculate_unique_id(config: MappingProxyType[str, Any], hourly: bool) -> str:
+    """Calculate unique ID."""
+    name_appendix = ""
+    if hourly:
+        name_appendix = "-hourly"
+
+    return f"{config[CONF_LATITUDE]}_{config[CONF_LONGITUDE]}_{name_appendix}"
+
+class WeatherbitWeather(SingleCoordinatorWeatherEntity[WeatherbitForecastDataUpdateCoordinator]):
+    """Implementation of a Weatherbit weather condition."""
 
     # pylint: disable=too-many-instance-attributes
     # pylint: disable=too-many-arguments
     # Seven is reasonable in this case.
 
+    _attr_attribution = (
+        ATTR_ATTRIBUTION
+    )
     _attr_has_entity_name = True
     _attr_native_precipitation_unit = UnitOfLength.MILLIMETERS
     _attr_precision = PRECISION_TENTHS
@@ -82,70 +93,73 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
 
     def __init__(
         self,
-        weatherbitapi,
-        coordinator,
-        forecast_coordinator,
-        station_data,
-        description,
-        entries: ConfigEntry,
+        coordinator: WeatherbitForecastDataUpdateCoordinator,
+        config: MappingProxyType[str, Any],
+        hourly: bool,
+        name: str,
+        is_metric: bool,
     ):
         """Initialize an WeatherBit Weather Entity."""
-        super().__init__(
-            weatherbitapi,
-            coordinator,
-            forecast_coordinator,
-            station_data,
-            description,
-            entries,
+        super().__init__(coordinator)
+
+        self._attr_unique_id = _calculate_unique_id(config, hourly)
+        self._attr_name = name
+        self._config = config
+        self._is_metric = is_metric
+        self._hourly = hourly
+        self._attr_entity_registry_enabled_default = not hourly
+        self._attr_device_info = DeviceInfo(
+            manufacturer=DEFAULT_BRAND,
+            via_device=(DOMAIN, self._attr_unique_id),
+            connections={(dr.CONNECTION_NETWORK_MAC, self._attr_unique_id)},
+            configuration_url="https://www.weatherbit.io/",
         )
-        self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
-        self._attr_name = self.entity_description.name
 
     @property
     def condition(self):
         """Return the current condition."""
-        return getattr(self.forecast_coordinator.data, "condition")
+        return getattr(self.coordinator.data.daily_forecast, "condition")
 
     @property
     def native_temperature(self):
         """Return the temperature."""
-        return getattr(self.coordinator.data, "temp")
+        return getattr(self.coordinator.data.current_weather_data, "temp")
 
     @property
     def humidity(self):
         """Return the humidity."""
-        return getattr(self.coordinator.data, "humidity")
+        return getattr(self.coordinator.data.current_weather_data, "humidity")
 
     @property
     def native_pressure(self):
         """Return the pressure."""
-        if getattr(self.coordinator.data, "slp") is None:
+        if getattr(self.coordinator.data.current_weather_data, "slp") is None:
             return None
 
-        return getattr(self.coordinator.data, "slp")
+        return getattr(self.coordinator.data.current_weather_data, "slp")
 
     @property
     def native_wind_speed(self):
         """Return the wind speed."""
-        if getattr(self.coordinator.data, "wind_spd") is None:
+        if getattr(self.coordinator.data.current_weather_data, "wind_spd") is None:
             return None
 
-        return getattr(self.coordinator.data, "wind_spd")
+        return getattr(self.coordinator.data.current_weather_data, "wind_spd")
 
     @property
     def wind_bearing(self):
         """Return the wind bearing."""
-        return getattr(self.coordinator.data, "wind_dir")
+        return getattr(self.coordinator.data.current_weather_data, "wind_dir")
 
     @property
     def native_visibility(self):
         """Return the visibility."""
-        return getattr(self.coordinator.data, "vis")
+        return getattr(self.coordinator.data.current_weather_data, "vis")
 
     @property
     def ozone(self):
         """Return the ozone."""
-        return getattr(self.forecast_coordinator.data, "ozone")
+        return getattr(self.coordinator.data.daily_forecast.ozone, "ozone")
 
     @property
     def extra_state_attributes(self):
@@ -153,7 +167,7 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         return {
             **super().extra_state_attributes,
             ATTR_ALT_CONDITION: getattr(
-                self.forecast_coordinator.data, "alt_condition"
+                self.coordinator.data.current_weather_data, "alt_condition"
             ),
         }
 
@@ -164,23 +178,37 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         _LOGGER.debug("Getting forecast data")
 
         if not hourly:
-            if self.daily_forecast:
-                forecast_data: ForecastDetailDescription = (
-                    self.forecast_coordinator.data.forecast
+            for item in self.coordinator.data.daily_forecast.forecast:
+                data.append(
+                    {
+                        "condition": item.condition,
+                        "datetime": item.utc_time,
+                        "precipitation_probability": item.pop,
+                        "native_precipitation": item.precip,
+                        "native_temperature": item.max_temp,
+                        "native_templow": item.min_temp,
+                        "wind_bearing": item.wind_dir,
+                        "native_wind_speed": item.wind_spd,
+                    }
                 )
-                for item in forecast_data:
-                    data.append(
-                        {
-                            "condition": item.condition,
-                            "datetime": item.utc_time,
-                            "precipitation_probability": item.pop,
-                            "native_precipitation": item.precip,
-                            "native_temperature": item.max_temp,
-                            "native_templow": item.min_temp,
-                            "wind_bearing": item.wind_dir,
-                            "native_wind_speed": item.wind_spd,
-                        }
-                    )
+
+            # if self.daily_forecast:
+            #     forecast_data: ForecastDetailDescription = (
+            #         self.coordinator.data.daily_forecast.forecast
+            #     )
+            #     for item in forecast_data:
+            #         data.append(
+            #             {
+            #                 "condition": item.condition,
+            #                 "datetime": item.utc_time,
+            #                 "precipitation_probability": item.pop,
+            #                 "native_precipitation": item.precip,
+            #                 "native_temperature": item.max_temp,
+            #                 "native_templow": item.min_temp,
+            #                 "wind_bearing": item.wind_dir,
+            #                 "native_wind_speed": item.wind_spd,
+            #             }
+            #         )
         return data
 
 
