@@ -4,16 +4,9 @@ from __future__ import annotations
 import logging
 
 from homeassistant.components.weather import (
-    ATTR_FORECAST_CONDITION,
-    ATTR_FORECAST_NATIVE_PRECIPITATION,
-    ATTR_FORECAST_PRECIPITATION_PROBABILITY,
-    ATTR_FORECAST_NATIVE_TEMP,
-    ATTR_FORECAST_NATIVE_TEMP_LOW,
-    ATTR_FORECAST_TIME,
-    ATTR_FORECAST_WIND_BEARING,
-    ATTR_FORECAST_NATIVE_WIND_SPEED,
     Forecast,
     WeatherEntity,
+    WeatherEntityFeature,
     WeatherEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -22,7 +15,7 @@ from homeassistant.const import (
     UnitOfLength,
     UnitOfTemperature,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from pyweatherbitdata.data import ForecastDetailDescription
 
 from .const import ATTR_ALT_CONDITION, DOMAIN
@@ -79,6 +72,14 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
     # pylint: disable=too-many-arguments
     # Seven is reasonable in this case.
 
+    _attr_has_entity_name = True
+    _attr_native_precipitation_unit = UnitOfLength.MILLIMETERS
+    _attr_precision = PRECISION_TENTHS
+    _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
+    _attr_supported_features = (
+        WeatherEntityFeature.FORECAST_DAILY
+    )
+
     def __init__(
         self,
         weatherbitapi,
@@ -99,9 +100,6 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
         )
         self.daily_forecast = self.entity_description.key in _WEATHER_DAILY
         self._attr_name = self.entity_description.name
-        self._attr_native_precipitation_unit = UnitOfLength.MILLIMETERS
-        self._attr_precision = PRECISION_TENTHS
-        self._attr_native_temperature_unit = UnitOfTemperature.CELSIUS
 
     @property
     def condition(self):
@@ -159,26 +157,58 @@ class WeatherbitWeatherEntity(WeatherbitEntity, WeatherEntity):
             ),
         }
 
-    @property
-    def forecast(self) -> list[Forecast] | None:
+    def _forecast(self, hourly: bool) -> list[Forecast] | None:
         """Return the forecast array."""
         data: list[Forecast] = []
-        if self.daily_forecast:
-            forecast_data: ForecastDetailDescription = (
-                self.forecast_coordinator.data.forecast
-            )
-            for item in forecast_data:
-                data.append(
-                    {
-                        ATTR_FORECAST_TIME: item.utc_time,
-                        ATTR_FORECAST_NATIVE_TEMP: item.max_temp,
-                        ATTR_FORECAST_NATIVE_TEMP_LOW: item.min_temp,
-                        ATTR_FORECAST_NATIVE_PRECIPITATION: item.precip,
-                        ATTR_FORECAST_PRECIPITATION_PROBABILITY: item.pop,
-                        ATTR_FORECAST_CONDITION: item.condition,
-                        ATTR_FORECAST_NATIVE_WIND_SPEED: item.wind_spd,
-                        ATTR_FORECAST_WIND_BEARING: item.wind_dir,
-                    }
+
+        _LOGGER.debug("Getting forecast data")
+
+        if not hourly:
+            if self.daily_forecast:
+                forecast_data: ForecastDetailDescription = (
+                    self.forecast_coordinator.data.forecast
                 )
-            return data
+                for item in forecast_data:
+                    data.append(
+                        {
+                            "condition": item.condition,
+                            "datetime": item.utc_time,
+                            "precipitation_probability": item.pop,
+                            "native_precipitation": item.precip,
+                            "native_temperature": item.max_temp,
+                            "native_templow": item.min_temp,
+                            "wind_bearing": item.wind_dir,
+                            "native_wind_speed": item.wind_spd,
+                        }
+                    )
         return data
+
+
+    # @property
+    # def forecast(self) -> list[Forecast] | None:
+    #     """Return the forecast array."""
+    #     data: list[Forecast] = []
+    #     if self.daily_forecast:
+    #         forecast_data: ForecastDetailDescription = (
+    #             self.forecast_coordinator.data.forecast
+    #         )
+    #         for item in forecast_data:
+    #             data.append(
+    #                 {
+    #                     ATTR_FORECAST_TIME: item.utc_time,
+    #                     ATTR_FORECAST_NATIVE_TEMP: item.max_temp,
+    #                     ATTR_FORECAST_NATIVE_TEMP_LOW: item.min_temp,
+    #                     ATTR_FORECAST_NATIVE_PRECIPITATION: item.precip,
+    #                     ATTR_FORECAST_PRECIPITATION_PROBABILITY: item.pop,
+    #                     ATTR_FORECAST_CONDITION: item.condition,
+    #                     ATTR_FORECAST_NATIVE_WIND_SPEED: item.wind_spd,
+    #                     ATTR_FORECAST_WIND_BEARING: item.wind_dir,
+    #                 }
+    #             )
+    #         return data
+    #     return data
+
+    @callback
+    def _async_forecast_daily(self) -> list[Forecast] | None:
+        """Return the daily forecast in native units."""
+        return self._forecast(False)
