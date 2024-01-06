@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.21] - 2024-01-06
+
+- Fix issue [#94](https://github.com/briis/weatherbit/issues/94) and [#93](https://github.com/briis/weatherbit/issues/93).
+
+**Note** Issue [#91](https://github.com/briis/weatherbit/issues/91) might not get fixed, leaving the Integration unusable as of 2024.3. It is too complicated to maintain this integration due to the low number of calls per day, so testing changes is very difficult as I quickly run out of calls, making me wait until the next day, to be able to continue. I strongly suggest people to find another Weather Integration, and there are many great ones out there.
+
 ## [1.0.20] - 2023-05-05
 
 - Fix issue #90 and changed the text in the Config Flow to reflect the new default values for updates

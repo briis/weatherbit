@@ -1,6 +1,12 @@
 # // weatherbit
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/briis/weatherbit?include_prereleases&style=flat-square) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square)](https://github.com/hacs/integration) [![](https://img.shields.io/badge/COMMUNITY-FORUM-success?style=flat-square)](https://community.home-assistant.io/t/weatherbit-io-current-weather-and-forecast-data/200224)
 
+## THIS INTEGRATION WILL CLOSE DOWN WITH HA 2024.3
+Issue [#91](https://github.com/briis/weatherbit/issues/91) might not get fixed, leaving the Integration unusable as of 2024.3. It is too complicated to maintain this integration due to the low number of calls per day, so testing changes is very difficult as I quickly run out of calls, making me wait until the next day, to be able to continue. I strongly suggest people to find another Weather Integration, and there are many great ones out there.
+If anyone wants to continue developing this, feel free to fork the integration.
+
+
+## Introduction
 The weatherbit integration adds support for the [weatherbit.io](https://www.weatherbit.io/) web service as a source for meteorological data for your location.
 
 The integration only supports the [Free Tier API](https://www.weatherbit.io/pricing) from Weatherbit and as such is limited in what data we can bring. The *Free Tier* has a maximum of 50 calls per day.
